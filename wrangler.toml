@@ -1,0 +1,50 @@
+name = "elevateforhumanity"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+
+[site]
+bucket = "./dist"
+
+[[routes]]
+pattern = "elevateforhumanity.org/*"
+zone_name = "elevateforhumanity.org"
+
+[[routes]]
+pattern = "www.elevateforhumanity.org/*"
+zone_name = "elevateforhumanity.org"
+
+[build]
+command = "npm run build"
+
+[build.upload]
+format = "service-worker"
+
+# Security headers
+[[headers]]
+name = "X-Frame-Options"
+value = "DENY"
+
+[[headers]]
+name = "X-Content-Type-Options"
+value = "nosniff"
+
+[[headers]]
+name = "X-XSS-Protection"
+value = "1; mode=block"
+
+[[headers]]
+name = "Referrer-Policy"
+value = "strict-origin-when-cross-origin"
+
+[[headers]]
+name = "Permissions-Policy"
+value = "geolocation=(), microphone=(), camera=()"
+
+[[headers]]
+name = "Strict-Transport-Security"
+value = "max-age=31536000; includeSubDomains; preload"
+
+# Environment variables (set via wrangler secret)
+# SUPABASE_URL
+# SUPABASE_ANON_KEY
+# STRIPE_PUBLIC_KEY

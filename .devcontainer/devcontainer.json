@@ -1,0 +1,56 @@
+{
+  "name": "elevate-react-app",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "hostRequirements": { 
+    "cpus": 2, 
+    "memory": "4gb", 
+    "storage": "32gb" 
+  },
+  "forwardPorts": [8012, 8080],
+  "portsAttributes": {
+    "8012": {
+      "label": "🚀 Development Server",
+      "onAutoForward": "openPreview",
+      "protocol": "https"
+    },
+    "8080": {
+      "label": "📦 Production Preview",
+      "onAutoForward": "openPreview",
+      "protocol": "https"
+    }
+  },
+  "postCreateCommand": "npm install -g pnpm@9.7.0 && pnpm install",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "files.autoSave": "afterDelay",
+        "files.autoSaveDelay": 1000,
+        "editor.formatOnSave": true,
+        "npm.packageManager": "pnpm"
+      },
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "ms-vscode.vscode-typescript-next",
+        "ms-vscode.vscode-eslint",
+        "bradlc.vscode-tailwindcss"
+      ]
+    }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20"
+    }
+  },
+  "remoteEnv": {
+    "NODE_ENV": "development",
+    "PNPM_HOME": "/usr/local/share/pnpm",
+    "PATH": "${PNPM_HOME}:${PATH}"
+  }
+}

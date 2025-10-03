@@ -1,0 +1,44 @@
+name: Deploy site-ci to Cloudflare Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy to Cloudflare Pages
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: '9.7.0'
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile || pnpm install
+
+      - name: Build for deployment
+        run: |
+          pnpm build
+          cp robots.txt dist/ 2>/dev/null || true
+          cp sitemap*.xml dist/ 2>/dev/null || true
+          cp _headers dist/ 2>/dev/null || true
+          cp _redirects dist/ 2>/dev/null || true
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: elevateforhumanity
+          directory: dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
