@@ -13,3 +13,6 @@ export default function Notifications() {
         <li>New assignment posted in AI for Beginners</li>
         <li>Your quiz in Workforce Readiness has been graded</li>
       </ul>
+    </main>
+  );
+}

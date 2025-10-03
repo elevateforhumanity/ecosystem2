@@ -48,6 +48,76 @@ const Vids = lazy(() => import("./pages/Vids"));
 const Sites = lazy(() => import("./pages/Sites"));
 const Groups = lazy(() => import("./pages/Groups"));
 
+// Additional pages
+const AITutor = lazy(() => import("./pages/AITutor"));
+const AccessibilitySettingsPage = lazy(() => import("./pages/AccessibilitySettings"));
+const AdminConsole = lazy(() => import("./pages/AdminConsole"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const Analytics = lazy(() => import("./pages/Analytics"));
+const AnalyticsDashboard = lazy(() => import("./pages/AnalyticsDashboard"));
+const Assignment = lazy(() => import("./pages/Assignment"));
+const BingSiteVerification = lazy(() => import("./pages/BingSiteVerification"));
+const Branding = lazy(() => import("./pages/Branding"));
+const BusinessHub = lazy(() => import("./pages/BusinessHub"));
+const Calendar = lazy(() => import("./pages/Calendar"));
+const Certificates = lazy(() => import("./pages/Certificates"));
+const CloneLanding = lazy(() => import("./pages/CloneLanding"));
+const Community = lazy(() => import("./pages/Community"));
+const CommunityHub = lazy(() => import("./pages/CommunityHub"));
+const Course = lazy(() => import("./pages/Course"));
+const CourseBuilder = lazy(() => import("./pages/CourseBuilder"));
+const CourseCatalog = lazy(() => import("./pages/CourseCatalog"));
+const CourseDetail = lazy(() => import("./pages/CourseDetail"));
+const CourseLibrary = lazy(() => import("./pages/CourseLibrary"));
+const CurriculumUpload = lazy(() => import("./pages/CurriculumUpload"));
+const Docs = lazy(() => import("./pages/Docs"));
+const DonatePage = lazy(() => import("./pages/DonatePage"));
+const Ecommerce = lazy(() => import("./pages/Ecommerce"));
+const Ecosystem = lazy(() => import("./pages/Ecosystem"));
+const EducatorHub = lazy(() => import("./pages/EducatorHub"));
+const ElevateBrain = lazy(() => import("./pages/ElevateBrain"));
+const Email = lazy(() => import("./pages/Email"));
+const FundingImpact = lazy(() => import("./pages/FundingImpact"));
+const GoogleAnalyticsSetup = lazy(() => import("./pages/GoogleAnalyticsSetup"));
+const GoogleSiteVerification = lazy(() => import("./pages/GoogleSiteVerification"));
+const Home = lazy(() => import("./pages/Home"));
+const Instructor = lazy(() => import("./pages/Instructor"));
+const InstructorEdit = lazy(() => import("./pages/InstructorEdit"));
+const InstructorNew = lazy(() => import("./pages/InstructorNew"));
+const Integrations = lazy(() => import("./pages/Integrations"));
+const KingdomKonnect = lazy(() => import("./pages/KingdomKonnect"));
+const Login = lazy(() => import("./pages/Login"));
+const MobileApp = lazy(() => import("./pages/MobileApp"));
+const NotebookLM = lazy(() => import("./pages/NotebookLM"));
+const Notifications = lazy(() => import("./pages/Notifications"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const Profile = lazy(() => import("./pages/Profile"));
+const Quiz = lazy(() => import("./pages/Quiz"));
+const RefundPolicy = lazy(() => import("./pages/RefundPolicy"));
+const SereneComfortCare = lazy(() => import("./pages/SereneComfortCare"));
+const Settings = lazy(() => import("./pages/Settings"));
+const Sitemap = lazy(() => import("./pages/Sitemap"));
+const SomePage = lazy(() => import("./pages/SomePage"));
+const StudentDashboard = lazy(() => import("./pages/StudentDashboard"));
+const StudentHandbook = lazy(() => import("./pages/StudentHandbook"));
+const StudentHub = lazy(() => import("./pages/StudentHub"));
+const Support = lazy(() => import("./pages/Support"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService"));
+const ThankYou = lazy(() => import("./pages/ThankYou"));
+const UrbanBuildCrew = lazy(() => import("./pages/UrbanBuildCrew"));
+const UserManagement = lazy(() => import("./pages/UserManagement"));
+
+// Sister site pages
+const MentorDirectory = lazy(() => import("./pages/sisters/MentorDirectory"));
+const MentorSignup = lazy(() => import("./pages/sisters/MentorSignup"));
+const Mentorship = lazy(() => import("./pages/sisters/Mentorship"));
+const PeerSupport = lazy(() => import("./pages/sisters/PeerSupport"));
+const Volunteer = lazy(() => import("./pages/sisters/Volunteer"));
+const VolunteerOpportunities = lazy(() => import("./pages/sisters/VolunteerOpportunities"));
+const VolunteerStories = lazy(() => import("./pages/sisters/VolunteerStories"));
+const Wellness = lazy(() => import("./pages/sisters/Wellness"));
+const WellnessResources = lazy(() => import("./pages/sisters/WellnessResources"));
+
 export default function App() {
   return (
     <HelmetProvider>
@@ -91,7 +161,80 @@ export default function App() {
                 <Route path="/sites" element={<Sites />} />
                 <Route path="/groups" element={<Groups />} />
                 
-                <Route path="*" element={<NotFound />} />
+                        <Route path="/a-i-tutor" element={<AITutor />} />
+        <Route path="/accessibility-settings" element={<AccessibilitySettingsPage />} />
+        <Route path="/admin-console" element={<AdminConsole />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/analytics" element={<Analytics />} />
+        <Route path="/analytics-dashboard" element={<AnalyticsDashboard />} />
+        <Route path="/assignment" element={<Assignment />} />
+        <Route path="/bing-site-verification" element={<BingSiteVerification />} />
+        <Route path="/branding" element={<Branding />} />
+        <Route path="/business-hub" element={<BusinessHub />} />
+        <Route path="/calendar" element={<Calendar />} />
+        <Route path="/certificates" element={<Certificates />} />
+        <Route path="/clone-landing" element={<CloneLanding />} />
+        <Route path="/community" element={<Community />} />
+        <Route path="/community-hub" element={<CommunityHub />} />
+        <Route path="/course" element={<Course />} />
+        <Route path="/course-builder" element={<CourseBuilder />} />
+        <Route path="/course-catalog" element={<CourseCatalog />} />
+        <Route path="/course-detail" element={<CourseDetail />} />
+        <Route path="/course-library" element={<CourseLibrary />} />
+        <Route path="/curriculum-upload" element={<CurriculumUpload />} />
+        <Route path="/docs" element={<Docs />} />
+        <Route path="/donate-page" element={<DonatePage />} />
+        <Route path="/donate-page" element={<DonatePage />} />
+        <Route path="/durable-a-i" element={<DurableAI />} />
+        <Route path="/durable-landing" element={<DurableLanding />} />
+        <Route path="/ecommerce" element={<Ecommerce />} />
+        <Route path="/ecosystem" element={<Ecosystem />} />
+        <Route path="/educator-hub" element={<EducatorHub />} />
+        <Route path="/elevate-brain" element={<ElevateBrain />} />
+        <Route path="/email" element={<Email />} />
+        <Route path="/file-manager" element={<FileManager />} />
+        <Route path="/funding-impact" element={<FundingImpact />} />
+        <Route path="/google-analytics-setup" element={<GoogleAnalyticsSetup />} />
+        <Route path="/google-site-verification" element={<GoogleSiteVerification />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/instructor" element={<Instructor />} />
+        <Route path="/instructor-edit" element={<InstructorEdit />} />
+        <Route path="/instructor-new" element={<InstructorNew />} />
+        <Route path="/integrations" element={<Integrations />} />
+        <Route path="/kingdom-konnect" element={<KingdomKonnect />} />
+        <Route path="/l-m-s" element={<LMS />} />
+        <Route path="/l-m-s" element={<LMS />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/mobile-app" element={<MobileApp />} />
+        <Route path="/notebook-l-m" element={<NotebookLM />} />
+        <Route path="/notifications" element={<Notifications />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/quiz" element={<Quiz />} />
+        <Route path="/refund-policy" element={<RefundPolicy />} />
+        <Route path="/serene-comfort-care" element={<SereneComfortCare />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/sitemap" element={<Sitemap />} />
+        <Route path="/some-page" element={<SomePage />} />
+        <Route path="/student-dashboard" element={<StudentDashboard />} />
+        <Route path="/student-handbook" element={<StudentHandbook />} />
+        <Route path="/student-hub" element={<StudentHub />} />
+        <Route path="/support" element={<Support />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
+        <Route path="/thank-you" element={<ThankYou />} />
+        <Route path="/urban-build-crew" element={<UrbanBuildCrew />} />
+        <Route path="/user-management" element={<UserManagement />} />
+        <Route path="/video-meeting" element={<VideoMeeting />} />
+        <Route path="/mentor-directory" element={<MentorDirectory />} />
+        <Route path="/mentor-signup" element={<MentorSignup />} />
+        <Route path="/mentorship" element={<Mentorship />} />
+        <Route path="/peer-support" element={<PeerSupport />} />
+        <Route path="/volunteer" element={<Volunteer />} />
+        <Route path="/volunteer-opportunities" element={<VolunteerOpportunities />} />
+        <Route path="/volunteer-stories" element={<VolunteerStories />} />
+        <Route path="/wellness" element={<Wellness />} />
+        <Route path="/wellness-resources" element={<WellnessResources />} />
+        <Route path="*" element={<NotFound />} />
               </Routes>
               <AskWidget />
               <AccessibilitySettings />

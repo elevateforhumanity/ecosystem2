@@ -17,3 +17,6 @@ export default function Certificates() {
           <strong>Workforce Readiness</strong> – <button>Download PDF</button>
         </li>
       </ul>
+    </main>
+  );
+}

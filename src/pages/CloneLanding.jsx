@@ -12,3 +12,6 @@ export default function CloneLanding() {
       <p>
         This is a placeholder for the Clone Landing page. Use this space to introduce your platform, highlight key features, or direct users to important sections of your ecosystem.
       </p>
+    </main>
+  );
+}

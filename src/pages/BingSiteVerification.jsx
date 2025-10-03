@@ -7,7 +7,3 @@ export default function BingSiteVerification() {
     </div>
   );
 }
-
-git add .
-git commit -m "Enhance SEO, navigation, analytics, and accessibility for Elevate for Humanity"
-git push origin main

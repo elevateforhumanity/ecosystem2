@@ -14,3 +14,6 @@ export default function Support() {
         <li>Contact Support</li>
         <li>Onboarding Tour</li>
       </ul>
+    </main>
+  );
+}

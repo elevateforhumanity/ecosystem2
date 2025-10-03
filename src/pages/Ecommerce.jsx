@@ -15,3 +15,6 @@ export default function Ecommerce() {
         <li>Subscriptions</li>
         <li>Payment Management</li>
       </ul>
+    </main>
+  );
+}

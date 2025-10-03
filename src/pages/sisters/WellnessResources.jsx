@@ -36,3 +36,6 @@ export default function WellnessResources() {
           </a>
         </li>
       </ul>
+    </main>
+  );
+}

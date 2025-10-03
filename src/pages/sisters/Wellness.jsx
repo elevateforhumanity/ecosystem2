@@ -14,3 +14,6 @@ export default function Wellness() {
         <li>Healthy habits for daily life</li>
         <li>Access to wellness workshops and events</li>
       </ul>
+    </main>
+  );
+}

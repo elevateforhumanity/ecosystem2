@@ -5,18 +5,18 @@
 */
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Community from "./pages/Community";
-import Integrations from "./pages/Integrations";
-import Branding from "./pages/Branding";
-import MobileApp from "./pages/MobileApp";
-import AccessibilitySettings from "./pages/AccessibilitySettings";
-import Support from "./pages/Support";
-import Ecommerce from "./pages/Ecommerce";
-import CurriculumUpload from "./pages/CurriculumUpload";
-import Profile from "./pages/Profile";
-import Certificates from "./pages/Certificates";
-import Notifications from "./pages/Notifications";
-import Settings from "./pages/Settings";
+import Community from "./Community";
+import Integrations from "./Integrations";
+import Branding from "./Branding";
+import MobileApp from "./MobileApp";
+import AccessibilitySettings from "./AccessibilitySettings";
+import Support from "./Support";
+import Ecommerce from "./Ecommerce";
+import CurriculumUpload from "./CurriculumUpload";
+import Profile from "./Profile";
+import Certificates from "./Certificates";
+import Notifications from "./Notifications";
+import Settings from "./Settings";
 
 export default function App() {
   return (
@@ -27,3 +27,6 @@ export default function App() {
         <li>Two-factor authentication</li>
         <li>Notification preferences</li>
       </ul>
+    </main>
+  );
+}

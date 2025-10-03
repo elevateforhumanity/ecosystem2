@@ -5,7 +5,7 @@
 */
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import VolunteerStories from "./pages/sisters/VolunteerStories";
+import VolunteerStories from "./sisters/VolunteerStories";
 
 const demoCourses = {
   "ai-for-beginners": {

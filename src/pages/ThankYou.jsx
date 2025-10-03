@@ -4,7 +4,7 @@
   See LICENSE file for details.
 */
 import React from "react";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import MentorDirectory from "./sisters/MentorDirectory";
 
 export default function ThankYou() {
@@ -22,3 +22,6 @@ export default function ThankYou() {
         Your order has been received. Check your email for next steps and setup instructions.<br />
         Need help? Email <a href="mailto:support@elevateforhumanity.org">support@elevateforhumanity.org</a>
       </p>
+    </main>
+  );
+}

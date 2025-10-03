@@ -15,3 +15,6 @@ export default function Integrations() {
         <li>CRM (Salesforce, HubSpot)</li>
         <li>Email (Mailchimp, SendGrid)</li>
       </ul>
+    </main>
+  );
+}

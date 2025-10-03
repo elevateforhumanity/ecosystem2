@@ -22,3 +22,6 @@ export default function Community() {
           </li>
         ))}
       </ul>
+    </main>
+  );
+}

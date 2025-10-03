@@ -17,7 +17,7 @@
 */
 
 import React, { useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 export default function CourseLibrary() {
   const [courses, setCourses] = useState([]);

@@ -117,7 +117,7 @@ export function UrbanBuildCrew() {
           <h2 style={{ fontSize: '2rem', fontWeight: '700', marginBottom: '1rem' }}>
             Start Building Your Career Today
           </h2>
-          <p style={{ fontSize: '1.125rem', marginBottom: '2rem', opacity: 0.9' }}>
+          <p style={{ fontSize: '1.125rem', marginBottom: '2rem', opacity: 0.9 }}>
             Join Urban Build Crew and gain the skills you need for a successful career in construction
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>

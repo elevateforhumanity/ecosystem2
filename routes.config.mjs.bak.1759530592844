@@ -1,0 +1,20 @@
+export const routes = [
+  '/', '/donate.html',
+  '/api/healthz', '/api/readiness', '/api/metrics',
+  '/api/branding', '/api/integration-guide',
+  '/api/widgets/integration.js',
+  '/api/ask',
+  '/api/autopilot/config', '/api/autopilot/status',
+  '/api/autopilot/tasks', '/api/autopilot/content/index', '/api/autopilot/content/search',
+  '/api/autopilot/advanced/status', '/api/autopilot/advanced/start', '/api/autopilot/advanced/stop',
+  '/api/autopilot/advanced/schedule', '/api/autopilot/advanced/tasks',
+  '/api/autopilot/advanced/scheduler/stats', '/api/autopilot/advanced/scheduler/analysis',
+  '/api/autopilot/advanced/scheduler/suggest',
+  '/api/catalog', '/api/marketing/banners', '/api/marketing/lead', '/api/pricing',
+  '/api/legal', '/api/workbooks',
+  '/api/protected/financial/revenue', '/api/protected/audit/logs',
+  '/api/security/status', '/api/security/audit', '/api/security/compliance', '/api/security/shutdown',
+  '/api/security/scan/content', '/api/security/scan/history', '/api/security/scan/compare', '/api/security/scan/directory',
+  '/api/security/protect/watermark', '/api/security/protect/verify', '/api/security/protect/check',
+  '/api/security/protect/registry', '/api/security/protect/report'
+];
