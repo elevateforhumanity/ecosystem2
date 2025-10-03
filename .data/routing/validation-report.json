@@ -1,0 +1,1597 @@
+{
+  "timestamp": "2025-10-03T22:10:04.763Z",
+  "totalPages": 108,
+  "totalImports": 33,
+  "totalRoutes": 32,
+  "missingImports": [
+    {
+      "name": "AITutor",
+      "file": "/workspaces/ecosystem2/src/pages/AITutor.jsx",
+      "relativePath": "AITutor.jsx",
+      "route": "/a-i-tutor"
+    },
+    {
+      "name": "AccessibilitySettings",
+      "file": "/workspaces/ecosystem2/src/pages/AccessibilitySettings.jsx",
+      "relativePath": "AccessibilitySettings.jsx",
+      "route": "/accessibility-settings"
+    },
+    {
+      "name": "AdminConsole",
+      "file": "/workspaces/ecosystem2/src/pages/AdminConsole.jsx",
+      "relativePath": "AdminConsole.jsx",
+      "route": "/admin-console"
+    },
+    {
+      "name": "AdminDashboard",
+      "file": "/workspaces/ecosystem2/src/pages/AdminDashboard.jsx",
+      "relativePath": "AdminDashboard.jsx",
+      "route": "/admin-dashboard"
+    },
+    {
+      "name": "Analytics",
+      "file": "/workspaces/ecosystem2/src/pages/Analytics.jsx",
+      "relativePath": "Analytics.jsx",
+      "route": "/analytics"
+    },
+    {
+      "name": "AnalyticsDashboard",
+      "file": "/workspaces/ecosystem2/src/pages/AnalyticsDashboard.jsx",
+      "relativePath": "AnalyticsDashboard.jsx",
+      "route": "/analytics-dashboard"
+    },
+    {
+      "name": "Assignment",
+      "file": "/workspaces/ecosystem2/src/pages/Assignment.jsx",
+      "relativePath": "Assignment.jsx",
+      "route": "/assignment"
+    },
+    {
+      "name": "BingSiteVerification",
+      "file": "/workspaces/ecosystem2/src/pages/BingSiteVerification.jsx",
+      "relativePath": "BingSiteVerification.jsx",
+      "route": "/bing-site-verification"
+    },
+    {
+      "name": "Branding",
+      "file": "/workspaces/ecosystem2/src/pages/Branding.jsx",
+      "relativePath": "Branding.jsx",
+      "route": "/branding"
+    },
+    {
+      "name": "BusinessHub",
+      "file": "/workspaces/ecosystem2/src/pages/BusinessHub.jsx",
+      "relativePath": "BusinessHub.jsx",
+      "route": "/business-hub"
+    },
+    {
+      "name": "Calendar",
+      "file": "/workspaces/ecosystem2/src/pages/Calendar.jsx",
+      "relativePath": "Calendar.jsx",
+      "route": "/calendar"
+    },
+    {
+      "name": "Certificates",
+      "file": "/workspaces/ecosystem2/src/pages/Certificates.jsx",
+      "relativePath": "Certificates.jsx",
+      "route": "/certificates"
+    },
+    {
+      "name": "CloneLanding",
+      "file": "/workspaces/ecosystem2/src/pages/CloneLanding.jsx",
+      "relativePath": "CloneLanding.jsx",
+      "route": "/clone-landing"
+    },
+    {
+      "name": "Community",
+      "file": "/workspaces/ecosystem2/src/pages/Community.jsx",
+      "relativePath": "Community.jsx",
+      "route": "/community"
+    },
+    {
+      "name": "CommunityHub",
+      "file": "/workspaces/ecosystem2/src/pages/CommunityHub.jsx",
+      "relativePath": "CommunityHub.jsx",
+      "route": "/community-hub"
+    },
+    {
+      "name": "Course",
+      "file": "/workspaces/ecosystem2/src/pages/Course.jsx",
+      "relativePath": "Course.jsx",
+      "route": "/course"
+    },
+    {
+      "name": "CourseBuilder",
+      "file": "/workspaces/ecosystem2/src/pages/CourseBuilder.jsx",
+      "relativePath": "CourseBuilder.jsx",
+      "route": "/course-builder"
+    },
+    {
+      "name": "CourseCatalog",
+      "file": "/workspaces/ecosystem2/src/pages/CourseCatalog.jsx",
+      "relativePath": "CourseCatalog.jsx",
+      "route": "/course-catalog"
+    },
+    {
+      "name": "CourseDetail",
+      "file": "/workspaces/ecosystem2/src/pages/CourseDetail.jsx",
+      "relativePath": "CourseDetail.jsx",
+      "route": "/course-detail"
+    },
+    {
+      "name": "CourseLibrary",
+      "file": "/workspaces/ecosystem2/src/pages/CourseLibrary.jsx",
+      "relativePath": "CourseLibrary.jsx",
+      "route": "/course-library"
+    },
+    {
+      "name": "CurriculumUpload",
+      "file": "/workspaces/ecosystem2/src/pages/CurriculumUpload.jsx",
+      "relativePath": "CurriculumUpload.jsx",
+      "route": "/curriculum-upload"
+    },
+    {
+      "name": "Docs",
+      "file": "/workspaces/ecosystem2/src/pages/Docs.jsx",
+      "relativePath": "Docs.jsx",
+      "route": "/docs"
+    },
+    {
+      "name": "DonatePage",
+      "file": "/workspaces/ecosystem2/src/pages/DonatePage.jsx",
+      "relativePath": "DonatePage.jsx",
+      "route": "/donate-page"
+    },
+    {
+      "name": "DonatePage",
+      "file": "/workspaces/ecosystem2/src/pages/DonatePage.tsx",
+      "relativePath": "DonatePage.tsx",
+      "route": "/donate-page"
+    },
+    {
+      "name": "Ecommerce",
+      "file": "/workspaces/ecosystem2/src/pages/Ecommerce.jsx",
+      "relativePath": "Ecommerce.jsx",
+      "route": "/ecommerce"
+    },
+    {
+      "name": "Ecosystem",
+      "file": "/workspaces/ecosystem2/src/pages/Ecosystem.jsx",
+      "relativePath": "Ecosystem.jsx",
+      "route": "/ecosystem"
+    },
+    {
+      "name": "EducatorHub",
+      "file": "/workspaces/ecosystem2/src/pages/EducatorHub.jsx",
+      "relativePath": "EducatorHub.jsx",
+      "route": "/educator-hub"
+    },
+    {
+      "name": "ElevateBrain",
+      "file": "/workspaces/ecosystem2/src/pages/ElevateBrain.jsx",
+      "relativePath": "ElevateBrain.jsx",
+      "route": "/elevate-brain"
+    },
+    {
+      "name": "Email",
+      "file": "/workspaces/ecosystem2/src/pages/Email.jsx",
+      "relativePath": "Email.jsx",
+      "route": "/email"
+    },
+    {
+      "name": "FundingImpact",
+      "file": "/workspaces/ecosystem2/src/pages/FundingImpact.jsx",
+      "relativePath": "FundingImpact.jsx",
+      "route": "/funding-impact"
+    },
+    {
+      "name": "GoogleAnalyticsSetup",
+      "file": "/workspaces/ecosystem2/src/pages/GoogleAnalyticsSetup.jsx",
+      "relativePath": "GoogleAnalyticsSetup.jsx",
+      "route": "/google-analytics-setup"
+    },
+    {
+      "name": "GoogleSiteVerification",
+      "file": "/workspaces/ecosystem2/src/pages/GoogleSiteVerification.jsx",
+      "relativePath": "GoogleSiteVerification.jsx",
+      "route": "/google-site-verification"
+    },
+    {
+      "name": "Home",
+      "file": "/workspaces/ecosystem2/src/pages/Home.jsx",
+      "relativePath": "Home.jsx",
+      "route": "/"
+    },
+    {
+      "name": "Instructor",
+      "file": "/workspaces/ecosystem2/src/pages/Instructor.jsx",
+      "relativePath": "Instructor.jsx",
+      "route": "/instructor"
+    },
+    {
+      "name": "InstructorEdit",
+      "file": "/workspaces/ecosystem2/src/pages/InstructorEdit.jsx",
+      "relativePath": "InstructorEdit.jsx",
+      "route": "/instructor-edit"
+    },
+    {
+      "name": "InstructorNew",
+      "file": "/workspaces/ecosystem2/src/pages/InstructorNew.jsx",
+      "relativePath": "InstructorNew.jsx",
+      "route": "/instructor-new"
+    },
+    {
+      "name": "Integrations",
+      "file": "/workspaces/ecosystem2/src/pages/Integrations.jsx",
+      "relativePath": "Integrations.jsx",
+      "route": "/integrations"
+    },
+    {
+      "name": "KingdomKonnect",
+      "file": "/workspaces/ecosystem2/src/pages/KingdomKonnect.jsx",
+      "relativePath": "KingdomKonnect.jsx",
+      "route": "/kingdom-konnect"
+    },
+    {
+      "name": "Login",
+      "file": "/workspaces/ecosystem2/src/pages/Login.jsx",
+      "relativePath": "Login.jsx",
+      "route": "/login"
+    },
+    {
+      "name": "MobileApp",
+      "file": "/workspaces/ecosystem2/src/pages/MobileApp.jsx",
+      "relativePath": "MobileApp.jsx",
+      "route": "/mobile-app"
+    },
+    {
+      "name": "NotebookLM",
+      "file": "/workspaces/ecosystem2/src/pages/NotebookLM.jsx",
+      "relativePath": "NotebookLM.jsx",
+      "route": "/notebook-l-m"
+    },
+    {
+      "name": "Notifications",
+      "file": "/workspaces/ecosystem2/src/pages/Notifications.jsx",
+      "relativePath": "Notifications.jsx",
+      "route": "/notifications"
+    },
+    {
+      "name": "PrivacyPolicy",
+      "file": "/workspaces/ecosystem2/src/pages/PrivacyPolicy.jsx",
+      "relativePath": "PrivacyPolicy.jsx",
+      "route": "/privacy-policy"
+    },
+    {
+      "name": "Profile",
+      "file": "/workspaces/ecosystem2/src/pages/Profile.jsx",
+      "relativePath": "Profile.jsx",
+      "route": "/profile"
+    },
+    {
+      "name": "Quiz",
+      "file": "/workspaces/ecosystem2/src/pages/Quiz.jsx",
+      "relativePath": "Quiz.jsx",
+      "route": "/quiz"
+    },
+    {
+      "name": "RefundPolicy",
+      "file": "/workspaces/ecosystem2/src/pages/RefundPolicy.jsx",
+      "relativePath": "RefundPolicy.jsx",
+      "route": "/refund-policy"
+    },
+    {
+      "name": "SereneComfortCare",
+      "file": "/workspaces/ecosystem2/src/pages/SereneComfortCare.jsx",
+      "relativePath": "SereneComfortCare.jsx",
+      "route": "/serene-comfort-care"
+    },
+    {
+      "name": "Settings",
+      "file": "/workspaces/ecosystem2/src/pages/Settings.jsx",
+      "relativePath": "Settings.jsx",
+      "route": "/settings"
+    },
+    {
+      "name": "Sitemap",
+      "file": "/workspaces/ecosystem2/src/pages/Sitemap.jsx",
+      "relativePath": "Sitemap.jsx",
+      "route": "/sitemap"
+    },
+    {
+      "name": "Sitemap.test",
+      "file": "/workspaces/ecosystem2/src/pages/Sitemap.test.jsx",
+      "relativePath": "Sitemap.test.jsx",
+      "route": "/sitemap.test"
+    },
+    {
+      "name": "SomePage",
+      "file": "/workspaces/ecosystem2/src/pages/SomePage.jsx",
+      "relativePath": "SomePage.jsx",
+      "route": "/some-page"
+    },
+    {
+      "name": "StudentDashboard",
+      "file": "/workspaces/ecosystem2/src/pages/StudentDashboard.jsx",
+      "relativePath": "StudentDashboard.jsx",
+      "route": "/student-dashboard"
+    },
+    {
+      "name": "StudentHandbook",
+      "file": "/workspaces/ecosystem2/src/pages/StudentHandbook.jsx",
+      "relativePath": "StudentHandbook.jsx",
+      "route": "/student-handbook"
+    },
+    {
+      "name": "StudentHub",
+      "file": "/workspaces/ecosystem2/src/pages/StudentHub.jsx",
+      "relativePath": "StudentHub.jsx",
+      "route": "/student-hub"
+    },
+    {
+      "name": "Support",
+      "file": "/workspaces/ecosystem2/src/pages/Support.jsx",
+      "relativePath": "Support.jsx",
+      "route": "/support"
+    },
+    {
+      "name": "TermsOfService",
+      "file": "/workspaces/ecosystem2/src/pages/TermsOfService.jsx",
+      "relativePath": "TermsOfService.jsx",
+      "route": "/terms-of-service"
+    },
+    {
+      "name": "ThankYou",
+      "file": "/workspaces/ecosystem2/src/pages/ThankYou.jsx",
+      "relativePath": "ThankYou.jsx",
+      "route": "/thank-you"
+    },
+    {
+      "name": "UrbanBuildCrew",
+      "file": "/workspaces/ecosystem2/src/pages/UrbanBuildCrew.jsx",
+      "relativePath": "UrbanBuildCrew.jsx",
+      "route": "/urban-build-crew"
+    },
+    {
+      "name": "UserManagement",
+      "file": "/workspaces/ecosystem2/src/pages/UserManagement.jsx",
+      "relativePath": "UserManagement.jsx",
+      "route": "/user-management"
+    },
+    {
+      "name": "Quiz.test",
+      "file": "/workspaces/ecosystem2/src/pages/__tests__/Quiz.test.jsx",
+      "relativePath": "__tests__/Quiz.test.jsx",
+      "route": "/quiz.test"
+    },
+    {
+      "name": "MentorDirectory",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/MentorDirectory.jsx",
+      "relativePath": "sisters/MentorDirectory.jsx",
+      "route": "/mentor-directory"
+    },
+    {
+      "name": "MentorSignup",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/MentorSignup.jsx",
+      "relativePath": "sisters/MentorSignup.jsx",
+      "route": "/mentor-signup"
+    },
+    {
+      "name": "Mentorship",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/Mentorship.jsx",
+      "relativePath": "sisters/Mentorship.jsx",
+      "route": "/mentorship"
+    },
+    {
+      "name": "PeerSupport",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/PeerSupport.jsx",
+      "relativePath": "sisters/PeerSupport.jsx",
+      "route": "/peer-support"
+    },
+    {
+      "name": "Volunteer",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/Volunteer.jsx",
+      "relativePath": "sisters/Volunteer.jsx",
+      "route": "/volunteer"
+    },
+    {
+      "name": "VolunteerOpportunities",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/VolunteerOpportunities.jsx",
+      "relativePath": "sisters/VolunteerOpportunities.jsx",
+      "route": "/volunteer-opportunities"
+    },
+    {
+      "name": "VolunteerStories",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/VolunteerStories.jsx",
+      "relativePath": "sisters/VolunteerStories.jsx",
+      "route": "/volunteer-stories"
+    },
+    {
+      "name": "Wellness",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/Wellness.jsx",
+      "relativePath": "sisters/Wellness.jsx",
+      "route": "/wellness"
+    },
+    {
+      "name": "WellnessResources",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/WellnessResources.jsx",
+      "relativePath": "sisters/WellnessResources.jsx",
+      "route": "/wellness-resources"
+    }
+  ],
+  "missingRoutes": [
+    {
+      "name": "AITutor",
+      "file": "/workspaces/ecosystem2/src/pages/AITutor.jsx",
+      "relativePath": "AITutor.jsx",
+      "route": "/a-i-tutor"
+    },
+    {
+      "name": "AccessibilitySettings",
+      "file": "/workspaces/ecosystem2/src/pages/AccessibilitySettings.jsx",
+      "relativePath": "AccessibilitySettings.jsx",
+      "route": "/accessibility-settings"
+    },
+    {
+      "name": "AdminConsole",
+      "file": "/workspaces/ecosystem2/src/pages/AdminConsole.jsx",
+      "relativePath": "AdminConsole.jsx",
+      "route": "/admin-console"
+    },
+    {
+      "name": "AdminDashboard",
+      "file": "/workspaces/ecosystem2/src/pages/AdminDashboard.jsx",
+      "relativePath": "AdminDashboard.jsx",
+      "route": "/admin-dashboard"
+    },
+    {
+      "name": "Analytics",
+      "file": "/workspaces/ecosystem2/src/pages/Analytics.jsx",
+      "relativePath": "Analytics.jsx",
+      "route": "/analytics"
+    },
+    {
+      "name": "AnalyticsDashboard",
+      "file": "/workspaces/ecosystem2/src/pages/AnalyticsDashboard.jsx",
+      "relativePath": "AnalyticsDashboard.jsx",
+      "route": "/analytics-dashboard"
+    },
+    {
+      "name": "Assignment",
+      "file": "/workspaces/ecosystem2/src/pages/Assignment.jsx",
+      "relativePath": "Assignment.jsx",
+      "route": "/assignment"
+    },
+    {
+      "name": "BingSiteVerification",
+      "file": "/workspaces/ecosystem2/src/pages/BingSiteVerification.jsx",
+      "relativePath": "BingSiteVerification.jsx",
+      "route": "/bing-site-verification"
+    },
+    {
+      "name": "Branding",
+      "file": "/workspaces/ecosystem2/src/pages/Branding.jsx",
+      "relativePath": "Branding.jsx",
+      "route": "/branding"
+    },
+    {
+      "name": "BusinessHub",
+      "file": "/workspaces/ecosystem2/src/pages/BusinessHub.jsx",
+      "relativePath": "BusinessHub.jsx",
+      "route": "/business-hub"
+    },
+    {
+      "name": "Calendar",
+      "file": "/workspaces/ecosystem2/src/pages/Calendar.jsx",
+      "relativePath": "Calendar.jsx",
+      "route": "/calendar"
+    },
+    {
+      "name": "Certificates",
+      "file": "/workspaces/ecosystem2/src/pages/Certificates.jsx",
+      "relativePath": "Certificates.jsx",
+      "route": "/certificates"
+    },
+    {
+      "name": "CloneLanding",
+      "file": "/workspaces/ecosystem2/src/pages/CloneLanding.jsx",
+      "relativePath": "CloneLanding.jsx",
+      "route": "/clone-landing"
+    },
+    {
+      "name": "Community",
+      "file": "/workspaces/ecosystem2/src/pages/Community.jsx",
+      "relativePath": "Community.jsx",
+      "route": "/community"
+    },
+    {
+      "name": "CommunityHub",
+      "file": "/workspaces/ecosystem2/src/pages/CommunityHub.jsx",
+      "relativePath": "CommunityHub.jsx",
+      "route": "/community-hub"
+    },
+    {
+      "name": "Course",
+      "file": "/workspaces/ecosystem2/src/pages/Course.jsx",
+      "relativePath": "Course.jsx",
+      "route": "/course"
+    },
+    {
+      "name": "CourseBuilder",
+      "file": "/workspaces/ecosystem2/src/pages/CourseBuilder.jsx",
+      "relativePath": "CourseBuilder.jsx",
+      "route": "/course-builder"
+    },
+    {
+      "name": "CourseCatalog",
+      "file": "/workspaces/ecosystem2/src/pages/CourseCatalog.jsx",
+      "relativePath": "CourseCatalog.jsx",
+      "route": "/course-catalog"
+    },
+    {
+      "name": "CourseDetail",
+      "file": "/workspaces/ecosystem2/src/pages/CourseDetail.jsx",
+      "relativePath": "CourseDetail.jsx",
+      "route": "/course-detail"
+    },
+    {
+      "name": "CourseLibrary",
+      "file": "/workspaces/ecosystem2/src/pages/CourseLibrary.jsx",
+      "relativePath": "CourseLibrary.jsx",
+      "route": "/course-library"
+    },
+    {
+      "name": "CurriculumUpload",
+      "file": "/workspaces/ecosystem2/src/pages/CurriculumUpload.jsx",
+      "relativePath": "CurriculumUpload.jsx",
+      "route": "/curriculum-upload"
+    },
+    {
+      "name": "Docs",
+      "file": "/workspaces/ecosystem2/src/pages/Docs.jsx",
+      "relativePath": "Docs.jsx",
+      "route": "/docs"
+    },
+    {
+      "name": "DonatePage",
+      "file": "/workspaces/ecosystem2/src/pages/DonatePage.jsx",
+      "relativePath": "DonatePage.jsx",
+      "route": "/donate-page"
+    },
+    {
+      "name": "DonatePage",
+      "file": "/workspaces/ecosystem2/src/pages/DonatePage.tsx",
+      "relativePath": "DonatePage.tsx",
+      "route": "/donate-page"
+    },
+    {
+      "name": "DurableAI",
+      "file": "/workspaces/ecosystem2/src/pages/DurableAI.jsx",
+      "relativePath": "DurableAI.jsx",
+      "route": "/durable-a-i"
+    },
+    {
+      "name": "DurableLanding",
+      "file": "/workspaces/ecosystem2/src/pages/DurableLanding.jsx",
+      "relativePath": "DurableLanding.jsx",
+      "route": "/durable-landing"
+    },
+    {
+      "name": "Ecommerce",
+      "file": "/workspaces/ecosystem2/src/pages/Ecommerce.jsx",
+      "relativePath": "Ecommerce.jsx",
+      "route": "/ecommerce"
+    },
+    {
+      "name": "Ecosystem",
+      "file": "/workspaces/ecosystem2/src/pages/Ecosystem.jsx",
+      "relativePath": "Ecosystem.jsx",
+      "route": "/ecosystem"
+    },
+    {
+      "name": "EducatorHub",
+      "file": "/workspaces/ecosystem2/src/pages/EducatorHub.jsx",
+      "relativePath": "EducatorHub.jsx",
+      "route": "/educator-hub"
+    },
+    {
+      "name": "ElevateBrain",
+      "file": "/workspaces/ecosystem2/src/pages/ElevateBrain.jsx",
+      "relativePath": "ElevateBrain.jsx",
+      "route": "/elevate-brain"
+    },
+    {
+      "name": "Email",
+      "file": "/workspaces/ecosystem2/src/pages/Email.jsx",
+      "relativePath": "Email.jsx",
+      "route": "/email"
+    },
+    {
+      "name": "FileManager",
+      "file": "/workspaces/ecosystem2/src/pages/FileManager.jsx",
+      "relativePath": "FileManager.jsx",
+      "route": "/file-manager"
+    },
+    {
+      "name": "FundingImpact",
+      "file": "/workspaces/ecosystem2/src/pages/FundingImpact.jsx",
+      "relativePath": "FundingImpact.jsx",
+      "route": "/funding-impact"
+    },
+    {
+      "name": "GoogleAnalyticsSetup",
+      "file": "/workspaces/ecosystem2/src/pages/GoogleAnalyticsSetup.jsx",
+      "relativePath": "GoogleAnalyticsSetup.jsx",
+      "route": "/google-analytics-setup"
+    },
+    {
+      "name": "GoogleSiteVerification",
+      "file": "/workspaces/ecosystem2/src/pages/GoogleSiteVerification.jsx",
+      "relativePath": "GoogleSiteVerification.jsx",
+      "route": "/google-site-verification"
+    },
+    {
+      "name": "Home",
+      "file": "/workspaces/ecosystem2/src/pages/Home.jsx",
+      "relativePath": "Home.jsx",
+      "route": "/"
+    },
+    {
+      "name": "Instructor",
+      "file": "/workspaces/ecosystem2/src/pages/Instructor.jsx",
+      "relativePath": "Instructor.jsx",
+      "route": "/instructor"
+    },
+    {
+      "name": "InstructorEdit",
+      "file": "/workspaces/ecosystem2/src/pages/InstructorEdit.jsx",
+      "relativePath": "InstructorEdit.jsx",
+      "route": "/instructor-edit"
+    },
+    {
+      "name": "InstructorNew",
+      "file": "/workspaces/ecosystem2/src/pages/InstructorNew.jsx",
+      "relativePath": "InstructorNew.jsx",
+      "route": "/instructor-new"
+    },
+    {
+      "name": "Integrations",
+      "file": "/workspaces/ecosystem2/src/pages/Integrations.jsx",
+      "relativePath": "Integrations.jsx",
+      "route": "/integrations"
+    },
+    {
+      "name": "KingdomKonnect",
+      "file": "/workspaces/ecosystem2/src/pages/KingdomKonnect.jsx",
+      "relativePath": "KingdomKonnect.jsx",
+      "route": "/kingdom-konnect"
+    },
+    {
+      "name": "LMS",
+      "file": "/workspaces/ecosystem2/src/pages/LMS.jsx",
+      "relativePath": "LMS.jsx",
+      "route": "/l-m-s"
+    },
+    {
+      "name": "LMS",
+      "file": "/workspaces/ecosystem2/src/pages/LMS.tsx",
+      "relativePath": "LMS.tsx",
+      "route": "/l-m-s"
+    },
+    {
+      "name": "Login",
+      "file": "/workspaces/ecosystem2/src/pages/Login.jsx",
+      "relativePath": "Login.jsx",
+      "route": "/login"
+    },
+    {
+      "name": "MobileApp",
+      "file": "/workspaces/ecosystem2/src/pages/MobileApp.jsx",
+      "relativePath": "MobileApp.jsx",
+      "route": "/mobile-app"
+    },
+    {
+      "name": "NotebookLM",
+      "file": "/workspaces/ecosystem2/src/pages/NotebookLM.jsx",
+      "relativePath": "NotebookLM.jsx",
+      "route": "/notebook-l-m"
+    },
+    {
+      "name": "Notifications",
+      "file": "/workspaces/ecosystem2/src/pages/Notifications.jsx",
+      "relativePath": "Notifications.jsx",
+      "route": "/notifications"
+    },
+    {
+      "name": "PrivacyPolicy",
+      "file": "/workspaces/ecosystem2/src/pages/PrivacyPolicy.jsx",
+      "relativePath": "PrivacyPolicy.jsx",
+      "route": "/privacy-policy"
+    },
+    {
+      "name": "Profile",
+      "file": "/workspaces/ecosystem2/src/pages/Profile.jsx",
+      "relativePath": "Profile.jsx",
+      "route": "/profile"
+    },
+    {
+      "name": "Quiz",
+      "file": "/workspaces/ecosystem2/src/pages/Quiz.jsx",
+      "relativePath": "Quiz.jsx",
+      "route": "/quiz"
+    },
+    {
+      "name": "RefundPolicy",
+      "file": "/workspaces/ecosystem2/src/pages/RefundPolicy.jsx",
+      "relativePath": "RefundPolicy.jsx",
+      "route": "/refund-policy"
+    },
+    {
+      "name": "SereneComfortCare",
+      "file": "/workspaces/ecosystem2/src/pages/SereneComfortCare.jsx",
+      "relativePath": "SereneComfortCare.jsx",
+      "route": "/serene-comfort-care"
+    },
+    {
+      "name": "Settings",
+      "file": "/workspaces/ecosystem2/src/pages/Settings.jsx",
+      "relativePath": "Settings.jsx",
+      "route": "/settings"
+    },
+    {
+      "name": "Sitemap",
+      "file": "/workspaces/ecosystem2/src/pages/Sitemap.jsx",
+      "relativePath": "Sitemap.jsx",
+      "route": "/sitemap"
+    },
+    {
+      "name": "Sitemap.test",
+      "file": "/workspaces/ecosystem2/src/pages/Sitemap.test.jsx",
+      "relativePath": "Sitemap.test.jsx",
+      "route": "/sitemap.test"
+    },
+    {
+      "name": "SomePage",
+      "file": "/workspaces/ecosystem2/src/pages/SomePage.jsx",
+      "relativePath": "SomePage.jsx",
+      "route": "/some-page"
+    },
+    {
+      "name": "StudentDashboard",
+      "file": "/workspaces/ecosystem2/src/pages/StudentDashboard.jsx",
+      "relativePath": "StudentDashboard.jsx",
+      "route": "/student-dashboard"
+    },
+    {
+      "name": "StudentHandbook",
+      "file": "/workspaces/ecosystem2/src/pages/StudentHandbook.jsx",
+      "relativePath": "StudentHandbook.jsx",
+      "route": "/student-handbook"
+    },
+    {
+      "name": "StudentHub",
+      "file": "/workspaces/ecosystem2/src/pages/StudentHub.jsx",
+      "relativePath": "StudentHub.jsx",
+      "route": "/student-hub"
+    },
+    {
+      "name": "Support",
+      "file": "/workspaces/ecosystem2/src/pages/Support.jsx",
+      "relativePath": "Support.jsx",
+      "route": "/support"
+    },
+    {
+      "name": "TermsOfService",
+      "file": "/workspaces/ecosystem2/src/pages/TermsOfService.jsx",
+      "relativePath": "TermsOfService.jsx",
+      "route": "/terms-of-service"
+    },
+    {
+      "name": "ThankYou",
+      "file": "/workspaces/ecosystem2/src/pages/ThankYou.jsx",
+      "relativePath": "ThankYou.jsx",
+      "route": "/thank-you"
+    },
+    {
+      "name": "UrbanBuildCrew",
+      "file": "/workspaces/ecosystem2/src/pages/UrbanBuildCrew.jsx",
+      "relativePath": "UrbanBuildCrew.jsx",
+      "route": "/urban-build-crew"
+    },
+    {
+      "name": "UserManagement",
+      "file": "/workspaces/ecosystem2/src/pages/UserManagement.jsx",
+      "relativePath": "UserManagement.jsx",
+      "route": "/user-management"
+    },
+    {
+      "name": "VideoMeeting",
+      "file": "/workspaces/ecosystem2/src/pages/VideoMeeting.jsx",
+      "relativePath": "VideoMeeting.jsx",
+      "route": "/video-meeting"
+    },
+    {
+      "name": "Quiz.test",
+      "file": "/workspaces/ecosystem2/src/pages/__tests__/Quiz.test.jsx",
+      "relativePath": "__tests__/Quiz.test.jsx",
+      "route": "/quiz.test"
+    },
+    {
+      "name": "MentorDirectory",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/MentorDirectory.jsx",
+      "relativePath": "sisters/MentorDirectory.jsx",
+      "route": "/mentor-directory"
+    },
+    {
+      "name": "MentorSignup",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/MentorSignup.jsx",
+      "relativePath": "sisters/MentorSignup.jsx",
+      "route": "/mentor-signup"
+    },
+    {
+      "name": "Mentorship",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/Mentorship.jsx",
+      "relativePath": "sisters/Mentorship.jsx",
+      "route": "/mentorship"
+    },
+    {
+      "name": "PeerSupport",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/PeerSupport.jsx",
+      "relativePath": "sisters/PeerSupport.jsx",
+      "route": "/peer-support"
+    },
+    {
+      "name": "Volunteer",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/Volunteer.jsx",
+      "relativePath": "sisters/Volunteer.jsx",
+      "route": "/volunteer"
+    },
+    {
+      "name": "VolunteerOpportunities",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/VolunteerOpportunities.jsx",
+      "relativePath": "sisters/VolunteerOpportunities.jsx",
+      "route": "/volunteer-opportunities"
+    },
+    {
+      "name": "VolunteerStories",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/VolunteerStories.jsx",
+      "relativePath": "sisters/VolunteerStories.jsx",
+      "route": "/volunteer-stories"
+    },
+    {
+      "name": "Wellness",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/Wellness.jsx",
+      "relativePath": "sisters/Wellness.jsx",
+      "route": "/wellness"
+    },
+    {
+      "name": "WellnessResources",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/WellnessResources.jsx",
+      "relativePath": "sisters/WellnessResources.jsx",
+      "route": "/wellness-resources"
+    }
+  ],
+  "unusedImports": [],
+  "issues": [
+    {
+      "type": "missing_import",
+      "component": "AITutor",
+      "file": "/workspaces/ecosystem2/src/pages/AITutor.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "AccessibilitySettings",
+      "file": "/workspaces/ecosystem2/src/pages/AccessibilitySettings.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "AdminConsole",
+      "file": "/workspaces/ecosystem2/src/pages/AdminConsole.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "AdminDashboard",
+      "file": "/workspaces/ecosystem2/src/pages/AdminDashboard.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "Analytics",
+      "file": "/workspaces/ecosystem2/src/pages/Analytics.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "AnalyticsDashboard",
+      "file": "/workspaces/ecosystem2/src/pages/AnalyticsDashboard.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "Assignment",
+      "file": "/workspaces/ecosystem2/src/pages/Assignment.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "BingSiteVerification",
+      "file": "/workspaces/ecosystem2/src/pages/BingSiteVerification.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "Branding",
+      "file": "/workspaces/ecosystem2/src/pages/Branding.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "BusinessHub",
+      "file": "/workspaces/ecosystem2/src/pages/BusinessHub.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "Calendar",
+      "file": "/workspaces/ecosystem2/src/pages/Calendar.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "Certificates",
+      "file": "/workspaces/ecosystem2/src/pages/Certificates.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "CloneLanding",
+      "file": "/workspaces/ecosystem2/src/pages/CloneLanding.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "Community",
+      "file": "/workspaces/ecosystem2/src/pages/Community.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "CommunityHub",
+      "file": "/workspaces/ecosystem2/src/pages/CommunityHub.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "Course",
+      "file": "/workspaces/ecosystem2/src/pages/Course.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "CourseBuilder",
+      "file": "/workspaces/ecosystem2/src/pages/CourseBuilder.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "CourseCatalog",
+      "file": "/workspaces/ecosystem2/src/pages/CourseCatalog.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "CourseDetail",
+      "file": "/workspaces/ecosystem2/src/pages/CourseDetail.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "CourseLibrary",
+      "file": "/workspaces/ecosystem2/src/pages/CourseLibrary.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "CurriculumUpload",
+      "file": "/workspaces/ecosystem2/src/pages/CurriculumUpload.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "Docs",
+      "file": "/workspaces/ecosystem2/src/pages/Docs.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "DonatePage",
+      "file": "/workspaces/ecosystem2/src/pages/DonatePage.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "DonatePage",
+      "file": "/workspaces/ecosystem2/src/pages/DonatePage.tsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "Ecommerce",
+      "file": "/workspaces/ecosystem2/src/pages/Ecommerce.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "Ecosystem",
+      "file": "/workspaces/ecosystem2/src/pages/Ecosystem.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "EducatorHub",
+      "file": "/workspaces/ecosystem2/src/pages/EducatorHub.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "ElevateBrain",
+      "file": "/workspaces/ecosystem2/src/pages/ElevateBrain.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "Email",
+      "file": "/workspaces/ecosystem2/src/pages/Email.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "FundingImpact",
+      "file": "/workspaces/ecosystem2/src/pages/FundingImpact.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "GoogleAnalyticsSetup",
+      "file": "/workspaces/ecosystem2/src/pages/GoogleAnalyticsSetup.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "GoogleSiteVerification",
+      "file": "/workspaces/ecosystem2/src/pages/GoogleSiteVerification.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "Home",
+      "file": "/workspaces/ecosystem2/src/pages/Home.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "Instructor",
+      "file": "/workspaces/ecosystem2/src/pages/Instructor.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "InstructorEdit",
+      "file": "/workspaces/ecosystem2/src/pages/InstructorEdit.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "InstructorNew",
+      "file": "/workspaces/ecosystem2/src/pages/InstructorNew.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "Integrations",
+      "file": "/workspaces/ecosystem2/src/pages/Integrations.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "KingdomKonnect",
+      "file": "/workspaces/ecosystem2/src/pages/KingdomKonnect.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "Login",
+      "file": "/workspaces/ecosystem2/src/pages/Login.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "MobileApp",
+      "file": "/workspaces/ecosystem2/src/pages/MobileApp.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "NotebookLM",
+      "file": "/workspaces/ecosystem2/src/pages/NotebookLM.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "Notifications",
+      "file": "/workspaces/ecosystem2/src/pages/Notifications.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "PrivacyPolicy",
+      "file": "/workspaces/ecosystem2/src/pages/PrivacyPolicy.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "Profile",
+      "file": "/workspaces/ecosystem2/src/pages/Profile.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "Quiz",
+      "file": "/workspaces/ecosystem2/src/pages/Quiz.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "RefundPolicy",
+      "file": "/workspaces/ecosystem2/src/pages/RefundPolicy.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "SereneComfortCare",
+      "file": "/workspaces/ecosystem2/src/pages/SereneComfortCare.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "Settings",
+      "file": "/workspaces/ecosystem2/src/pages/Settings.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "Sitemap",
+      "file": "/workspaces/ecosystem2/src/pages/Sitemap.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "Sitemap.test",
+      "file": "/workspaces/ecosystem2/src/pages/Sitemap.test.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "SomePage",
+      "file": "/workspaces/ecosystem2/src/pages/SomePage.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "StudentDashboard",
+      "file": "/workspaces/ecosystem2/src/pages/StudentDashboard.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "StudentHandbook",
+      "file": "/workspaces/ecosystem2/src/pages/StudentHandbook.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "StudentHub",
+      "file": "/workspaces/ecosystem2/src/pages/StudentHub.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "Support",
+      "file": "/workspaces/ecosystem2/src/pages/Support.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "TermsOfService",
+      "file": "/workspaces/ecosystem2/src/pages/TermsOfService.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "ThankYou",
+      "file": "/workspaces/ecosystem2/src/pages/ThankYou.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "UrbanBuildCrew",
+      "file": "/workspaces/ecosystem2/src/pages/UrbanBuildCrew.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "UserManagement",
+      "file": "/workspaces/ecosystem2/src/pages/UserManagement.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "Quiz.test",
+      "file": "/workspaces/ecosystem2/src/pages/__tests__/Quiz.test.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "MentorDirectory",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/MentorDirectory.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "MentorSignup",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/MentorSignup.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "Mentorship",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/Mentorship.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "PeerSupport",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/PeerSupport.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "Volunteer",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/Volunteer.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "VolunteerOpportunities",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/VolunteerOpportunities.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "VolunteerStories",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/VolunteerStories.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "Wellness",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/Wellness.jsx"
+    },
+    {
+      "type": "missing_import",
+      "component": "WellnessResources",
+      "file": "/workspaces/ecosystem2/src/pages/sisters/WellnessResources.jsx"
+    },
+    {
+      "type": "missing_route",
+      "component": "AITutor",
+      "route": "/a-i-tutor"
+    },
+    {
+      "type": "missing_route",
+      "component": "AccessibilitySettings",
+      "route": "/accessibility-settings"
+    },
+    {
+      "type": "missing_route",
+      "component": "AdminConsole",
+      "route": "/admin-console"
+    },
+    {
+      "type": "missing_route",
+      "component": "AdminDashboard",
+      "route": "/admin-dashboard"
+    },
+    {
+      "type": "missing_route",
+      "component": "Analytics",
+      "route": "/analytics"
+    },
+    {
+      "type": "missing_route",
+      "component": "AnalyticsDashboard",
+      "route": "/analytics-dashboard"
+    },
+    {
+      "type": "missing_route",
+      "component": "Assignment",
+      "route": "/assignment"
+    },
+    {
+      "type": "missing_route",
+      "component": "BingSiteVerification",
+      "route": "/bing-site-verification"
+    },
+    {
+      "type": "missing_route",
+      "component": "Branding",
+      "route": "/branding"
+    },
+    {
+      "type": "missing_route",
+      "component": "BusinessHub",
+      "route": "/business-hub"
+    },
+    {
+      "type": "missing_route",
+      "component": "Calendar",
+      "route": "/calendar"
+    },
+    {
+      "type": "missing_route",
+      "component": "Certificates",
+      "route": "/certificates"
+    },
+    {
+      "type": "missing_route",
+      "component": "CloneLanding",
+      "route": "/clone-landing"
+    },
+    {
+      "type": "missing_route",
+      "component": "Community",
+      "route": "/community"
+    },
+    {
+      "type": "missing_route",
+      "component": "CommunityHub",
+      "route": "/community-hub"
+    },
+    {
+      "type": "missing_route",
+      "component": "Course",
+      "route": "/course"
+    },
+    {
+      "type": "missing_route",
+      "component": "CourseBuilder",
+      "route": "/course-builder"
+    },
+    {
+      "type": "missing_route",
+      "component": "CourseCatalog",
+      "route": "/course-catalog"
+    },
+    {
+      "type": "missing_route",
+      "component": "CourseDetail",
+      "route": "/course-detail"
+    },
+    {
+      "type": "missing_route",
+      "component": "CourseLibrary",
+      "route": "/course-library"
+    },
+    {
+      "type": "missing_route",
+      "component": "CurriculumUpload",
+      "route": "/curriculum-upload"
+    },
+    {
+      "type": "missing_route",
+      "component": "Docs",
+      "route": "/docs"
+    },
+    {
+      "type": "missing_route",
+      "component": "DonatePage",
+      "route": "/donate-page"
+    },
+    {
+      "type": "missing_route",
+      "component": "DonatePage",
+      "route": "/donate-page"
+    },
+    {
+      "type": "missing_route",
+      "component": "DurableAI",
+      "route": "/durable-a-i"
+    },
+    {
+      "type": "missing_route",
+      "component": "DurableLanding",
+      "route": "/durable-landing"
+    },
+    {
+      "type": "missing_route",
+      "component": "Ecommerce",
+      "route": "/ecommerce"
+    },
+    {
+      "type": "missing_route",
+      "component": "Ecosystem",
+      "route": "/ecosystem"
+    },
+    {
+      "type": "missing_route",
+      "component": "EducatorHub",
+      "route": "/educator-hub"
+    },
+    {
+      "type": "missing_route",
+      "component": "ElevateBrain",
+      "route": "/elevate-brain"
+    },
+    {
+      "type": "missing_route",
+      "component": "Email",
+      "route": "/email"
+    },
+    {
+      "type": "missing_route",
+      "component": "FileManager",
+      "route": "/file-manager"
+    },
+    {
+      "type": "missing_route",
+      "component": "FundingImpact",
+      "route": "/funding-impact"
+    },
+    {
+      "type": "missing_route",
+      "component": "GoogleAnalyticsSetup",
+      "route": "/google-analytics-setup"
+    },
+    {
+      "type": "missing_route",
+      "component": "GoogleSiteVerification",
+      "route": "/google-site-verification"
+    },
+    {
+      "type": "missing_route",
+      "component": "Home",
+      "route": "/"
+    },
+    {
+      "type": "missing_route",
+      "component": "Instructor",
+      "route": "/instructor"
+    },
+    {
+      "type": "missing_route",
+      "component": "InstructorEdit",
+      "route": "/instructor-edit"
+    },
+    {
+      "type": "missing_route",
+      "component": "InstructorNew",
+      "route": "/instructor-new"
+    },
+    {
+      "type": "missing_route",
+      "component": "Integrations",
+      "route": "/integrations"
+    },
+    {
+      "type": "missing_route",
+      "component": "KingdomKonnect",
+      "route": "/kingdom-konnect"
+    },
+    {
+      "type": "missing_route",
+      "component": "LMS",
+      "route": "/l-m-s"
+    },
+    {
+      "type": "missing_route",
+      "component": "LMS",
+      "route": "/l-m-s"
+    },
+    {
+      "type": "missing_route",
+      "component": "Login",
+      "route": "/login"
+    },
+    {
+      "type": "missing_route",
+      "component": "MobileApp",
+      "route": "/mobile-app"
+    },
+    {
+      "type": "missing_route",
+      "component": "NotebookLM",
+      "route": "/notebook-l-m"
+    },
+    {
+      "type": "missing_route",
+      "component": "Notifications",
+      "route": "/notifications"
+    },
+    {
+      "type": "missing_route",
+      "component": "PrivacyPolicy",
+      "route": "/privacy-policy"
+    },
+    {
+      "type": "missing_route",
+      "component": "Profile",
+      "route": "/profile"
+    },
+    {
+      "type": "missing_route",
+      "component": "Quiz",
+      "route": "/quiz"
+    },
+    {
+      "type": "missing_route",
+      "component": "RefundPolicy",
+      "route": "/refund-policy"
+    },
+    {
+      "type": "missing_route",
+      "component": "SereneComfortCare",
+      "route": "/serene-comfort-care"
+    },
+    {
+      "type": "missing_route",
+      "component": "Settings",
+      "route": "/settings"
+    },
+    {
+      "type": "missing_route",
+      "component": "Sitemap",
+      "route": "/sitemap"
+    },
+    {
+      "type": "missing_route",
+      "component": "Sitemap.test",
+      "route": "/sitemap.test"
+    },
+    {
+      "type": "missing_route",
+      "component": "SomePage",
+      "route": "/some-page"
+    },
+    {
+      "type": "missing_route",
+      "component": "StudentDashboard",
+      "route": "/student-dashboard"
+    },
+    {
+      "type": "missing_route",
+      "component": "StudentHandbook",
+      "route": "/student-handbook"
+    },
+    {
+      "type": "missing_route",
+      "component": "StudentHub",
+      "route": "/student-hub"
+    },
+    {
+      "type": "missing_route",
+      "component": "Support",
+      "route": "/support"
+    },
+    {
+      "type": "missing_route",
+      "component": "TermsOfService",
+      "route": "/terms-of-service"
+    },
+    {
+      "type": "missing_route",
+      "component": "ThankYou",
+      "route": "/thank-you"
+    },
+    {
+      "type": "missing_route",
+      "component": "UrbanBuildCrew",
+      "route": "/urban-build-crew"
+    },
+    {
+      "type": "missing_route",
+      "component": "UserManagement",
+      "route": "/user-management"
+    },
+    {
+      "type": "missing_route",
+      "component": "VideoMeeting",
+      "route": "/video-meeting"
+    },
+    {
+      "type": "missing_route",
+      "component": "Quiz.test",
+      "route": "/quiz.test"
+    },
+    {
+      "type": "missing_route",
+      "component": "MentorDirectory",
+      "route": "/mentor-directory"
+    },
+    {
+      "type": "missing_route",
+      "component": "MentorSignup",
+      "route": "/mentor-signup"
+    },
+    {
+      "type": "missing_route",
+      "component": "Mentorship",
+      "route": "/mentorship"
+    },
+    {
+      "type": "missing_route",
+      "component": "PeerSupport",
+      "route": "/peer-support"
+    },
+    {
+      "type": "missing_route",
+      "component": "Volunteer",
+      "route": "/volunteer"
+    },
+    {
+      "type": "missing_route",
+      "component": "VolunteerOpportunities",
+      "route": "/volunteer-opportunities"
+    },
+    {
+      "type": "missing_route",
+      "component": "VolunteerStories",
+      "route": "/volunteer-stories"
+    },
+    {
+      "type": "missing_route",
+      "component": "Wellness",
+      "route": "/wellness"
+    },
+    {
+      "type": "missing_route",
+      "component": "WellnessResources",
+      "route": "/wellness-resources"
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const rateLimit = require('express-rate-limit');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
@@ -32,24 +33,43 @@ const authorize = (...roles) => {
   };
 };
 
-const rateLimiter = (maxRequests = 100, windowMs = 60000) => {
-  const requests = new Map();
-
-  return (req, res, next) => {
-    const key = req.user?.id || req.ip;
-    const now = Date.now();
-    const userRequests = requests.get(key) || [];
-    
-    const recentRequests = userRequests.filter(time => now - time < windowMs);
-    
-    if (recentRequests.length >= maxRequests) {
-      return res.status(429).json({ error: 'Too many requests' });
-    }
-
-    recentRequests.push(now);
-    requests.set(key, recentRequests);
-    next();
-  };
+// Standardized rate limiter using express-rate-limit
+const createRateLimiter = (options = {}) => {
+  return rateLimit({
+    windowMs: options.windowMs || 15 * 60 * 1000, // 15 minutes default
+    max: options.max || 100, // 100 requests per window default
+    message: options.message || 'Too many requests from this IP, please try again later.',
+    standardHeaders: true,
+    legacyHeaders: false,
+    keyGenerator: (req) => {
+      // Use user ID if authenticated, otherwise IP
+      return req.user?.id || req.ip;
+    },
+    skip: (req) => {
+      // Skip rate limiting for health checks
+      return req.path === '/api/healthz' || req.path === '/api/readiness';
+    },
+    ...options
+  });
 };
 
-module.exports = { authenticate, authorize, rateLimiter };
+// Strict rate limiter for authentication endpoints
+const authRateLimiter = createRateLimiter({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // 5 attempts per window
+  message: 'Too many authentication attempts, please try again later.'
+});
+
+// Standard rate limiter for API endpoints
+const apiRateLimiter = createRateLimiter({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // 100 requests per window
+});
+
+module.exports = { 
+  authenticate, 
+  authorize, 
+  createRateLimiter,
+  authRateLimiter,
+  apiRateLimiter
+};
