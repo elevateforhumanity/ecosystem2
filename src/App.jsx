@@ -13,6 +13,7 @@ import AccessibilitySettings from "./components/AccessibilitySettings";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { ToastProvider } from "./components/Toast";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { ProgressProvider } from "./contexts/ProgressContext";
 import "./styles/accessibility.css";
 import "./styles/theme.css";
 
@@ -134,8 +135,9 @@ export default function App() {
       <ThemeProvider>
         <AccessibilityProvider>
           <ToastProvider>
-            <BrowserRouter>
-              <ErrorBoundary>
+            <ProgressProvider>
+              <BrowserRouter>
+                <ErrorBoundary>
               <Suspense fallback={<div style={{ padding: 40 }}>Loading...</div>}>
                 <NavBar />
                 <Routes>
@@ -264,6 +266,7 @@ export default function App() {
             </Suspense>
           </ErrorBoundary>
         </BrowserRouter>
+            </ProgressProvider>
           </ToastProvider>
         </AccessibilityProvider>
       </ThemeProvider>
