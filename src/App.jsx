@@ -11,6 +11,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { AccessibilityProvider } from "./components/AccessibilityProvider";
 import AccessibilitySettings from "./components/AccessibilitySettings";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import { ToastProvider } from "./components/Toast";
 import "./styles/accessibility.css";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -128,11 +129,12 @@ export default function App() {
   return (
     <HelmetProvider>
       <AccessibilityProvider>
-        <BrowserRouter>
-          <ErrorBoundary>
-            <Suspense fallback={<div style={{ padding: 40 }}>Loading...</div>}>
-              <NavBar />
-              <Routes>
+        <ToastProvider>
+          <BrowserRouter>
+            <ErrorBoundary>
+              <Suspense fallback={<div style={{ padding: 40 }}>Loading...</div>}>
+                <NavBar />
+                <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/government" element={<Government />} />
                 <Route path="/philanthropy" element={<Philanthropy />} />
@@ -255,6 +257,7 @@ export default function App() {
             </Suspense>
           </ErrorBoundary>
         </BrowserRouter>
+        </ToastProvider>
       </AccessibilityProvider>
     </HelmetProvider>
   );

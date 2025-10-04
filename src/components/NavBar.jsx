@@ -18,6 +18,7 @@
 
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { NotificationCenter } from "./NotificationCenter";
 
 const sisterSites = [
   {
@@ -53,7 +54,7 @@ export default function NavBar() {
   const [open, setOpen] = useState(null);
 
   return (
-    <nav style={{ display: "flex", gap: 24, padding: 16, background: "#f5f5f5" }}>
+    <nav style={{ display: "flex", gap: 24, padding: 16, background: "#f5f5f5", alignItems: "center" }}>
       <Link to="/">Home</Link>
       <Link to="/ecosystem">Ecosystem</Link>
       <Link to="/student">Student</Link>
@@ -104,6 +105,9 @@ export default function NavBar() {
             ))}
           </div>
         )}
+      </div>
+      <div style={{ marginLeft: "auto" }}>
+        <NotificationCenter />
       </div>
     </nav>
   );
