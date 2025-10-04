@@ -20,6 +20,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { NotificationCenter } from "./NotificationCenter";
 import { SearchBar } from "./SearchBar";
+import { ThemeToggle } from "./ThemeToggle";
 
 const sisterSites = [
   {
@@ -110,7 +111,8 @@ export default function NavBar() {
       <div style={{ flex: 1, minWidth: 300, maxWidth: 500 }}>
         <SearchBar />
       </div>
-      <div style={{ marginLeft: "auto" }}>
+      <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 16 }}>
+        <ThemeToggle variant="icon" />
         <NotificationCenter />
       </div>
     </nav>

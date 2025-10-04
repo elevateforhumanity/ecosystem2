@@ -12,7 +12,9 @@ import { AccessibilityProvider } from "./components/AccessibilityProvider";
 import AccessibilitySettings from "./components/AccessibilitySettings";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { ToastProvider } from "./components/Toast";
+import { ThemeProvider } from "./contexts/ThemeContext";
 import "./styles/accessibility.css";
+import "./styles/theme.css";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const Government = lazy(() => import("./pages/Government"));
@@ -129,10 +131,11 @@ const WellnessResources = lazy(() => import("./pages/sisters/WellnessResources")
 export default function App() {
   return (
     <HelmetProvider>
-      <AccessibilityProvider>
-        <ToastProvider>
-          <BrowserRouter>
-            <ErrorBoundary>
+      <ThemeProvider>
+        <AccessibilityProvider>
+          <ToastProvider>
+            <BrowserRouter>
+              <ErrorBoundary>
               <Suspense fallback={<div style={{ padding: 40 }}>Loading...</div>}>
                 <NavBar />
                 <Routes>
@@ -261,8 +264,9 @@ export default function App() {
             </Suspense>
           </ErrorBoundary>
         </BrowserRouter>
-        </ToastProvider>
-      </AccessibilityProvider>
+          </ToastProvider>
+        </AccessibilityProvider>
+      </ThemeProvider>
     </HelmetProvider>
   );
 }
