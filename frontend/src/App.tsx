@@ -17,6 +17,7 @@ import StudentDashboard from './pages/dashboard/StudentDashboard';
 import InstructorDashboard from './pages/dashboard/InstructorDashboard';
 import AdminDashboard from './pages/dashboard/AdminDashboard';
 import ProfilePage from './pages/ProfilePage';
+import CertificatePage from './pages/CertificatePage';
 import NotFoundPage from './pages/NotFoundPage';
 
 // Protected Route Component
@@ -32,6 +33,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/courses" element={<CoursesPage />} />
             <Route path="/courses/:slug" element={<CourseDetailPage />} />
+            <Route path="/certificates/:certificateId" element={<CertificatePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
