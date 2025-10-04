@@ -113,6 +113,7 @@ const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const VerifyEmail = lazy(() => import("./pages/VerifyEmail"));
 const VerifyCertificate = lazy(() => import("./pages/VerifyCertificate"));
+const SearchResults = lazy(() => import("./pages/SearchResults"));
 
 // Sister site pages
 const MentorDirectory = lazy(() => import("./pages/sisters/MentorDirectory"));
@@ -249,6 +250,9 @@ export default function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/verify-certificate" element={<VerifyCertificate />} />
+        
+        {/* Search */}
+        <Route path="/search" element={<SearchResults />} />
         
         <Route path="*" element={<NotFound />} />
               </Routes>
