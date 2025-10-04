@@ -25,10 +25,15 @@ export default defineConfig({
     }
   },
   preview: {
-    host: true,
+    host: '0.0.0.0',
     port: 8080,
     strictPort: false,
-    allowedHosts: 'all'
+    allowedHosts: [
+      '.gitpod.dev',
+      '.gitpod.io',
+      'localhost',
+      '127.0.0.1'
+    ]
   },
   build: {
     outDir: 'dist',

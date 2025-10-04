@@ -26,6 +26,7 @@ const DurablePricing = lazy(() => import("./pages/DurablePricing"));
 const Programs = lazy(() => import("./pages/Programs"));
 const Student = lazy(() => import("./pages/Student"));
 const LMS = lazy(() => import("./pages/LMS"));
+const LMSLanding = lazy(() => import("./pages/LMSLanding"));
 const Partners = lazy(() => import("./pages/Partners"));
 const Donate = lazy(() => import("./pages/Donate"));
 const Pay = lazy(() => import("./pages/Pay"));
@@ -134,7 +135,8 @@ export default function App() {
                 <Route path="/accessibility" element={<Accessibility />} />
                 <Route path="/programs" element={<Programs />} />
                 <Route path="/student" element={<Student />} />
-                <Route path="/lms" element={<LMS />} />
+                <Route path="/lms" element={<LMSLanding />} />
+                <Route path="/lms/dashboard" element={<LMS />} />
                 <Route path="/partners" element={<Partners />} />
                 <Route path="/donate" element={<Donate />} />
                 <Route path="/pay" element={<Pay />} />

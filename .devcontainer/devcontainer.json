@@ -11,12 +11,14 @@
     "8012": {
       "label": "🚀 Development Server",
       "onAutoForward": "openPreview",
-      "protocol": "https"
+      "protocol": "https",
+      "visibility": "public"
     },
     "8080": {
       "label": "📦 Production Preview",
       "onAutoForward": "openPreview",
-      "protocol": "https"
+      "protocol": "https",
+      "visibility": "public"
     }
   },
   "postCreateCommand": "npm install -g pnpm@9.7.0 && pnpm install",
