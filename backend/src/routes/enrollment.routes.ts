@@ -1,10 +1,9 @@
 import { Router } from 'express';
 import { authenticate } from '../middleware/auth';
+import { getEnrollments } from '../controllers/progress.controller';
 
 const router = Router();
 
-router.get('/', authenticate, (req, res) => {
-  res.json({ enrollments: [] });
-});
+router.get('/', authenticate, getEnrollments);
 
 export default router;
