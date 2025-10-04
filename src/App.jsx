@@ -16,6 +16,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import { ProgressProvider } from "./contexts/ProgressContext";
 import "./styles/accessibility.css";
 import "./styles/theme.css";
+import "./styles/responsive.css";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const Government = lazy(() => import("./pages/Government"));
