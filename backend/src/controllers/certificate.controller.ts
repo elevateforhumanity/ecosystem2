@@ -57,7 +57,7 @@ export const getCertificateById = asyncHandler(async (req: AuthRequest, res: Res
   res.json(certificate);
 });
 
-export const verifyCertificate = asyncHandler(async (req: any, res: Response) => {
+export const verifyCertificate = asyncHandler(async (req: any, res: Response): Promise<void> => {
   const { certificateId } = req.params;
 
   const certificate = await prisma.certificate.findUnique({
@@ -73,10 +73,11 @@ export const verifyCertificate = asyncHandler(async (req: any, res: Response) =>
   });
 
   if (!certificate) {
-    return res.json({
+    res.json({
       valid: false,
       message: 'Certificate not found',
     });
+    return;
   }
 
   res.json({

@@ -3,7 +3,7 @@ import prisma from '../config/database';
 import { asyncHandler } from '../middleware/errorHandler';
 import { AuthRequest } from '../middleware/auth';
 
-export const getDashboard = asyncHandler(async (req: AuthRequest, res: Response) => {
+export const getDashboard = asyncHandler(async (_req: AuthRequest, res: Response) => {
   const [totalUsers, activeCourses, totalRevenue, pendingReviews] = await Promise.all([
     prisma.user.count(),
     prisma.course.count({ where: { published: true } }),
@@ -13,14 +13,6 @@ export const getDashboard = asyncHandler(async (req: AuthRequest, res: Response)
     }),
     prisma.review.count({ where: { rating: { lte: 2 } } }),
   ]);
-
-  const userGrowth = await prisma.$queryRaw`
-    SELECT DATE_TRUNC('month', created_at) as month, COUNT(*) as count
-    FROM users
-    WHERE created_at >= NOW() - INTERVAL '6 months'
-    GROUP BY month
-    ORDER BY month
-  `;
 
   const courseEnrollments = await prisma.course.findMany({
     take: 5,

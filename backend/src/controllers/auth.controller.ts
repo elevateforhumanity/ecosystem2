@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { v4 as uuidv4 } from 'uuid';
 import prisma from '../config/database';
 import { AppError, asyncHandler } from '../middleware/errorHandler';
 import { AuthRequest } from '../middleware/auth';
@@ -10,7 +9,7 @@ const generateToken = (userId: string, email: string, role: string) => {
   return jwt.sign(
     { id: userId, email, role },
     process.env.JWT_SECRET!,
-    { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+    { expiresIn: '7d' }
   );
 };
 
@@ -18,7 +17,7 @@ const generateRefreshToken = (userId: string) => {
   return jwt.sign(
     { id: userId },
     process.env.JWT_REFRESH_SECRET!,
-    { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '30d' }
+    { expiresIn: '30d' }
   );
 };
 
@@ -139,7 +138,7 @@ export const refresh = asyncHandler(async (req: Request, res: Response) => {
   }
 
   try {
-    const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET!) as any;
+    jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET!);
 
     const session = await prisma.session.findUnique({
       where: { token: refreshToken },

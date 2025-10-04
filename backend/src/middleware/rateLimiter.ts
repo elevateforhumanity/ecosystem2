@@ -9,6 +9,8 @@ export const rateLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
+  skipSuccessfulRequests: false,
+  skipFailedRequests: false,
 });
 
 export const authLimiter = rateLimit({
@@ -18,4 +20,29 @@ export const authLimiter = rateLimit({
     error: 'Too many authentication attempts',
     message: 'Please try again after 15 minutes',
   },
+  standardHeaders: true,
+  legacyHeaders: false,
+  skipSuccessfulRequests: true,
+});
+
+export const apiLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 60,
+  message: {
+    error: 'Too many API requests',
+    message: 'Please slow down',
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+export const uploadLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 10,
+  message: {
+    error: 'Too many upload requests',
+    message: 'Please try again later',
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
 });

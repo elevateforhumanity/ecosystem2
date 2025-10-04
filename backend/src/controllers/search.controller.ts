@@ -3,11 +3,12 @@ import prisma from '../config/database';
 import { asyncHandler } from '../middleware/errorHandler';
 import { AuthRequest } from '../middleware/auth';
 
-export const search = asyncHandler(async (req: AuthRequest, res: Response) => {
-  const { q, type, category, sortBy = 'relevance' } = req.query;
+export const search = asyncHandler(async (req: AuthRequest, res: Response): Promise<void> => {
+  const { q, type, category } = req.query;
 
   if (!q || typeof q !== 'string') {
-    return res.json({ results: [], total: 0, stats: { courses: 0, instructors: 0, pages: 0 } });
+    res.json({ results: [], total: 0, stats: { courses: 0, instructors: 0, pages: 0 } });
+    return;
   }
 
   const searchTerm = q.trim();

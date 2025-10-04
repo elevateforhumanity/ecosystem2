@@ -3,12 +3,21 @@ import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 import { createServer } from 'http';
-import { WebSocketServer } from 'ws';
 import path from 'path';
 
-import { errorHandler } from './middleware/errorHandler';
+import { 
+  errorHandler, 
+  notFoundHandler, 
+  handleUncaughtException, 
+  handleUnhandledRejection 
+} from './middleware/errorHandler';
 import { requestLogger } from './middleware/logger';
 import { rateLimiter } from './middleware/rateLimiter';
+import { securityHeaders, sanitizeInput, preventParameterPollution } from './middleware/security';
+import { initializeSocket } from './socket';
+
+handleUncaughtException();
+handleUnhandledRejection();
 
 import authRoutes from './routes/auth.routes';
 import userRoutes from './routes/user.routes';
@@ -28,19 +37,23 @@ const app: Application = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(helmet());
+app.use(securityHeaders);
 app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:5173',
   credentials: true,
 }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(sanitizeInput);
+app.use(preventParameterPollution);
 app.use(requestLogger);
 app.use(rateLimiter);
 
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+app.get('/health', (_req, res) => {
+  const { getHealthStatus } = require('./utils/monitoring');
+  res.json(getHealthStatus());
 });
 
 app.use('/api/auth', authRoutes);
@@ -55,39 +68,19 @@ app.use('/api/search', searchRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/admin', adminRoutes);
 
+app.use(notFoundHandler);
 app.use(errorHandler);
 
 const server = createServer(app);
 
-const wss = new WebSocketServer({ server, path: '/ws' });
-
-wss.on('connection', (ws) => {
-  console.log('WebSocket client connected');
-
-  ws.on('message', (message) => {
-    try {
-      const data = JSON.parse(message.toString());
-      console.log('Received:', data);
-
-      wss.clients.forEach((client) => {
-        if (client.readyState === ws.OPEN) {
-          client.send(JSON.stringify(data));
-        }
-      });
-    } catch (error) {
-      console.error('WebSocket error:', error);
-    }
-  });
-
-  ws.on('close', () => {
-    console.log('WebSocket client disconnected');
-  });
-});
+const io = initializeSocket(server);
 
 server.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📡 WebSocket server running on ws://localhost:${PORT}/ws`);
+  console.log(`📡 Socket.IO server initialized`);
   console.log(`🌍 Environment: ${process.env.NODE_ENV}`);
 });
+
+export { io };
 
 export default app;

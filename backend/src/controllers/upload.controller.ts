@@ -12,10 +12,10 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
+  destination: (_req, _file, cb) => {
     cb(null, uploadDir);
   },
-  filename: (req, file, cb) => {
+  filename: (_req, file, cb) => {
     const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
     cb(null, `${uniqueSuffix}${path.extname(file.originalname)}`);
   },
@@ -26,7 +26,7 @@ export const upload = multer({
   limits: {
     fileSize: parseInt(process.env.MAX_FILE_SIZE || '10485760'),
   },
-  fileFilter: (req, file, cb) => {
+  fileFilter: (_req, file, cb) => {
     const allowedTypes = /jpeg|jpg|png|gif|pdf|doc|docx|mp4|mp3/;
     const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = allowedTypes.test(file.mimetype);
@@ -39,9 +39,10 @@ export const upload = multer({
   },
 });
 
-export const uploadFile = asyncHandler(async (req: AuthRequest, res: Response) => {
+export const uploadFile = asyncHandler(async (req: AuthRequest, res: Response): Promise<void> => {
   if (!req.file) {
-    return res.status(400).json({ error: 'No file uploaded' });
+    res.status(400).json({ error: 'No file uploaded' });
+    return;
   }
 
   const fileUrl = `${process.env.API_URL || 'http://localhost:3001'}/uploads/${req.file.filename}`;
