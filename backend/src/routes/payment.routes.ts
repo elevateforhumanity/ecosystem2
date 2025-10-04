@@ -1,22 +1,17 @@
 import { Router } from 'express';
 import { authenticate } from '../middleware/auth';
+import {
+  createPaymentIntent,
+  createCheckoutSession,
+  getPaymentHistory,
+  refundPayment,
+} from '../controllers/payment.controller';
 
 const router = Router();
 
-router.post('/create-intent', authenticate, (req, res) => {
-  res.json({ clientSecret: 'pi_test_secret' });
-});
-
-router.post('/create-checkout', authenticate, (req, res) => {
-  res.json({ sessionId: 'cs_test_session' });
-});
-
-router.get('/history', authenticate, (req, res) => {
-  res.json({ payments: [] });
-});
-
-router.post('/:id/refund', authenticate, (req, res) => {
-  res.json({ message: 'Refund processed' });
-});
+router.post('/create-intent', authenticate, createPaymentIntent);
+router.post('/create-checkout', authenticate, createCheckoutSession);
+router.get('/history', authenticate, getPaymentHistory);
+router.post('/:id/refund', authenticate, refundPayment);
 
 export default router;

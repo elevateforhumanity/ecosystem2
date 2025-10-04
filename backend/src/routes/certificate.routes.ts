@@ -1,18 +1,15 @@
 import { Router } from 'express';
 import { authenticate } from '../middleware/auth';
+import {
+  getCertificates,
+  getCertificateById,
+  verifyCertificate,
+} from '../controllers/certificate.controller';
 
 const router = Router();
 
-router.get('/', authenticate, (req, res) => {
-  res.json({ certificates: [] });
-});
-
-router.get('/:id', authenticate, (req, res) => {
-  res.json({ message: 'Get certificate - Coming soon' });
-});
-
-router.get('/verify/:certificateId', (req, res) => {
-  res.json({ valid: false, message: 'Verification - Coming soon' });
-});
+router.get('/', authenticate, getCertificates);
+router.get('/:id', authenticate, getCertificateById);
+router.get('/verify/:certificateId', verifyCertificate);
 
 export default router;

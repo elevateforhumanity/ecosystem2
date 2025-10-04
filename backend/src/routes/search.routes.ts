@@ -1,9 +1,8 @@
 import { Router } from 'express';
+import { search } from '../controllers/search.controller';
 
 const router = Router();
 
-router.get('/', (req, res) => {
-  res.json({ results: [], total: 0, stats: { courses: 0, instructors: 0, pages: 0 } });
-});
+router.get('/', search);
 
 export default router;
