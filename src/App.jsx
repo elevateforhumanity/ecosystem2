@@ -10,6 +10,7 @@ import { ErrorBoundary } from "./components/ErrorBoundary";
 import { HelmetProvider } from "react-helmet-async";
 import { AccessibilityProvider } from "./components/AccessibilityProvider";
 import AccessibilitySettings from "./components/AccessibilitySettings";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 import "./styles/accessibility.css";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -107,6 +108,10 @@ const TermsOfService = lazy(() => import("./pages/TermsOfService"));
 const ThankYou = lazy(() => import("./pages/ThankYou"));
 const UrbanBuildCrew = lazy(() => import("./pages/UrbanBuildCrew"));
 const UserManagement = lazy(() => import("./pages/UserManagement"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const VerifyEmail = lazy(() => import("./pages/VerifyEmail"));
+const VerifyCertificate = lazy(() => import("./pages/VerifyCertificate"));
 
 // Sister site pages
 const MentorDirectory = lazy(() => import("./pages/sisters/MentorDirectory"));
@@ -165,8 +170,8 @@ export default function App() {
                 
                         <Route path="/a-i-tutor" element={<AITutor />} />
         <Route path="/accessibility-settings" element={<AccessibilitySettingsPage />} />
-        <Route path="/admin-console" element={<AdminConsole />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/admin-console" element={<ProtectedRoute requiredRole="admin"><AdminConsole /></ProtectedRoute>} />
+        <Route path="/admin-dashboard" element={<ProtectedRoute requiredRole="admin"><AdminDashboard /></ProtectedRoute>} />
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/analytics-dashboard" element={<AnalyticsDashboard />} />
         <Route path="/assignment" element={<Assignment />} />
@@ -179,11 +184,11 @@ export default function App() {
         <Route path="/community" element={<Community />} />
         <Route path="/community-hub" element={<CommunityHub />} />
         <Route path="/course" element={<Course />} />
-        <Route path="/course-builder" element={<CourseBuilder />} />
+        <Route path="/course-builder" element={<ProtectedRoute requiredRole="instructor"><CourseBuilder /></ProtectedRoute>} />
         <Route path="/course-catalog" element={<CourseCatalog />} />
         <Route path="/course-detail" element={<CourseDetail />} />
         <Route path="/course-library" element={<CourseLibrary />} />
-        <Route path="/curriculum-upload" element={<CurriculumUpload />} />
+        <Route path="/curriculum-upload" element={<ProtectedRoute requiredRole="instructor"><CurriculumUpload /></ProtectedRoute>} />
         <Route path="/docs" element={<Docs />} />
         <Route path="/donate-page" element={<DonatePage />} />
         <Route path="/donate-page" element={<DonatePage />} />
@@ -199,9 +204,9 @@ export default function App() {
         <Route path="/google-analytics-setup" element={<GoogleAnalyticsSetup />} />
         <Route path="/google-site-verification" element={<GoogleSiteVerification />} />
         <Route path="/" element={<Home />} />
-        <Route path="/instructor" element={<Instructor />} />
-        <Route path="/instructor-edit" element={<InstructorEdit />} />
-        <Route path="/instructor-new" element={<InstructorNew />} />
+        <Route path="/instructor" element={<ProtectedRoute requiredRole="instructor"><Instructor /></ProtectedRoute>} />
+        <Route path="/instructor-edit" element={<ProtectedRoute requiredRole="instructor"><InstructorEdit /></ProtectedRoute>} />
+        <Route path="/instructor-new" element={<ProtectedRoute requiredRole="instructor"><InstructorNew /></ProtectedRoute>} />
         <Route path="/integrations" element={<Integrations />} />
         <Route path="/kingdom-konnect" element={<KingdomKonnect />} />
         <Route path="/l-m-s" element={<LMS />} />
@@ -225,7 +230,7 @@ export default function App() {
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/thank-you" element={<ThankYou />} />
         <Route path="/urban-build-crew" element={<UrbanBuildCrew />} />
-        <Route path="/user-management" element={<UserManagement />} />
+        <Route path="/user-management" element={<ProtectedRoute requiredRole="admin"><UserManagement /></ProtectedRoute>} />
         <Route path="/video-meeting" element={<VideoMeeting />} />
         <Route path="/mentor-directory" element={<MentorDirectory />} />
         <Route path="/mentor-signup" element={<MentorSignup />} />
@@ -236,6 +241,13 @@ export default function App() {
         <Route path="/volunteer-stories" element={<VolunteerStories />} />
         <Route path="/wellness" element={<Wellness />} />
         <Route path="/wellness-resources" element={<WellnessResources />} />
+        
+        {/* Authentication & Verification Routes */}
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
+        <Route path="/verify-certificate" element={<VerifyCertificate />} />
+        
         <Route path="*" element={<NotFound />} />
               </Routes>
               <AskWidget />

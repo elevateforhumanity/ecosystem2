@@ -12,15 +12,26 @@ export default function AppLayout({ title, children }) {
       </Helmet>
       <a href="#main-content" className="skip-link">Skip to content</a>
       <header style={{ padding: "12px 24px", background: "#0f172a" }}>
-        <nav style={{ display: "flex", gap: 16 }}>
-          <NavLink style={linkStyle} to="/">Dashboard</NavLink>
-          <NavLink style={linkStyle} to="/quiz">Quiz</NavLink>
-          <NavLink style={linkStyle} to="/mentors">Mentors</NavLink>
+        <nav style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+          <NavLink style={linkStyle} to="/">Home</NavLink>
+          <NavLink style={linkStyle} to="/courses">Courses</NavLink>
+          <NavLink style={linkStyle} to="/account">Account</NavLink>
+          <NavLink style={linkStyle} to="/support">Support</NavLink>
+          <NavLink style={linkStyle} to="/partners">Partners</NavLink>
         </nav>
       </header>
       <main id="main-content">{children}</main>
-      <footer style={{ padding: 24, textAlign: "center", fontSize: 12, color: "#64748b" }}>
-        © {new Date().getFullYear()} App
+      <footer style={{ padding: 24, textAlign: "center", fontSize: 12, color: "#64748b", borderTop: "1px solid #e0e0e0" }}>
+        <div style={{ marginBottom: 16 }}>
+          <NavLink style={footerLinkStyle} to="/privacy-policy">Privacy Policy</NavLink>
+          {" | "}
+          <NavLink style={footerLinkStyle} to="/terms-of-service">Terms of Service</NavLink>
+          {" | "}
+          <NavLink style={footerLinkStyle} to="/refund-policy">Refund Policy</NavLink>
+          {" | "}
+          <NavLink style={footerLinkStyle} to="/support">Support</NavLink>
+        </div>
+        <div>© {new Date().getFullYear()} Elevate for Humanity. All rights reserved.</div>
       </footer>
     </>
   );
@@ -31,6 +42,12 @@ const linkStyle = ({ isActive }) => ({
   textDecoration: "none",
   fontWeight: 500
 });
+
+const footerLinkStyle = {
+  color: "#64748b",
+  textDecoration: "none",
+  fontSize: 12
+};
 
 AppLayout.propTypes = {
   title: PropTypes.string,
