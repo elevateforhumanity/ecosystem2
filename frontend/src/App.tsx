@@ -16,6 +16,7 @@ import CoursePlayerPage from './pages/courses/CoursePlayerPage';
 import StudentDashboard from './pages/dashboard/StudentDashboard';
 import InstructorDashboard from './pages/dashboard/InstructorDashboard';
 import AdminDashboard from './pages/dashboard/AdminDashboard';
+import CreateCoursePage from './pages/dashboard/CreateCoursePage';
 import ProfilePage from './pages/ProfilePage';
 import CertificatePage from './pages/CertificatePage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -44,6 +45,7 @@ function App() {
             <Route element={<DashboardLayout />}>
               <Route path="/dashboard" element={<StudentDashboard />} />
               <Route path="/dashboard/instructor" element={<InstructorDashboard />} />
+              <Route path="/dashboard/instructor/create" element={<CreateCoursePage />} />
               <Route path="/dashboard/admin" element={<AdminDashboard />} />
               <Route path="/profile" element={<ProfilePage />} />
             </Route>
