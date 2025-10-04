@@ -4,12 +4,17 @@
   See LICENSE file for details.
 */
 import React from "react";
+import AppLayout from "../layouts/AppLayout";
 
 export default function Branding() {
   return (
-    <main style={{ padding: 32, maxWidth: 700, margin: "0 auto" }}>
-      <h1>Branding & White Label</h1>
-      <p>Customize your LMS branding, themes, and domains.</p>
-    </main>
+    <AppLayout>
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: 32 }}>
+        <h1 style={{ fontSize: 32, fontWeight: 700, marginBottom: 32 }}>Branding</h1>
+        <div style={{ backgroundColor: "#fff", padding: 24, borderRadius: 8, border: "1px solid #e0e0e0" }}>
+          <p style={{ fontSize: 16, color: "#666" }}>Customize platform branding and appearance.</p>
+        </div>
+      </div>
+    </AppLayout>
   );
 }

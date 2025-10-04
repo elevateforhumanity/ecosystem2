@@ -4,15 +4,17 @@
   See LICENSE file for details.
 */
 import React from "react";
+import AppLayout from "../layouts/AppLayout";
 
 export default function Notifications() {
   return (
-    <main style={{ padding: 32, maxWidth: 700, margin: "0 auto" }}>
-      <h1>Notifications</h1>
-      <ul>
-        <li>New assignment posted in AI for Beginners</li>
-        <li>Your quiz in Workforce Readiness has been graded</li>
-      </ul>
-    </main>
+    <AppLayout>
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: 32 }}>
+        <h1 style={{ fontSize: 32, fontWeight: 700, marginBottom: 32 }}>Notifications</h1>
+        <div style={{ backgroundColor: "#fff", padding: 24, borderRadius: 8, border: "1px solid #e0e0e0" }}>
+          <p style={{ fontSize: 16, color: "#666" }}>View and manage your notifications.</p>
+        </div>
+      </div>
+    </AppLayout>
   );
 }

@@ -3,55 +3,18 @@
   Commercial License. No resale, sublicensing, or redistribution allowed.
   See LICENSE file for details.
 */
-import React, { useState } from "react";
-
-const demoUsers = [
-  { id: 1, name: "Alice", role: "student" },
-  { id: 2, name: "Bob", role: "admin" },
-  { id: 3, name: "Charlie", role: "instructor" },
-];
+import React from "react";
+import AppLayout from "../layouts/AppLayout";
 
 export default function UserManagement() {
-  const [users, setUsers] = useState(demoUsers);
-
-  function handleRoleChange(id, newRole) {
-    setUsers(users =>
-      users.map(user =>
-        user.id === id ? { ...user, role: newRole } : user
-      )
-    );
-  }
-
   return (
-    <main style={{ padding: 32, maxWidth: 900, margin: "0 auto" }}>
-      <h1>User Management</h1>
-      <table style={{ width: "100%", borderCollapse: "collapse" }}>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Role</th>
-            <th>Change Role</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map(user => (
-            <tr key={user.id}>
-              <td>{user.name}</td>
-              <td>{user.role}</td>
-              <td>
-                <select
-                  value={user.role}
-                  onChange={e => handleRoleChange(user.id, e.target.value)}
-                >
-                  <option value="student">Student</option>
-                  <option value="admin">Admin</option>
-                  <option value="instructor">Instructor</option>
-                </select>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </main>
+    <AppLayout>
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: 32 }}>
+        <h1 style={{ fontSize: 32, fontWeight: 700, marginBottom: 32 }}>User Management</h1>
+        <div style={{ backgroundColor: "#fff", padding: 24, borderRadius: 8, border: "1px solid #e0e0e0" }}>
+          <p style={{ fontSize: 16, color: "#666" }}>Manage platform users, roles, and permissions.</p>
+        </div>
+      </div>
+    </AppLayout>
   );
 }
