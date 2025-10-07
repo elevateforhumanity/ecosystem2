@@ -18,15 +18,23 @@ const router = express.Router();
 
 // Security middleware
 app.use(helmet());
+
+// CORS configuration - localhost only allowed in development
+const allowedOrigins = [
+  'https://elevateforhumanity.com',
+  'https://kingdom-konnect.elevateforhumanity.com',
+  'https://urban-build-crew.elevateforhumanity.com',
+  'https://serene-comfort-care.elevateforhumanity.com',
+  'https://elevate-brain.elevateforhumanity.com'
+];
+
+// Only add localhost in development environment
+if (process.env.NODE_ENV === 'development') {
+  allowedOrigins.push('http://localhost:3000');
+}
+
 app.use(cors({
-  origin: [
-    'https://elevateforhumanity.com',
-    'https://kingdom-konnect.elevateforhumanity.com',
-    'https://urban-build-crew.elevateforhumanity.com',
-    'https://serene-comfort-care.elevateforhumanity.com',
-    'https://elevate-brain.elevateforhumanity.com',
-    'http://localhost:3000' // Development only
-  ]
+  origin: allowedOrigins
 }));
 
 app.use(express.json({ limit: '10mb' }));

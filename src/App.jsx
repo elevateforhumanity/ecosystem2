@@ -14,6 +14,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { ToastProvider } from "./components/Toast";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { ProgressProvider } from "./contexts/ProgressContext";
+import { AuthProvider } from "./contexts/AuthContext";
 import "./styles/accessibility.css";
 import "./styles/theme.css";
 import "./styles/responsive.css";
@@ -133,12 +134,13 @@ const WellnessResources = lazy(() => import("./pages/sisters/WellnessResources")
 export default function App() {
   return (
     <HelmetProvider>
-      <ThemeProvider>
-        <AccessibilityProvider>
-          <ToastProvider>
-            <ProgressProvider>
-              <BrowserRouter>
-                <ErrorBoundary>
+      <AuthProvider>
+        <ThemeProvider>
+          <AccessibilityProvider>
+            <ToastProvider>
+              <ProgressProvider>
+                <BrowserRouter>
+                  <ErrorBoundary>
               <Suspense fallback={<div style={{ padding: 40 }}>Loading...</div>}>
                 <NavBar />
                 <Routes>
@@ -181,25 +183,24 @@ export default function App() {
         <Route path="/accessibility-settings" element={<AccessibilitySettingsPage />} />
         <Route path="/admin-console" element={<ProtectedRoute requiredRole="admin"><AdminConsole /></ProtectedRoute>} />
         <Route path="/admin-dashboard" element={<ProtectedRoute requiredRole="admin"><AdminDashboard /></ProtectedRoute>} />
-        <Route path="/analytics" element={<Analytics />} />
-        <Route path="/analytics-dashboard" element={<AnalyticsDashboard />} />
-        <Route path="/assignment" element={<Assignment />} />
+        <Route path="/analytics" element={<ProtectedRoute requiredRole="admin"><Analytics /></ProtectedRoute>} />
+        <Route path="/analytics-dashboard" element={<ProtectedRoute requiredRole="admin"><AnalyticsDashboard /></ProtectedRoute>} />
+        <Route path="/assignment" element={<ProtectedRoute><Assignment /></ProtectedRoute>} />
         <Route path="/bing-site-verification" element={<BingSiteVerification />} />
         <Route path="/branding" element={<Branding />} />
         <Route path="/business-hub" element={<BusinessHub />} />
         <Route path="/calendar" element={<Calendar />} />
-        <Route path="/certificates" element={<Certificates />} />
+        <Route path="/certificates" element={<ProtectedRoute><Certificates /></ProtectedRoute>} />
         <Route path="/clone-landing" element={<CloneLanding />} />
         <Route path="/community" element={<Community />} />
         <Route path="/community-hub" element={<CommunityHub />} />
-        <Route path="/course" element={<Course />} />
+        <Route path="/course" element={<ProtectedRoute><Course /></ProtectedRoute>} />
         <Route path="/course-builder" element={<ProtectedRoute requiredRole="instructor"><CourseBuilder /></ProtectedRoute>} />
-        <Route path="/course-catalog" element={<CourseCatalog />} />
-        <Route path="/course-detail" element={<CourseDetail />} />
+        <Route path="/course-catalog" element={<ProtectedRoute><CourseCatalog /></ProtectedRoute>} />
+        <Route path="/course-detail" element={<ProtectedRoute><CourseDetail /></ProtectedRoute>} />
         <Route path="/course-library" element={<CourseLibrary />} />
         <Route path="/curriculum-upload" element={<ProtectedRoute requiredRole="instructor"><CurriculumUpload /></ProtectedRoute>} />
         <Route path="/docs" element={<Docs />} />
-        <Route path="/donate-page" element={<DonatePage />} />
         <Route path="/donate-page" element={<DonatePage />} />
         <Route path="/durable-a-i" element={<DurableAI />} />
         <Route path="/durable-landing" element={<DurableLanding />} />
@@ -212,13 +213,11 @@ export default function App() {
         <Route path="/funding-impact" element={<FundingImpact />} />
         <Route path="/google-analytics-setup" element={<GoogleAnalyticsSetup />} />
         <Route path="/google-site-verification" element={<GoogleSiteVerification />} />
-        <Route path="/" element={<Home />} />
         <Route path="/instructor" element={<ProtectedRoute requiredRole="instructor"><Instructor /></ProtectedRoute>} />
         <Route path="/instructor-edit" element={<ProtectedRoute requiredRole="instructor"><InstructorEdit /></ProtectedRoute>} />
         <Route path="/instructor-new" element={<ProtectedRoute requiredRole="instructor"><InstructorNew /></ProtectedRoute>} />
         <Route path="/integrations" element={<Integrations />} />
         <Route path="/kingdom-konnect" element={<KingdomKonnect />} />
-        <Route path="/l-m-s" element={<LMS />} />
         <Route path="/l-m-s" element={<LMS />} />
         <Route path="/login" element={<Login />} />
         <Route path="/mobile-app" element={<MobileApp />} />
@@ -226,13 +225,13 @@ export default function App() {
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/quiz" element={<Quiz />} />
+        <Route path="/quiz" element={<ProtectedRoute><Quiz /></ProtectedRoute>} />
         <Route path="/refund-policy" element={<RefundPolicy />} />
         <Route path="/serene-comfort-care" element={<SereneComfortCare />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/sitemap" element={<Sitemap />} />
         <Route path="/some-page" element={<SomePage />} />
-        <Route path="/student-dashboard" element={<StudentDashboard />} />
+        <Route path="/student-dashboard" element={<ProtectedRoute><StudentDashboard /></ProtectedRoute>} />
         <Route path="/student-handbook" element={<StudentHandbook />} />
         <Route path="/student-hub" element={<StudentHub />} />
         <Route path="/support" element={<Support />} />
@@ -271,6 +270,7 @@ export default function App() {
           </ToastProvider>
         </AccessibilityProvider>
       </ThemeProvider>
+      </AuthProvider>
     </HelmetProvider>
   );
 }

@@ -174,12 +174,17 @@ async function trackDownloadComplete(req, res, next) {
 // Generate secure download URL with expiry
 function generateSecureDownloadURL(licenseKey, fileName, expiryHours = 24) {
   const crypto = require('crypto');
+  
+  if (!process.env.DOWNLOAD_SECRET) {
+    throw new Error('DOWNLOAD_SECRET environment variable is required');
+  }
+  
   const expires = Date.now() + (expiryHours * 60 * 60 * 1000);
   
   // Create signature
   const payload = `${licenseKey}:${fileName}:${expires}`;
   const signature = crypto
-    .createHmac('sha256', process.env.DOWNLOAD_SECRET || 'default-secret')
+    .createHmac('sha256', process.env.DOWNLOAD_SECRET)
     .update(payload)
     .digest('hex');
   
@@ -190,6 +195,10 @@ function generateSecureDownloadURL(licenseKey, fileName, expiryHours = 24) {
 function validateDownloadURL(licenseKey, fileName, expires, signature) {
   const crypto = require('crypto');
   
+  if (!process.env.DOWNLOAD_SECRET) {
+    throw new Error('DOWNLOAD_SECRET environment variable is required');
+  }
+  
   // Check expiry
   if (Date.now() > parseInt(expires)) {
     return { valid: false, reason: 'expired' };
@@ -198,7 +207,7 @@ function validateDownloadURL(licenseKey, fileName, expires, signature) {
   // Verify signature
   const payload = `${licenseKey}:${fileName}:${expires}`;
   const expectedSignature = crypto
-    .createHmac('sha256', process.env.DOWNLOAD_SECRET || 'default-secret')
+    .createHmac('sha256', process.env.DOWNLOAD_SECRET)
     .update(payload)
     .digest('hex');
   

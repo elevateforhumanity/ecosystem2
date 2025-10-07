@@ -2,39 +2,60 @@ const express = require('express');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const helmet = require('helmet');
+const { authenticate, authorize, authRateLimiter, apiRateLimiter } = require('./middleware/auth');
+const { validate, schemas } = require('./middleware/validation');
+const { notFoundHandler, errorHandler } = require('./middleware/errorHandler');
+
+// Import services
+const lmsService = require('./services/lms');
+const emailService = require('./services/email');
+const calendarService = require('./services/calendar');
+const aiTutorService = require('./services/ai-tutor');
+const notebookLMService = require('./services/notebook-lm');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
-app.use(cors());
+// Require JWT_SECRET from environment - no fallback for security
+if (!process.env.JWT_SECRET) {
+  console.error('FATAL: JWT_SECRET environment variable is required');
+  process.exit(1);
+}
+const JWT_SECRET = process.env.JWT_SECRET;
+
+// Security middleware
+app.use(helmet());
+
+// CORS configuration - environment-aware
+const allowedOrigins = process.env.NODE_ENV === 'production'
+  ? ['https://elevateforhumanity.com', 'https://elevateforhumanity.org']
+  : ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:3001'];
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true
+}));
+
 app.use(express.json());
+
+// Apply rate limiting to API routes
+app.use('/api/', apiRateLimiter);
 
 // In-memory storage (replace with database in production)
 const users = new Map();
 const sessions = new Map();
 
-// Authentication middleware
-const authenticate = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1];
-  if (!token) return res.status(401).json({ error: 'No token provided' });
-
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (error) {
-    res.status(401).json({ error: 'Invalid token' });
-  }
-};
-
-// Auth routes
-app.post('/api/auth/register', async (req, res) => {
+// Auth routes - with rate limiting and validation
+app.post('/api/auth/register', authRateLimiter, validate(schemas.register), async (req, res) => {
   try {
     const { email, password, name, role } = req.body;
     
     if (users.has(email)) {
-      return res.status(400).json({ error: 'User already exists' });
+      return res.status(400).json({ 
+        success: false,
+        error: { code: 'USER_EXISTS', message: 'User already exists' }
+      });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -51,54 +72,119 @@ app.post('/api/auth/register', async (req, res) => {
     
     const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
     
-    res.json({ token, user: { id: user.id, email: user.email, name: user.name, role: user.role } });
+    res.json({ 
+      success: true,
+      data: {
+        token,
+        user: { id: user.id, email: user.email, name: user.name, role: user.role }
+      }
+    });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ 
+      success: false,
+      error: { code: 'SERVER_ERROR', message: error.message }
+    });
   }
 });
 
-app.post('/api/auth/login', async (req, res) => {
+app.post('/api/auth/login', authRateLimiter, validate(schemas.login), async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = users.get(email);
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      return res.status(401).json({ 
+        success: false,
+        error: { code: 'INVALID_CREDENTIALS', message: 'Invalid credentials' }
+      });
     }
 
     const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
     
-    res.json({ token, user: { id: user.id, email: user.email, name: user.name, role: user.role } });
+    res.json({ 
+      success: true,
+      data: {
+        token,
+        user: { id: user.id, email: user.email, name: user.name, role: user.role }
+      }
+    });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ 
+      success: false,
+      error: { code: 'SERVER_ERROR', message: error.message }
+    });
   }
 });
 
 app.get('/api/auth/me', authenticate, (req, res) => {
   const user = users.get(req.user.email);
-  if (!user) return res.status(404).json({ error: 'User not found' });
+  if (!user) {
+    return res.status(404).json({ 
+      success: false,
+      error: { code: 'USER_NOT_FOUND', message: 'User not found' }
+    });
+  }
   
-  res.json({ id: user.id, email: user.email, name: user.name, role: user.role });
+  res.json({ 
+    success: true,
+    data: { id: user.id, email: user.email, name: user.name, role: user.role }
+  });
 });
 
 // Email API
-app.get('/api/email/inbox', authenticate, (req, res) => {
-  res.json({ emails: [], total: 0 });
+app.get('/api/email/inbox', authenticate, async (req, res) => {
+  try {
+    const inbox = await emailService.getInbox(req.user.id);
+    res.json({ success: true, data: inbox });
+  } catch (error) {
+    res.status(500).json({ 
+      success: false,
+      error: { code: 'SERVER_ERROR', message: error.message }
+    });
+  }
 });
 
-app.post('/api/email/send', authenticate, (req, res) => {
-  const { to, subject, body } = req.body;
-  res.json({ success: true, messageId: `msg_${Date.now()}` });
+app.post('/api/email/send', authenticate, validate(schemas.sendEmail), async (req, res) => {
+  try {
+    const result = await emailService.sendEmail({
+      from: req.user.email,
+      ...req.body
+    });
+    res.json({ success: true, data: result });
+  } catch (error) {
+    res.status(500).json({ 
+      success: false,
+      error: { code: 'SERVER_ERROR', message: error.message }
+    });
+  }
 });
 
 // Calendar API
-app.get('/api/calendar/events', authenticate, (req, res) => {
-  res.json({ events: [] });
+app.get('/api/calendar/events', authenticate, async (req, res) => {
+  try {
+    const events = await calendarService.getEvents(req.user.id);
+    res.json({ success: true, data: events });
+  } catch (error) {
+    res.status(500).json({ 
+      success: false,
+      error: { code: 'SERVER_ERROR', message: error.message }
+    });
+  }
 });
 
-app.post('/api/calendar/events', authenticate, (req, res) => {
-  const event = { id: `event_${Date.now()}`, ...req.body };
-  res.json(event);
+app.post('/api/calendar/events', authenticate, validate(schemas.createEvent), async (req, res) => {
+  try {
+    const event = await calendarService.createEvent({
+      userId: req.user.id,
+      ...req.body
+    });
+    res.json({ success: true, data: event });
+  } catch (error) {
+    res.status(500).json({ 
+      success: false,
+      error: { code: 'SERVER_ERROR', message: error.message }
+    });
+  }
 });
 
 // File Storage API
@@ -111,78 +197,125 @@ app.post('/api/files/upload', authenticate, (req, res) => {
 });
 
 // LMS API
-app.get('/api/lms/courses', authenticate, (req, res) => {
-  res.json({ courses: [] });
+app.get('/api/lms/courses', authenticate, async (req, res) => {
+  try {
+    const courses = await lmsService.getCourses();
+    res.json({ success: true, data: courses });
+  } catch (error) {
+    res.status(500).json({ 
+      success: false,
+      error: { code: 'SERVER_ERROR', message: error.message }
+    });
+  }
 });
 
-app.post('/api/lms/courses', authenticate, (req, res) => {
-  const course = { id: `course_${Date.now()}`, ...req.body };
-  res.json(course);
+// Only instructors and admins can create courses
+app.post('/api/lms/courses', authenticate, authorize('instructor', 'admin'), validate(schemas.createCourse), async (req, res) => {
+  try {
+    const course = await lmsService.createCourse({
+      instructorId: req.user.id,
+      ...req.body
+    });
+    res.json({ success: true, data: course });
+  } catch (error) {
+    res.status(500).json({ 
+      success: false,
+      error: { code: 'SERVER_ERROR', message: error.message }
+    });
+  }
 });
 
 // AI Tutor API
-app.post('/api/ai-tutor/chat', authenticate, async (req, res) => {
-  const { message, conversationId } = req.body;
-  
-  setTimeout(() => {
-    res.json({
-      response: `AI response to: ${message}`,
-      conversationId: conversationId || `conv_${Date.now()}`
+app.post('/api/ai-tutor/chat', authenticate, validate(schemas.chatMessage), async (req, res) => {
+  try {
+    const result = await aiTutorService.chat({
+      userId: req.user.id,
+      ...req.body
     });
-  }, 1000);
+    res.json({ success: true, data: result });
+  } catch (error) {
+    res.status(500).json({ 
+      success: false,
+      error: { code: 'SERVER_ERROR', message: error.message }
+    });
+  }
 });
 
-app.post('/api/ai-tutor/grade-essay', authenticate, async (req, res) => {
-  const { essay, rubric } = req.body;
-  
-  setTimeout(() => {
-    res.json({
-      grade: 'A',
-      score: 95,
-      feedback: 'Excellent work! Strong thesis and well-supported arguments.',
-      suggestions: ['Consider adding more examples', 'Check citation format']
+app.post('/api/ai-tutor/grade-essay', authenticate, validate(schemas.gradeEssay), async (req, res) => {
+  try {
+    const result = await aiTutorService.gradeEssay({
+      userId: req.user.id,
+      ...req.body
     });
-  }, 1500);
+    res.json({ success: true, data: result });
+  } catch (error) {
+    res.status(500).json({ 
+      success: false,
+      error: { code: 'SERVER_ERROR', message: error.message }
+    });
+  }
 });
 
 // NotebookLM API
-app.post('/api/notebook-lm/notebooks', authenticate, (req, res) => {
-  const notebook = { id: `nb_${Date.now()}`, ...req.body };
-  res.json(notebook);
+app.post('/api/notebook-lm/notebooks', authenticate, async (req, res) => {
+  try {
+    const notebook = await notebookLMService.createNotebook({
+      userId: req.user.id,
+      ...req.body
+    });
+    res.json({ success: true, data: notebook });
+  } catch (error) {
+    res.status(500).json({ 
+      success: false,
+      error: { code: 'SERVER_ERROR', message: error.message }
+    });
+  }
 });
 
-app.post('/api/notebook-lm/sources', authenticate, (req, res) => {
-  const source = { id: `src_${Date.now()}`, ...req.body };
-  res.json(source);
+app.post('/api/notebook-lm/sources', authenticate, async (req, res) => {
+  try {
+    const source = await notebookLMService.addSource({
+      userId: req.user.id,
+      ...req.body
+    });
+    res.json({ success: true, data: source });
+  } catch (error) {
+    res.status(500).json({ 
+      success: false,
+      error: { code: 'SERVER_ERROR', message: error.message }
+    });
+  }
 });
 
-app.post('/api/notebook-lm/ask', authenticate, (req, res) => {
-  const { notebookId, question } = req.body;
+app.post('/api/notebook-lm/ask', authenticate, async (req, res) => {
+  try {
+    const result = await notebookLMService.ask({
+      userId: req.user.id,
+      ...req.body
+    });
+    res.json({ success: true, data: result });
+  } catch (error) {
+    res.status(500).json({ 
+      success: false,
+      error: { code: 'SERVER_ERROR', message: error.message }
+    });
+  }
+});
+
+// Admin API - Protected with role-based access control
+app.get('/api/admin/stats', authenticate, authorize('admin'), (req, res) => {
   res.json({
-    answer: `Answer to: ${question}`,
-    sources: []
+    success: true,
+    data: {
+      totalUsers: users.size,
+      activeUsers: users.size,
+      storage: 2.4,
+      revenue: 15420
+    }
   });
 });
 
-// Admin API
-app.get('/api/admin/stats', authenticate, (req, res) => {
-  if (req.user.role !== 'admin') {
-    return res.status(403).json({ error: 'Admin access required' });
-  }
-  
-  res.json({
-    totalUsers: users.size,
-    activeUsers: users.size,
-    storage: 2.4,
-    revenue: 15420
-  });
-});
-
-app.get('/api/admin/users', authenticate, (req, res) => {
-  if (req.user.role !== 'admin') {
-    return res.status(403).json({ error: 'Admin access required' });
-  }
-  
+app.get('/api/admin/users', authenticate, authorize('admin'), (req, res) => {
   const userList = Array.from(users.values()).map(u => ({
     id: u.id,
     email: u.email,
@@ -191,7 +324,10 @@ app.get('/api/admin/users', authenticate, (req, res) => {
     createdAt: u.createdAt
   }));
   
-  res.json({ users: userList });
+  res.json({ 
+    success: true,
+    data: { users: userList }
+  });
 });
 
 // Health check
@@ -199,9 +335,17 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date() });
 });
 
+// 404 handler - must be after all routes
+app.use(notFoundHandler);
+
+// Global error handler - must be last
+app.use(errorHandler);
+
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
   console.log(`📡 API endpoints available at http://localhost:${PORT}/api`);
+  console.log(`🔒 Security: Helmet, CORS, Rate Limiting enabled`);
+  console.log(`🛡️  Environment: ${process.env.NODE_ENV || 'development'}`);
 });
 
 module.exports = app;
