@@ -50,6 +50,12 @@ deploy/archives/
 branding/raw/
 images/raw/
 
+# Database files (development only)
+prisma/dev.db
+prisma/dev.db-journal
+*.sqlite
+*.sqlite-journal
+
 # Sensitive files
 *secret*
 *key*
