@@ -39,9 +39,9 @@ export async function createCase(req: AuthRequest, res: Response) {
       );
     }
     
-    res.status(201).json({ success: true, data: result.rows[0] });
+    return res.status(201).json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -75,7 +75,7 @@ export async function getCases(req: AuthRequest, res: Response) {
     const result = await pool.query(query, params);
     res.json({ success: true, data: result.rows });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -94,7 +94,7 @@ export async function getCaseById(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -127,7 +127,7 @@ export async function updateCase(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -160,7 +160,7 @@ export async function addCaseNote(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -194,7 +194,7 @@ export async function addCaseActivity(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -227,7 +227,7 @@ export async function addReferral(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -258,7 +258,7 @@ export async function updateReferralStatus(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -277,7 +277,7 @@ export async function completeAssessment(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -299,6 +299,6 @@ export async function closeCase(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }

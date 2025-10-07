@@ -42,24 +42,25 @@ export class ForbiddenError extends AppError {
   }
 }
 
-const handlePrismaError = (err: Prisma.PrismaClientKnownRequestError): AppError => {
-  switch (err.code) {
-    case 'P2002':
-      return new AppError(
-        `Duplicate field value: ${(err.meta?.target as string[])?.join(', ')}`,
-        409,
-        'DUPLICATE_FIELD'
-      );
-    case 'P2025':
-      return new NotFoundError('Record');
-    case 'P2003':
-      return new AppError('Foreign key constraint failed', 400, 'FOREIGN_KEY_ERROR');
-    case 'P2014':
-      return new AppError('Invalid relation', 400, 'INVALID_RELATION');
-    default:
-      return new AppError('Database error', 500, 'DATABASE_ERROR');
-  }
-};
+// Prisma error handling commented out - using raw PostgreSQL for WIOA compliance
+// const handlePrismaError = (err: any): AppError => {
+//   switch (err.code) {
+//     case 'P2002':
+//       return new AppError(
+//         `Duplicate field value: ${(err.meta?.target as string[])?.join(', ')}`,
+//         409,
+//         'DUPLICATE_FIELD'
+//       );
+//     case 'P2025':
+//       return new NotFoundError('Record');
+//     case 'P2003':
+//       return new AppError('Foreign key constraint failed', 400, 'FOREIGN_KEY_ERROR');
+//     case 'P2014':
+//       return new AppError('Invalid relation', 400, 'INVALID_RELATION');
+//     default:
+//       return new AppError('Database error', 500, 'DATABASE_ERROR');
+//   }
+// };
 
 const handleJWTError = (): AppError => {
   return new UnauthorizedError('Invalid token');
@@ -77,9 +78,11 @@ export const errorHandler = (
 ) => {
   let error = err;
 
-  if (err instanceof Prisma.PrismaClientKnownRequestError) {
-    error = handlePrismaError(err);
-  } else if (err.name === 'JsonWebTokenError') {
+  // Prisma error handling commented out - using raw PostgreSQL
+  // if (err instanceof Prisma.PrismaClientKnownRequestError) {
+  //   error = handlePrismaError(err);
+  // } else 
+  if (err.name === 'JsonWebTokenError') {
     error = handleJWTError();
   } else if (err.name === 'TokenExpiredError') {
     error = handleJWTExpiredError();

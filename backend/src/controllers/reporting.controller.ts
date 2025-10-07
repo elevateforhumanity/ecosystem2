@@ -20,7 +20,7 @@ export async function generatePIRLReport(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: records });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -45,7 +45,7 @@ export async function exportPIRLReport(req: AuthRequest, res: Response) {
     res.setHeader('Content-Disposition', `attachment; filename=pirl-report-${startDate}-${endDate}.csv`);
     res.send(csv);
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -74,7 +74,7 @@ export async function generateETA9130Report(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: report });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -103,7 +103,7 @@ export async function generateETA9169Report(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: report });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -135,6 +135,6 @@ export async function getAvailableReports(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: reports });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }

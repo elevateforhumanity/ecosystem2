@@ -1,19 +1,20 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const helmet = require('helmet');
-const { authenticate, authorize, authRateLimiter, apiRateLimiter } = require('./middleware/auth');
-const { validate, schemas } = require('./middleware/validation');
-const { notFoundHandler, errorHandler } = require('./middleware/errorHandler');
+const { authenticate, authorize, authRateLimiter, apiRateLimiter } = require('./middleware/auth.cjs');
+const { validate, schemas } = require('./middleware/validation.cjs');
+const { notFoundHandler, errorHandler } = require('./middleware/errorHandler.cjs');
 // const { auditLog } = require('./backend/dist/middleware/audit'); // Uncomment after TypeScript compilation
 
 // Import services
-const lmsService = require('./services/lms');
-const emailService = require('./services/email');
-const calendarService = require('./services/calendar');
-const aiTutorService = require('./services/ai-tutor');
-const notebookLMService = require('./services/notebook-lm');
+const lmsService = require('./services/lms.cjs');
+const emailService = require('./services/email.cjs');
+const calendarService = require('./services/calendar.cjs');
+const aiTutorService = require('./services/ai-tutor.cjs');
+const notebookLMService = require('./services/notebook-lm.cjs');
 
 const app = express();
 const PORT = process.env.PORT || 3001;

@@ -145,7 +145,7 @@ export const createCourse = asyncHandler(async (req: AuthRequest, res: Response)
     },
   });
 
-  res.status(201).json(course);
+  return res.status(201).json(course);
 });
 
 export const updateCourse = asyncHandler(async (req: AuthRequest, res: Response) => {
@@ -193,7 +193,7 @@ export const deleteCourse = asyncHandler(async (req: AuthRequest, res: Response)
 
   await prisma.course.delete({ where: { id } });
 
-  res.status(204).send();
+  return res.status(204).send();
 });
 
 export const enrollInCourse = asyncHandler(async (req: AuthRequest, res: Response) => {
@@ -258,5 +258,5 @@ export const addLesson = asyncHandler(async (req: AuthRequest, res: Response) =>
     },
   });
 
-  res.status(201).json(lesson);
+  return res.status(201).json(lesson);
 });

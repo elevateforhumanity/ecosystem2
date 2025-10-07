@@ -23,9 +23,9 @@ export async function createEmployer(req: AuthRequest, res: Response) {
        website, companySize, employeeCount, partnershipType, JSON.stringify([]), JSON.stringify([]), true, notes]
     );
     
-    res.status(201).json({ success: true, data: result.rows[0] });
+    return res.status(201).json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -55,7 +55,7 @@ export async function getEmployers(req: AuthRequest, res: Response) {
     const result = await pool.query(query, params);
     res.json({ success: true, data: result.rows });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -71,7 +71,7 @@ export async function getEmployerById(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -100,7 +100,7 @@ export async function updateEmployer(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -122,9 +122,9 @@ export async function createJobPosting(req: AuthRequest, res: Response) {
        salaryType, JSON.stringify(benefits || []), location, remote || false, openings, closingDate, 'open', JSON.stringify([])]
     );
     
-    res.status(201).json({ success: true, data: result.rows[0] });
+    return res.status(201).json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -158,7 +158,7 @@ export async function getJobPostings(req: AuthRequest, res: Response) {
     const result = await pool.query(query, params);
     res.json({ success: true, data: result.rows });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -190,7 +190,7 @@ export async function updateJobPosting(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -209,9 +209,9 @@ export async function createApplication(req: AuthRequest, res: Response) {
       [id, jobPostingId, userId || req.user!.id, resumeUrl, coverLetterUrl, 'submitted', notes]
     );
     
-    res.status(201).json({ success: true, data: result.rows[0] });
+    return res.status(201).json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -241,7 +241,7 @@ export async function getApplications(req: AuthRequest, res: Response) {
     const result = await pool.query(query, params);
     res.json({ success: true, data: result.rows });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -282,7 +282,7 @@ export async function updateApplicationStatus(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -304,9 +304,9 @@ export async function createPlacement(req: AuthRequest, res: Response) {
        hoursPerWeek, JSON.stringify(benefits || []), JSON.stringify([]), 'active', notes]
     );
     
-    res.status(201).json({ success: true, data: result.rows[0] });
+    return res.status(201).json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -336,7 +336,7 @@ export async function getPlacements(req: AuthRequest, res: Response) {
     const result = await pool.query(query, params);
     res.json({ success: true, data: result.rows });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -372,7 +372,7 @@ export async function addRetentionCheck(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -393,9 +393,9 @@ export async function createEngagement(req: AuthRequest, res: Response) {
        followUpRequired || false, followUpDate, notes, req.user!.id]
     );
     
-    res.status(201).json({ success: true, data: result.rows[0] });
+    return res.status(201).json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -421,6 +421,6 @@ export async function getEngagements(req: AuthRequest, res: Response) {
     const result = await pool.query(query, params);
     res.json({ success: true, data: result.rows });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }

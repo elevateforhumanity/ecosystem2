@@ -46,7 +46,7 @@ export async function validateRecord(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -66,7 +66,7 @@ export async function validateBatch(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: { results, summary } });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -151,7 +151,7 @@ export async function getValidationRules(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: rules[type] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -171,6 +171,6 @@ export async function getAvailableValidators(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: validators });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }

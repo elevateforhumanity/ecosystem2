@@ -93,7 +93,7 @@ export async function getAuditLogs(req: AuthRequest, res: Response) {
       }
     });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -109,7 +109,7 @@ export async function getAuditLogById(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -195,7 +195,7 @@ export async function getAuditSummary(req: AuthRequest, res: Response) {
       }
     });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -243,7 +243,7 @@ export async function getUserActivity(req: AuthRequest, res: Response) {
       }
     });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -278,7 +278,7 @@ export async function getResourceActivity(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -326,6 +326,6 @@ export async function exportAuditLogs(req: AuthRequest, res: Response) {
       res.json({ success: true, data: result.rows });
     }
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }

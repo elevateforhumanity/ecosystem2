@@ -28,9 +28,9 @@ export async function createEmploymentOutcome(req: AuthRequest, res: Response) {
        credentialName, credentialDate, industryCode, occupationCode, false, false, notes]
     );
     
-    res.status(201).json({ success: true, data: result.rows[0] });
+    return res.status(201).json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -56,7 +56,7 @@ export async function getEmploymentOutcomes(req: AuthRequest, res: Response) {
     const result = await pool.query(query, params);
     res.json({ success: true, data: result.rows });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -85,7 +85,7 @@ export async function updateEmploymentOutcome(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -107,7 +107,7 @@ export async function verifyEmployment(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -131,6 +131,6 @@ export async function updateRetention(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }

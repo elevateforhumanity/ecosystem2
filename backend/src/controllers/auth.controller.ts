@@ -64,7 +64,7 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
     },
   });
 
-  res.status(201).json({
+  return res.status(201).json({
     user,
     token,
     refreshToken,

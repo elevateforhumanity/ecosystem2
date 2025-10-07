@@ -24,9 +24,9 @@ export async function createSupportService(req: AuthRequest, res: Response) {
        cost, fundingSource, JSON.stringify([]), 'active', notes]
     );
     
-    res.status(201).json({ success: true, data: result.rows[0] });
+    return res.status(201).json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -64,7 +64,7 @@ export async function getSupportServices(req: AuthRequest, res: Response) {
     const result = await pool.query(query, params);
     res.json({ success: true, data: result.rows });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -80,7 +80,7 @@ export async function getSupportServiceById(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -109,7 +109,7 @@ export async function updateSupportService(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -133,7 +133,7 @@ export async function approveSupportService(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -165,7 +165,7 @@ export async function addServiceOutcome(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -186,7 +186,7 @@ export async function completeSupportService(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -207,9 +207,9 @@ export async function createServiceRequest(req: AuthRequest, res: Response) {
        justification, estimatedCost, 'submitted']
     );
     
-    res.status(201).json({ success: true, data: result.rows[0] });
+    return res.status(201).json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -239,7 +239,7 @@ export async function getServiceRequests(req: AuthRequest, res: Response) {
     const result = await pool.query(query, params);
     res.json({ success: true, data: result.rows });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -261,7 +261,7 @@ export async function reviewServiceRequest(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -283,9 +283,9 @@ export async function createServiceProvider(req: AuthRequest, res: Response) {
        JSON.stringify(servicesOffered || []), contractNumber, contractStartDate, contractEndDate, true]
     );
     
-    res.status(201).json({ success: true, data: result.rows[0] });
+    return res.status(201).json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -311,7 +311,7 @@ export async function getServiceProviders(req: AuthRequest, res: Response) {
     const result = await pool.query(query, params);
     res.json({ success: true, data: result.rows });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }
 
@@ -345,6 +345,6 @@ export async function updateServiceProvider(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
+    return res.status(500).json({ success: false, error: { code: 'SERVER_ERROR', message: error.message } });
   }
 }

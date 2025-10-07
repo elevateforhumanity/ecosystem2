@@ -64,5 +64,5 @@ export const deleteNotification = asyncHandler(async (req: AuthRequest, res: Res
 
   await prisma.notification.delete({ where: { id } });
 
-  res.status(204).send();
+  return res.status(204).send();
 });

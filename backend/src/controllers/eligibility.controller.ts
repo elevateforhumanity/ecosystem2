@@ -36,7 +36,7 @@ export async function getEligibility(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: { code: 'SERVER_ERROR', message: error.message }
     });
@@ -86,9 +86,9 @@ export async function createEligibility(req: AuthRequest, res: Response) {
       ]
     );
     
-    res.status(201).json({ success: true, data: result.rows[0] });
+    return res.status(201).json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: { code: 'SERVER_ERROR', message: error.message }
     });
@@ -219,7 +219,7 @@ export async function updateEligibility(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: { code: 'SERVER_ERROR', message: error.message }
     });
@@ -263,7 +263,7 @@ export async function approveEligibility(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows[0] });
   } catch (error: any) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: { code: 'SERVER_ERROR', message: error.message }
     });
@@ -292,7 +292,7 @@ export async function getPendingEligibility(req: AuthRequest, res: Response) {
     
     res.json({ success: true, data: result.rows });
   } catch (error: any) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: { code: 'SERVER_ERROR', message: error.message }
     });

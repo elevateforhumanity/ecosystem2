@@ -6,7 +6,7 @@ const helmet = require('helmet');
 const { authenticate, authorize, authRateLimiter, apiRateLimiter } = require('./middleware/auth');
 const { validate, schemas } = require('./middleware/validation');
 const { notFoundHandler, errorHandler } = require('./middleware/errorHandler');
-// const { auditLog } = require('./backend/dist/middleware/audit'); // Uncomment after TypeScript compilation
+const { auditLog } = require('./backend/dist/middleware/audit');
 
 // Import services
 const lmsService = require('./services/lms');
@@ -40,8 +40,8 @@ app.use(cors({
 
 app.use(express.json());
 
-// Apply audit logging to all routes (uncomment after TypeScript compilation)
-// app.use(auditLog());
+// Apply audit logging to all routes
+app.use(auditLog());
 
 // Apply rate limiting to API routes
 app.use('/api/', apiRateLimiter);
@@ -335,10 +335,6 @@ app.get('/api/admin/users', authenticate, authorize('admin'), (req, res) => {
 });
 
 // WIOA Compliance Routes
-// Note: These routes are TypeScript and need to be compiled first
-// Run: cd backend && npm run build
-// Then uncomment the following lines:
-/*
 const eligibilityRoutes = require('./backend/dist/routes/eligibility.routes');
 const attendanceRoutes = require('./backend/dist/routes/attendance.routes');
 const employmentRoutes = require('./backend/dist/routes/employment.routes');
@@ -362,7 +358,6 @@ app.use('/api/employer', employerRoutes);
 app.use('/api/reporting', reportingRoutes);
 app.use('/api/validation', validationRoutes);
 app.use('/api/audit', auditRoutes);
-*/
 
 // Health check
 app.get('/health', (req, res) => {
