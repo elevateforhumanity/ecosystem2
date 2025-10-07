@@ -1,11 +1,12 @@
-import { Response } from 'express';
+import { Request, Response, RequestHandler } from 'express';
 import { Pool } from 'pg';
 import { AuthRequest } from '../middleware/auth';
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 // Financial Records
-export async function createFinancialRecord(req: AuthRequest, res: Response) {
+export const createFinancialRecord: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { userId, programId, fundingSource, grantNumber, fiscalYear, allocatedAmount, budgetCategory } = req.body;
     
@@ -27,7 +28,8 @@ export async function createFinancialRecord(req: AuthRequest, res: Response) {
   }
 }
 
-export async function getFinancialRecords(req: AuthRequest, res: Response) {
+export const getFinancialRecords: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { userId, programId, fundingSource, fiscalYear, status } = req.query;
     
@@ -65,7 +67,8 @@ export async function getFinancialRecords(req: AuthRequest, res: Response) {
   }
 }
 
-export async function addTransaction(req: AuthRequest, res: Response) {
+export const addTransaction: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     const { type, amount, category, description, vendor, invoiceNumber, notes } = req.body;
@@ -85,7 +88,7 @@ export async function addTransaction(req: AuthRequest, res: Response) {
       description,
       vendor,
       invoiceNumber,
-      approvedBy: req.user!.id,
+      approvedBy: authReq.user!.id,
       approvedAt: new Date(),
       notes
     };
@@ -115,7 +118,8 @@ export async function addTransaction(req: AuthRequest, res: Response) {
 }
 
 // Budget Allocations
-export async function createBudgetAllocation(req: AuthRequest, res: Response) {
+export const createBudgetAllocation: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { programId, fiscalYear, fundingSource, totalBudget, 
             trainingBudget, supportServicesBudget, administrationBudget, equipmentBudget, otherBudget } = req.body;
@@ -140,7 +144,8 @@ export async function createBudgetAllocation(req: AuthRequest, res: Response) {
   }
 }
 
-export async function getBudgetAllocations(req: AuthRequest, res: Response) {
+export const getBudgetAllocations: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { programId, fiscalYear, status } = req.query;
     
@@ -170,7 +175,8 @@ export async function getBudgetAllocations(req: AuthRequest, res: Response) {
   }
 }
 
-export async function updateBudgetAllocation(req: AuthRequest, res: Response) {
+export const updateBudgetAllocation: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     const updates = req.body;
@@ -200,7 +206,8 @@ export async function updateBudgetAllocation(req: AuthRequest, res: Response) {
 }
 
 // Participant Costs
-export async function createParticipantCost(req: AuthRequest, res: Response) {
+export const createParticipantCost: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { userId, financialRecordId, costType, amount, vendor, receiptUrl, notes } = req.body;
     
@@ -221,7 +228,8 @@ export async function createParticipantCost(req: AuthRequest, res: Response) {
   }
 }
 
-export async function getParticipantCosts(req: AuthRequest, res: Response) {
+export const getParticipantCosts: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { userId, financialRecordId, costType, approved, reimbursed } = req.query;
     
@@ -259,7 +267,8 @@ export async function getParticipantCosts(req: AuthRequest, res: Response) {
   }
 }
 
-export async function approveParticipantCost(req: AuthRequest, res: Response) {
+export const approveParticipantCost: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     
@@ -267,7 +276,7 @@ export async function approveParticipantCost(req: AuthRequest, res: Response) {
       `UPDATE participant_costs 
        SET approved = true, approved_by = $1, approved_at = NOW(), updated_at = NOW() 
        WHERE id = $2 RETURNING *`,
-      [req.user!.id, id]
+      [authReq.user!.id, id]
     );
     
     if (result.rows.length === 0) {
@@ -280,7 +289,8 @@ export async function approveParticipantCost(req: AuthRequest, res: Response) {
   }
 }
 
-export async function reimburseParticipantCost(req: AuthRequest, res: Response) {
+export const reimburseParticipantCost: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     
@@ -304,7 +314,8 @@ export async function reimburseParticipantCost(req: AuthRequest, res: Response) 
   }
 }
 
-export async function getFinancialSummary(req: AuthRequest, res: Response) {
+export const getFinancialSummary: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { programId, fiscalYear } = req.query;
     

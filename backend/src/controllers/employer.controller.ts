@@ -1,11 +1,12 @@
-import { Response } from 'express';
+import { Request, Response, RequestHandler } from 'express';
 import { Pool } from 'pg';
 import { AuthRequest } from '../middleware/auth';
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 // Employers
-export async function createEmployer(req: AuthRequest, res: Response) {
+export const createEmployer: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { companyName, industry, contactPerson, contactTitle, email, phone, address, city, state, zipCode,
             website, companySize, employeeCount, partnershipType, notes } = req.body;
@@ -29,7 +30,8 @@ export async function createEmployer(req: AuthRequest, res: Response) {
   }
 }
 
-export async function getEmployers(req: AuthRequest, res: Response) {
+export const getEmployers: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { industry, partnershipType, active } = req.query;
     
@@ -59,7 +61,8 @@ export async function getEmployers(req: AuthRequest, res: Response) {
   }
 }
 
-export async function getEmployerById(req: AuthRequest, res: Response) {
+export const getEmployerById: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     
@@ -75,7 +78,8 @@ export async function getEmployerById(req: AuthRequest, res: Response) {
   }
 }
 
-export async function updateEmployer(req: AuthRequest, res: Response) {
+export const updateEmployer: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     const updates = req.body;
@@ -105,7 +109,8 @@ export async function updateEmployer(req: AuthRequest, res: Response) {
 }
 
 // Job Postings
-export async function createJobPosting(req: AuthRequest, res: Response) {
+export const createJobPosting: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { employerId, title, description, requirements, jobType, salaryMin, salaryMax, salaryType,
             benefits, location, remote, openings, closingDate } = req.body;
@@ -128,7 +133,8 @@ export async function createJobPosting(req: AuthRequest, res: Response) {
   }
 }
 
-export async function getJobPostings(req: AuthRequest, res: Response) {
+export const getJobPostings: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { employerId, jobType, status, remote } = req.query;
     
@@ -162,7 +168,8 @@ export async function getJobPostings(req: AuthRequest, res: Response) {
   }
 }
 
-export async function updateJobPosting(req: AuthRequest, res: Response) {
+export const updateJobPosting: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     const updates = req.body;
@@ -195,7 +202,8 @@ export async function updateJobPosting(req: AuthRequest, res: Response) {
 }
 
 // Applications
-export async function createApplication(req: AuthRequest, res: Response) {
+export const createApplication: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { jobPostingId, userId, resumeUrl, coverLetterUrl, notes } = req.body;
     
@@ -206,7 +214,7 @@ export async function createApplication(req: AuthRequest, res: Response) {
         id, job_posting_id, user_id, resume_url, cover_letter_url, applied_date, status, notes
       ) VALUES ($1, $2, $3, $4, $5, NOW(), $6, $7)
       RETURNING *`,
-      [id, jobPostingId, userId || req.user!.id, resumeUrl, coverLetterUrl, 'submitted', notes]
+      [id, jobPostingId, userId || authReq.user!.id, resumeUrl, coverLetterUrl, 'submitted', notes]
     );
     
     return res.status(201).json({ success: true, data: result.rows[0] });
@@ -215,7 +223,8 @@ export async function createApplication(req: AuthRequest, res: Response) {
   }
 }
 
-export async function getApplications(req: AuthRequest, res: Response) {
+export const getApplications: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { jobPostingId, userId, status } = req.query;
     
@@ -245,7 +254,8 @@ export async function getApplications(req: AuthRequest, res: Response) {
   }
 }
 
-export async function updateApplicationStatus(req: AuthRequest, res: Response) {
+export const updateApplicationStatus: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     const { status, interviewDate, interviewNotes, offerAmount, startDate, notes } = req.body;
@@ -287,7 +297,8 @@ export async function updateApplicationStatus(req: AuthRequest, res: Response) {
 }
 
 // Placements
-export async function createPlacement(req: AuthRequest, res: Response) {
+export const createPlacement: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { userId, employerId, jobPostingId, jobTitle, startDate, employmentType, wage, wageType,
             hoursPerWeek, benefits, notes } = req.body;
@@ -310,7 +321,8 @@ export async function createPlacement(req: AuthRequest, res: Response) {
   }
 }
 
-export async function getPlacements(req: AuthRequest, res: Response) {
+export const getPlacements: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { userId, employerId, status } = req.query;
     
@@ -340,7 +352,8 @@ export async function getPlacements(req: AuthRequest, res: Response) {
   }
 }
 
-export async function addRetentionCheck(req: AuthRequest, res: Response) {
+export const addRetentionCheck: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     const { quarter, employed, wage, hoursPerWeek, contactMethod, notes } = req.body;
@@ -360,7 +373,7 @@ export async function addRetentionCheck(req: AuthRequest, res: Response) {
       hoursPerWeek,
       contactMethod,
       notes,
-      verifiedBy: req.user!.id
+      verifiedBy: authReq.user!.id
     };
     
     retentionChecks.push(newCheck);
@@ -377,7 +390,8 @@ export async function addRetentionCheck(req: AuthRequest, res: Response) {
 }
 
 // Employer Engagement
-export async function createEngagement(req: AuthRequest, res: Response) {
+export const createEngagement: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { employerId, engagementType, date, purpose, outcome, attendees, followUpRequired, followUpDate, notes } = req.body;
     
@@ -390,7 +404,7 @@ export async function createEngagement(req: AuthRequest, res: Response) {
       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
       RETURNING *`,
       [id, employerId, engagementType, date, purpose, outcome, JSON.stringify(attendees || []),
-       followUpRequired || false, followUpDate, notes, req.user!.id]
+       followUpRequired || false, followUpDate, notes, authReq.user!.id]
     );
     
     return res.status(201).json({ success: true, data: result.rows[0] });
@@ -399,7 +413,8 @@ export async function createEngagement(req: AuthRequest, res: Response) {
   }
 }
 
-export async function getEngagements(req: AuthRequest, res: Response) {
+export const getEngagements: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { employerId, engagementType } = req.query;
     

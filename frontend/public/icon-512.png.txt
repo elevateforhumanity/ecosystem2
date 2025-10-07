@@ -1,0 +1,5 @@
+# Placeholder for icon-512.png
+# Create a 512x512 PNG icon for your app
+# Same as above - use any design tool
+
+# For now, copy your logo here as icon-512.png

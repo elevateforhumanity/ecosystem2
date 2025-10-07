@@ -1,10 +1,11 @@
-import { Response } from 'express';
+import { Request, Response, RequestHandler } from 'express';
 import { Pool } from 'pg';
 import { AuthRequest } from '../middleware/auth';
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
-export async function createIEP(req: AuthRequest, res: Response) {
+export const createIEP: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { userId, caseManagerId, careerGoal, targetOccupation, targetIndustry, targetWage,
             currentSkills, skillGaps, barriers, strengths, trainingPrograms, supportServices, milestones } = req.body;
@@ -18,7 +19,7 @@ export async function createIEP(req: AuthRequest, res: Response) {
         milestones, review_frequency_days, status
       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
       RETURNING *`,
-      [id, userId, caseManagerId || req.user!.id, careerGoal, targetOccupation, targetIndustry, targetWage,
+      [id, userId, caseManagerId || authReq.user!.id, careerGoal, targetOccupation, targetIndustry, targetWage,
        JSON.stringify(currentSkills || []), JSON.stringify(skillGaps || []), JSON.stringify(barriers || []),
        JSON.stringify(strengths || []), JSON.stringify(trainingPrograms || []), JSON.stringify(supportServices || []),
        JSON.stringify(milestones || []), 90, 'draft']
@@ -30,7 +31,8 @@ export async function createIEP(req: AuthRequest, res: Response) {
   }
 }
 
-export async function getIEPs(req: AuthRequest, res: Response) {
+export const getIEPs: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { userId, caseManagerId, status } = req.query;
     
@@ -60,7 +62,8 @@ export async function getIEPs(req: AuthRequest, res: Response) {
   }
 }
 
-export async function updateIEP(req: AuthRequest, res: Response) {
+export const updateIEP: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     const updates = req.body;
@@ -98,7 +101,8 @@ export async function updateIEP(req: AuthRequest, res: Response) {
   }
 }
 
-export async function signIEP(req: AuthRequest, res: Response) {
+export const signIEP: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     const { signature, role } = req.body;
@@ -122,7 +126,8 @@ export async function signIEP(req: AuthRequest, res: Response) {
   }
 }
 
-export async function reviewIEP(req: AuthRequest, res: Response) {
+export const reviewIEP: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     const { nextReviewDate } = req.body;

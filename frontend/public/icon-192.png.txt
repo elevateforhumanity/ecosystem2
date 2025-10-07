@@ -1,0 +1,8 @@
+# Placeholder for icon-192.png
+# Create a 192x192 PNG icon for your app
+# You can use tools like:
+# - https://realfavicongenerator.net/
+# - https://www.favicon-generator.org/
+# - Canva, Figma, or any design tool
+
+# For now, copy your logo here as icon-192.png

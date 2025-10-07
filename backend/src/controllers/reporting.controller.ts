@@ -1,8 +1,9 @@
-import { Response } from 'express';
+import { Request, Response, RequestHandler } from 'express';
 import { AuthRequest } from '../middleware/auth';
 import { reportingService } from '../services/reporting.service';
 
-export async function generatePIRLReport(req: AuthRequest, res: Response) {
+export const generatePIRLReport: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { startDate, endDate } = req.query;
     
@@ -24,7 +25,8 @@ export async function generatePIRLReport(req: AuthRequest, res: Response) {
   }
 }
 
-export async function exportPIRLReport(req: AuthRequest, res: Response) {
+export const exportPIRLReport: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { startDate, endDate } = req.query;
     
@@ -49,7 +51,8 @@ export async function exportPIRLReport(req: AuthRequest, res: Response) {
   }
 }
 
-export async function generateETA9130Report(req: AuthRequest, res: Response) {
+export const generateETA9130Report: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { quarter, year } = req.query;
     
@@ -78,7 +81,8 @@ export async function generateETA9130Report(req: AuthRequest, res: Response) {
   }
 }
 
-export async function generateETA9169Report(req: AuthRequest, res: Response) {
+export const generateETA9169Report: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { fiscalYear, quarter } = req.query;
     
@@ -107,7 +111,8 @@ export async function generateETA9169Report(req: AuthRequest, res: Response) {
   }
 }
 
-export async function getAvailableReports(req: AuthRequest, res: Response) {
+export const getAvailableReports: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const reports = [
       {

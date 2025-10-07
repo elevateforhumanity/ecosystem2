@@ -9,8 +9,9 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
 });
 
 export const createPaymentIntent = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const authReq = req as AuthRequest;
   const { amount, currency = 'usd', metadata } = req.body;
-  const userId = req.user!.id;
+  const userId = authReq.user!.id;
 
   if (!amount || amount < 50) {
     throw new AppError('Invalid amount', 400);
@@ -42,8 +43,9 @@ export const createPaymentIntent = asyncHandler(async (req: AuthRequest, res: Re
 });
 
 export const createCheckoutSession = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const authReq = req as AuthRequest;
   const { items, successUrl, cancelUrl } = req.body;
-  const userId = req.user!.id;
+  const userId = authReq.user!.id;
 
   if (!items || !Array.isArray(items) || items.length === 0) {
     throw new AppError('Items are required', 400);
@@ -89,7 +91,8 @@ export const createCheckoutSession = asyncHandler(async (req: AuthRequest, res: 
 });
 
 export const getPaymentHistory = asyncHandler(async (req: AuthRequest, res: Response) => {
-  const userId = req.user!.id;
+  const authReq = req as AuthRequest;
+  const userId = authReq.user!.id;
 
   const payments = await prisma.payment.findMany({
     where: { userId },
@@ -105,9 +108,10 @@ export const getPaymentHistory = asyncHandler(async (req: AuthRequest, res: Resp
 });
 
 export const refundPayment = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const authReq = req as AuthRequest;
   const { id } = req.params;
   const { amount } = req.body;
-  const userId = req.user!.id;
+  const userId = authReq.user!.id;
 
   const payment = await prisma.payment.findUnique({ where: { id } });
 
@@ -115,7 +119,7 @@ export const refundPayment = asyncHandler(async (req: AuthRequest, res: Response
     throw new AppError('Payment not found', 404);
   }
 
-  if (payment.userId !== userId && req.user!.role !== 'admin') {
+  if (payment.userId !== userId && authReq.user!.role !== 'admin') {
     throw new AppError('Not authorized', 403);
   }
 

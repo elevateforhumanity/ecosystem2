@@ -1,10 +1,11 @@
-import { Response } from 'express';
+import { Request, Response, RequestHandler } from 'express';
 import { Pool } from 'pg';
 import { AuthRequest } from '../middleware/auth';
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
-export async function createCase(req: AuthRequest, res: Response) {
+export const createCase: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { userId, caseManagerId, priority, contactFrequency, intakeNotes, barriers, accommodations } = req.body;
     
@@ -16,7 +17,7 @@ export async function createCase(req: AuthRequest, res: Response) {
         contact_frequency, assessment_completed, barriers, accommodations, notes, activities, referrals
       ) VALUES ($1, $2, $3, $4, $5, NOW(), $6, $7, $8, $9, $10, $11, $12)
       RETURNING *`,
-      [id, userId, caseManagerId || req.user!.id, 'active', priority || 'medium', 
+      [id, userId, caseManagerId || authReq.user!.id, 'active', priority || 'medium', 
        contactFrequency || 'monthly', false, JSON.stringify(barriers || []), 
        JSON.stringify(accommodations || []), JSON.stringify([]), JSON.stringify([]), JSON.stringify([])]
     );
@@ -29,7 +30,7 @@ export async function createCase(req: AuthRequest, res: Response) {
         date: new Date(),
         type: 'general',
         content: intakeNotes,
-        createdBy: req.user!.id,
+        createdBy: authReq.user!.id,
         confidential: false
       };
       
@@ -45,7 +46,8 @@ export async function createCase(req: AuthRequest, res: Response) {
   }
 }
 
-export async function getCases(req: AuthRequest, res: Response) {
+export const getCases: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { userId, caseManagerId, status, priority } = req.query;
     
@@ -79,7 +81,8 @@ export async function getCases(req: AuthRequest, res: Response) {
   }
 }
 
-export async function getCaseById(req: AuthRequest, res: Response) {
+export const getCaseById: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     
@@ -98,7 +101,8 @@ export async function getCaseById(req: AuthRequest, res: Response) {
   }
 }
 
-export async function updateCase(req: AuthRequest, res: Response) {
+export const updateCase: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     const updates = req.body;
@@ -131,7 +135,8 @@ export async function updateCase(req: AuthRequest, res: Response) {
   }
 }
 
-export async function addCaseNote(req: AuthRequest, res: Response) {
+export const addCaseNote: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     const { type, content, confidential } = req.body;
@@ -147,7 +152,7 @@ export async function addCaseNote(req: AuthRequest, res: Response) {
       date: new Date(),
       type: type || 'general',
       content,
-      createdBy: req.user!.id,
+      createdBy: authReq.user!.id,
       confidential: confidential || false
     };
     
@@ -164,7 +169,8 @@ export async function addCaseNote(req: AuthRequest, res: Response) {
   }
 }
 
-export async function addCaseActivity(req: AuthRequest, res: Response) {
+export const addCaseActivity: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     const { activityType, description, outcome, hoursSpent } = req.body;
@@ -182,7 +188,7 @@ export async function addCaseActivity(req: AuthRequest, res: Response) {
       description,
       outcome,
       hoursSpent,
-      createdBy: req.user!.id
+      createdBy: authReq.user!.id
     };
     
     activities.push(newActivity);
@@ -198,7 +204,8 @@ export async function addCaseActivity(req: AuthRequest, res: Response) {
   }
 }
 
-export async function addReferral(req: AuthRequest, res: Response) {
+export const addReferral: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     const { service, provider, notes } = req.body;
@@ -231,7 +238,8 @@ export async function addReferral(req: AuthRequest, res: Response) {
   }
 }
 
-export async function updateReferralStatus(req: AuthRequest, res: Response) {
+export const updateReferralStatus: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id, referralId } = req.params;
     const { status, notes } = req.body;
@@ -262,7 +270,8 @@ export async function updateReferralStatus(req: AuthRequest, res: Response) {
   }
 }
 
-export async function completeAssessment(req: AuthRequest, res: Response) {
+export const completeAssessment: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     
@@ -281,7 +290,8 @@ export async function completeAssessment(req: AuthRequest, res: Response) {
   }
 }
 
-export async function closeCase(req: AuthRequest, res: Response) {
+export const closeCase: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     const { exitReason, exitNotes } = req.body;

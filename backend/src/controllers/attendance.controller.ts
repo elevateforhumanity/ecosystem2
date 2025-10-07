@@ -1,13 +1,14 @@
-import { Response } from 'express';
+import { Request, Response, RequestHandler } from 'express';
 import { Pool } from 'pg';
 import { AuthRequest } from '../middleware/auth';
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
-export async function clockIn(req: AuthRequest, res: Response) {
+export const clockIn: RequestHandler = async (req: Request, res: Response) => {
   try {
+    const authReq = req as AuthRequest;
     const { courseId, sessionId } = req.body;
-    const userId = req.user!.id;
+    const userId = authReq.user!.id;
     const now = new Date();
     
     const id = `att_${Date.now()}`;
@@ -26,7 +27,8 @@ export async function clockIn(req: AuthRequest, res: Response) {
   }
 }
 
-export async function clockOut(req: AuthRequest, res: Response) {
+export const clockOut: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     const now = new Date();
@@ -50,7 +52,8 @@ export async function clockOut(req: AuthRequest, res: Response) {
   }
 }
 
-export async function getAttendance(req: AuthRequest, res: Response) {
+export const getAttendance: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { userId, courseId } = req.query;
     
@@ -76,7 +79,8 @@ export async function getAttendance(req: AuthRequest, res: Response) {
   }
 }
 
-export async function markAbsent(req: AuthRequest, res: Response) {
+export const markAbsent: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { userId, courseId, attendanceDate } = req.body;
     const id = `att_${Date.now()}`;
@@ -93,7 +97,8 @@ export async function markAbsent(req: AuthRequest, res: Response) {
   }
 }
 
-export async function excuseAbsence(req: AuthRequest, res: Response) {
+export const excuseAbsence: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     const { excuseReason, excuseDocumentUrl } = req.body;
@@ -101,7 +106,7 @@ export async function excuseAbsence(req: AuthRequest, res: Response) {
     const result = await pool.query(
       `UPDATE attendance_records SET status = 'excused', excuse_reason = $1, excuse_document_url = $2, verified_by = $3
        WHERE id = $4 RETURNING *`,
-      [excuseReason, excuseDocumentUrl, req.user!.id, id]
+      [excuseReason, excuseDocumentUrl, authReq.user!.id, id]
     );
     
     if (result.rows.length === 0) {

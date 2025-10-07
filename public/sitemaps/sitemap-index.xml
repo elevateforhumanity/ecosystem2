@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap>
+    <loc>https://elevateforhumanity.org/sitemaps/core-sitemap.xml</loc>
+    <lastmod>2025-10-07T00:41:59.447Z</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://elevateforhumanity.org/sitemaps/programs-sitemap.xml</loc>
+    <lastmod>2025-10-07T00:41:59.447Z</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://elevateforhumanity.org/sitemaps/content-sitemap.xml</loc>
+    <lastmod>2025-10-07T00:41:59.447Z</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://elevateforhumanity.org/sitemaps/platform-sitemap.xml</loc>
+    <lastmod>2025-10-07T00:41:59.447Z</lastmod>
+  </sitemap>
+</sitemapindex>

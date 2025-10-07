@@ -41,7 +41,7 @@ export const upload = multer({
 
 export const uploadFile = asyncHandler(async (req: AuthRequest, res: Response): Promise<void> => {
   if (!req.file) {
-    return res.status(400).json({ error: 'No file uploaded' });
+    res.status(400).json({ error: 'No file uploaded' });
     return;
   }
 

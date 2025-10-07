@@ -4,7 +4,8 @@ import { AppError, asyncHandler } from '../middleware/errorHandler';
 import { AuthRequest } from '../middleware/auth';
 
 export const getProgress = asyncHandler(async (req: AuthRequest, res: Response) => {
-  const userId = req.user!.id;
+  const authReq = req as AuthRequest;
+  const userId = authReq.user!.id;
 
   const enrollments = await prisma.enrollment.findMany({
     where: { userId },
@@ -51,9 +52,10 @@ export const getProgress = asyncHandler(async (req: AuthRequest, res: Response) 
 });
 
 export const updateProgress = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const authReq = req as AuthRequest;
   const { courseId, lessonId } = req.params;
   const { completed } = req.body;
-  const userId = req.user!.id;
+  const userId = authReq.user!.id;
 
   const enrollment = await prisma.enrollment.findUnique({
     where: {
@@ -146,8 +148,9 @@ export const updateProgress = asyncHandler(async (req: AuthRequest, res: Respons
 });
 
 export const resetProgress = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const authReq = req as AuthRequest;
   const { courseId } = req.params;
-  const userId = req.user!.id;
+  const userId = authReq.user!.id;
 
   await prisma.progress.deleteMany({
     where: {
@@ -175,7 +178,8 @@ export const resetProgress = asyncHandler(async (req: AuthRequest, res: Response
 });
 
 export const getEnrollments = asyncHandler(async (req: AuthRequest, res: Response) => {
-  const userId = req.user!.id;
+  const authReq = req as AuthRequest;
+  const userId = authReq.user!.id;
 
   const enrollments = await prisma.enrollment.findMany({
     where: { userId },

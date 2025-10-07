@@ -48,6 +48,18 @@ model User {
   reviews       Review[]
   submissions   Submission[]
   sessions      Session[]
+  
+  // SSO/OAuth
+  identities    UserIdentity[]
+  
+  // Forums
+  forumThreads  ForumThread[] @relation("ForumThreadAuthor")
+  forumPosts    ForumPost[]   @relation("ForumPostAuthor")
+  
+  // Gamification
+  badges        UserBadge[]   @relation("UserBadges")
+  points        PointsLedger[] @relation("UserPoints")
+  leaderboard   Leaderboard?  @relation("UserLeaderboard")
 
   @@index([email])
   @@index([role])
@@ -260,4 +272,146 @@ model Session {
   @@index([token])
   @@index([expiresAt])
   @@map("sessions")
+}
+
+// ============================================================================
+// SSO/OAuth Models
+// ============================================================================
+
+model UserIdentity {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  provider   String   // 'google' | 'azure' | 'saml'
+  providerId String   @map("provider_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([provider, providerId])
+  @@index([userId])
+  @@map("user_identities")
+}
+
+// ============================================================================
+// Forums Models
+// ============================================================================
+
+model ForumCategory {
+  id          String        @id @default(uuid())
+  name        String
+  slug        String        @unique
+  description String?
+  order       Int           @default(0)
+  createdAt   DateTime      @default(now()) @map("created_at")
+  
+  threads ForumThread[]
+  
+  @@map("forum_categories")
+}
+
+model ForumThread {
+  id          String         @id @default(uuid())
+  categoryId  String         @map("category_id")
+  title       String
+  slug        String         @unique
+  authorId    String         @map("author_id")
+  isPinned    Boolean        @default(false) @map("is_pinned")
+  isLocked    Boolean        @default(false) @map("is_locked")
+  viewCount   Int            @default(0) @map("view_count")
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
+  
+  category ForumCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  author   User          @relation("ForumThreadAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  posts    ForumPost[]
+  
+  @@index([categoryId])
+  @@index([authorId])
+  @@index([createdAt])
+  @@map("forum_threads")
+}
+
+model ForumPost {
+  id        String   @id @default(uuid())
+  threadId  String   @map("thread_id")
+  authorId  String   @map("author_id")
+  content   String   @db.Text
+  isEdited  Boolean  @default(false) @map("is_edited")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+  thread ForumThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  author User        @relation("ForumPostAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  
+  @@index([threadId])
+  @@index([authorId])
+  @@index([createdAt])
+  @@map("forum_posts")
+}
+
+// ============================================================================
+// Gamification Models
+// ============================================================================
+
+model Badge {
+  id          String      @id @default(uuid())
+  code        String      @unique
+  name        String
+  description String?
+  iconUrl     String?     @map("icon_url")
+  category    String?     // 'achievement' | 'milestone' | 'special'
+  points      Int         @default(0)
+  createdAt   DateTime    @default(now()) @map("created_at")
+  
+  userBadges UserBadge[]
+  
+  @@index([category])
+  @@map("badges")
+}
+
+model UserBadge {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  badgeId   String   @map("badge_id")
+  awardedAt DateTime @default(now()) @map("awarded_at")
+  awardedBy String?  @map("awarded_by") // admin/instructor who awarded it
+  
+  user  User  @relation("UserBadges", fields: [userId], references: [id], onDelete: Cascade)
+  badge Badge @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, badgeId])
+  @@index([userId])
+  @@index([badgeId])
+  @@map("user_badges")
+}
+
+model PointsLedger {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  delta     Int      // positive or negative
+  reason    String?
+  source    String?  // 'course_completion' | 'quiz_score' | 'forum_post' | 'manual'
+  sourceId  String?  @map("source_id") // ID of related entity
+  createdAt DateTime @default(now()) @map("created_at")
+  
+  user User @relation("UserPoints", fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([createdAt])
+  @@map("points_ledger")
+}
+
+model Leaderboard {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  totalPoints Int    @default(0) @map("total_points")
+  rank      Int?
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+  user User @relation("UserLeaderboard", fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId])
+  @@index([totalPoints])
+  @@index([rank])
+  @@map("leaderboard")
 }

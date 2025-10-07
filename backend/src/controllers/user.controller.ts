@@ -5,6 +5,7 @@ import { AuthRequest } from '../middleware/auth';
 import bcrypt from 'bcrypt';
 
 export const getUserById = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const authReq = req as AuthRequest;
   const { id } = req.params;
 
   const user = await prisma.user.findUnique({
@@ -35,8 +36,9 @@ export const getUserById = asyncHandler(async (req: AuthRequest, res: Response) 
 });
 
 export const updateCurrentUser = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const authReq = req as AuthRequest;
   const { name, bio, avatarUrl } = req.body;
-  const userId = req.user!.id;
+  const userId = authReq.user!.id;
 
   const user = await prisma.user.update({
     where: { id: userId },
@@ -59,8 +61,9 @@ export const updateCurrentUser = asyncHandler(async (req: AuthRequest, res: Resp
 });
 
 export const changePassword = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const authReq = req as AuthRequest;
   const { currentPassword, newPassword } = req.body;
-  const userId = req.user!.id;
+  const userId = authReq.user!.id;
 
   if (!currentPassword || !newPassword) {
     throw new AppError('Current password and new password are required', 400);
@@ -95,7 +98,8 @@ export const changePassword = asyncHandler(async (req: AuthRequest, res: Respons
 });
 
 export const deleteAccount = asyncHandler(async (req: AuthRequest, res: Response) => {
-  const userId = req.user!.id;
+  const authReq = req as AuthRequest;
+  const userId = authReq.user!.id;
   const { password } = req.body;
 
   if (!password) {
@@ -118,7 +122,8 @@ export const deleteAccount = asyncHandler(async (req: AuthRequest, res: Response
 });
 
 export const getUserStats = asyncHandler(async (req: AuthRequest, res: Response) => {
-  const userId = req.user!.id;
+  const authReq = req as AuthRequest;
+  const userId = authReq.user!.id;
 
   const [enrollments, completedCourses, certificates, totalProgress] = await Promise.all([
     prisma.enrollment.count({ where: { userId } }),

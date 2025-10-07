@@ -1,11 +1,12 @@
-import { Response } from 'express';
+import { Request, Response, RequestHandler } from 'express';
 import { Pool } from 'pg';
 import { AuthRequest } from '../middleware/auth';
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 // Support Services
-export async function createSupportService(req: AuthRequest, res: Response) {
+export const createSupportService: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { userId, caseManagerId, serviceType, serviceProvider, providerContact, description, 
             needAssessment, startDate, endDate, frequency, duration, cost, fundingSource, notes } = req.body;
@@ -19,7 +20,7 @@ export async function createSupportService(req: AuthRequest, res: Response) {
         frequency, duration, cost, funding_source, outcomes, status, notes
       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW(), $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
       RETURNING *`,
-      [id, userId, caseManagerId || req.user!.id, serviceType, serviceProvider, providerContact,
+      [id, userId, caseManagerId || authReq.user!.id, serviceType, serviceProvider, providerContact,
        description, needAssessment, 'pending', startDate, endDate, frequency, duration, 
        cost, fundingSource, JSON.stringify([]), 'active', notes]
     );
@@ -30,7 +31,8 @@ export async function createSupportService(req: AuthRequest, res: Response) {
   }
 }
 
-export async function getSupportServices(req: AuthRequest, res: Response) {
+export const getSupportServices: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { userId, caseManagerId, serviceType, approvalStatus, status } = req.query;
     
@@ -68,7 +70,8 @@ export async function getSupportServices(req: AuthRequest, res: Response) {
   }
 }
 
-export async function getSupportServiceById(req: AuthRequest, res: Response) {
+export const getSupportServiceById: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     
@@ -84,7 +87,8 @@ export async function getSupportServiceById(req: AuthRequest, res: Response) {
   }
 }
 
-export async function updateSupportService(req: AuthRequest, res: Response) {
+export const updateSupportService: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     const updates = req.body;
@@ -113,7 +117,8 @@ export async function updateSupportService(req: AuthRequest, res: Response) {
   }
 }
 
-export async function approveSupportService(req: AuthRequest, res: Response) {
+export const approveSupportService: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     const { approved, denialReason } = req.body;
@@ -124,7 +129,7 @@ export async function approveSupportService(req: AuthRequest, res: Response) {
       `UPDATE support_services 
        SET approval_status = $1, approved_by = $2, approved_at = NOW(), denial_reason = $3, updated_at = NOW() 
        WHERE id = $4 RETURNING *`,
-      [approvalStatus, req.user!.id, denialReason, id]
+      [approvalStatus, authReq.user!.id, denialReason, id]
     );
     
     if (result.rows.length === 0) {
@@ -137,7 +142,8 @@ export async function approveSupportService(req: AuthRequest, res: Response) {
   }
 }
 
-export async function addServiceOutcome(req: AuthRequest, res: Response) {
+export const addServiceOutcome: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     const { description, impact } = req.body;
@@ -153,7 +159,7 @@ export async function addServiceOutcome(req: AuthRequest, res: Response) {
       date: new Date(),
       description,
       impact: impact || 'neutral',
-      recordedBy: req.user!.id
+      recordedBy: authReq.user!.id
     };
     
     outcomes.push(newOutcome);
@@ -169,7 +175,8 @@ export async function addServiceOutcome(req: AuthRequest, res: Response) {
   }
 }
 
-export async function completeSupportService(req: AuthRequest, res: Response) {
+export const completeSupportService: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     
@@ -191,7 +198,8 @@ export async function completeSupportService(req: AuthRequest, res: Response) {
 }
 
 // Service Requests
-export async function createServiceRequest(req: AuthRequest, res: Response) {
+export const createServiceRequest: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { userId, serviceType, urgency, description, justification, estimatedCost } = req.body;
     
@@ -203,7 +211,7 @@ export async function createServiceRequest(req: AuthRequest, res: Response) {
         justification, estimated_cost, status
       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
       RETURNING *`,
-      [id, userId, req.user!.id, serviceType, urgency || 'medium', description, 
+      [id, userId, authReq.user!.id, serviceType, urgency || 'medium', description, 
        justification, estimatedCost, 'submitted']
     );
     
@@ -213,7 +221,8 @@ export async function createServiceRequest(req: AuthRequest, res: Response) {
   }
 }
 
-export async function getServiceRequests(req: AuthRequest, res: Response) {
+export const getServiceRequests: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { userId, status, urgency } = req.query;
     
@@ -243,7 +252,8 @@ export async function getServiceRequests(req: AuthRequest, res: Response) {
   }
 }
 
-export async function reviewServiceRequest(req: AuthRequest, res: Response) {
+export const reviewServiceRequest: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     const { status, reviewNotes } = req.body;
@@ -252,7 +262,7 @@ export async function reviewServiceRequest(req: AuthRequest, res: Response) {
       `UPDATE service_requests 
        SET status = $1, reviewed_by = $2, reviewed_at = NOW(), review_notes = $3, updated_at = NOW() 
        WHERE id = $4 RETURNING *`,
-      [status, req.user!.id, reviewNotes, id]
+      [status, authReq.user!.id, reviewNotes, id]
     );
     
     if (result.rows.length === 0) {
@@ -266,7 +276,8 @@ export async function reviewServiceRequest(req: AuthRequest, res: Response) {
 }
 
 // Service Providers
-export async function createServiceProvider(req: AuthRequest, res: Response) {
+export const createServiceProvider: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { name, type, contactPerson, email, phone, address, website, servicesOffered, 
             contractNumber, contractStartDate, contractEndDate } = req.body;
@@ -289,7 +300,8 @@ export async function createServiceProvider(req: AuthRequest, res: Response) {
   }
 }
 
-export async function getServiceProviders(req: AuthRequest, res: Response) {
+export const getServiceProviders: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { type, active } = req.query;
     
@@ -315,7 +327,8 @@ export async function getServiceProviders(req: AuthRequest, res: Response) {
   }
 }
 
-export async function updateServiceProvider(req: AuthRequest, res: Response) {
+export const updateServiceProvider: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     const updates = req.body;

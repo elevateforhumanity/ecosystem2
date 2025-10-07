@@ -1,8 +1,9 @@
-import { Response } from 'express';
+import { Request, Response, RequestHandler } from 'express';
 import { AuthRequest } from '../middleware/auth';
 import { dataValidationService } from '../services/validation.service';
 
-export async function validateRecord(req: AuthRequest, res: Response) {
+export const validateRecord: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { type } = req.params;
     const data = req.body;
@@ -50,7 +51,8 @@ export async function validateRecord(req: AuthRequest, res: Response) {
   }
 }
 
-export async function validateBatch(req: AuthRequest, res: Response) {
+export const validateBatch: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { type } = req.params;
     const { records } = req.body;
@@ -70,7 +72,8 @@ export async function validateBatch(req: AuthRequest, res: Response) {
   }
 }
 
-export async function getValidationRules(req: AuthRequest, res: Response) {
+export const getValidationRules: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { type } = req.params;
     
@@ -155,7 +158,8 @@ export async function getValidationRules(req: AuthRequest, res: Response) {
   }
 }
 
-export async function getAvailableValidators(req: AuthRequest, res: Response) {
+export const getAvailableValidators: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const validators = [
       { type: 'eligibility', name: 'Eligibility Validation', description: 'Validates participant eligibility records' },

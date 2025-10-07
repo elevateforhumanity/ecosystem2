@@ -1,129 +1,166 @@
 #!/usr/bin/env node
-/**
- * Generate sitemap(s) strictly for stable canonical pages only.
- * Excludes: experimental, dynamic, verification, and API shards.
- */
+
 const fs = require('fs');
 const path = require('path');
+const axios = require('axios');
 
-const ROOT = process.cwd();
-const CANONICAL = process.env.CANONICAL_DOMAIN || 'https://example.com';
+// Configuration
+const DOMAIN = 'https://elevateforhumanity.org';
+const OUTPUT_DIR = path.join(__dirname, '../public');
+const SITEMAPS_DIR = path.join(OUTPUT_DIR, 'sitemaps');
 
-// Explicitly excluded slugs (requested removal from sitemap only, content may still exist internally)
-const EXCLUDED_ROUTES = new Set([
-  '/programs/cpr' // removed per request
-]);
+// Ensure directories exist
+if (!fs.existsSync(OUTPUT_DIR)) fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+if (!fs.existsSync(SITEMAPS_DIR)) fs.mkdirSync(SITEMAPS_DIR, { recursive: true });
 
-// Explicit allow‑list of stable canonical routes (root html pages mapped manually)
-const STABLE_ROUTES = new Set([
-  '/',
-  '/programs',
-  '/programs/medical-assistant',
-  '/hub',
-  '/lms',
-  '/connect',
-  '/compliance',
-  '/pay',
-  '/partners',
-  '/account'
-]);
+// Current timestamp
+const now = new Date().toISOString();
 
-// Logical groupings for smaller shard sitemaps (can expand as ecosystem grows)
-const GROUPS = {
-  high: ['/', '/programs', '/hub', '/lms', '/connect', '/pay'],
-  compliance: ['/compliance'],
-  partners: ['/partners'],
-  account: ['/account'],
-  learning: ['/lms'],
-  marketing: ['/programs', '/programs/medical-assistant', '/hub', '/connect']
+// URL configurations with priorities and change frequencies
+const urlConfigs = {
+  core: {
+    urls: [
+      { url: '/', priority: '1.0', changefreq: 'weekly' },
+      { url: '/about/', priority: '0.8', changefreq: 'monthly' },
+      { url: '/contact/', priority: '0.8', changefreq: 'monthly' },
+      { url: '/accessibility/', priority: '0.5', changefreq: 'yearly' },
+      { url: '/grants/', priority: '0.7', changefreq: 'monthly' },
+      { url: '/veterans/', priority: '0.7', changefreq: 'monthly' },
+      { url: '/partners/', priority: '0.7', changefreq: 'monthly' }
+    ]
+  },
+  programs: {
+    urls: [
+      { url: '/programs/', priority: '0.9', changefreq: 'weekly' },
+      { url: '/programs/cybersecurity/', priority: '0.9', changefreq: 'weekly' },
+      { url: '/programs/cybersecurity/curriculum/', priority: '0.7', changefreq: 'monthly' },
+      { url: '/programs/cybersecurity/schedule/', priority: '0.7', changefreq: 'monthly' },
+      { url: '/programs/cloud-computing/', priority: '0.9', changefreq: 'weekly' },
+      { url: '/programs/cloud-computing/curriculum/', priority: '0.7', changefreq: 'monthly' },
+      { url: '/programs/cloud-computing/schedule/', priority: '0.7', changefreq: 'monthly' },
+      { url: '/programs/healthcare-cna/', priority: '0.9', changefreq: 'weekly' },
+      { url: '/programs/beauty-wellness/', priority: '0.9', changefreq: 'weekly' },
+      { url: '/programs/construction/', priority: '0.9', changefreq: 'weekly' },
+      { url: '/programs/electrical-trades/', priority: '0.9', changefreq: 'weekly' },
+      { url: '/programs/data-analytics/', priority: '0.9', changefreq: 'weekly' },
+      { url: '/programs/healthcare-administration/', priority: '0.9', changefreq: 'weekly' },
+      { url: '/programs/medical-assistant/', priority: '0.9', changefreq: 'weekly' },
+      { url: '/programs/skilled-trades/', priority: '0.9', changefreq: 'weekly' }
+    ]
+  },
+  content: {
+    urls: [
+      { url: '/blog/', priority: '0.8', changefreq: 'weekly' },
+      { url: '/blog/cybersecurity-career-guide/', priority: '0.6', changefreq: 'monthly' },
+      { url: '/blog/cloud-computing-trends/', priority: '0.6', changefreq: 'monthly' },
+      { url: '/blog/healthcare-job-outlook/', priority: '0.6', changefreq: 'monthly' },
+      { url: '/blog/skilled-trades-opportunities/', priority: '0.6', changefreq: 'monthly' },
+      { url: '/blog/wioa-funding-guide/', priority: '0.6', changefreq: 'monthly' },
+      { url: '/policies/privacy/', priority: '0.5', changefreq: 'yearly' },
+      { url: '/policies/terms/', priority: '0.5', changefreq: 'yearly' },
+      { url: '/policies/refund/', priority: '0.5', changefreq: 'yearly' },
+      { url: '/policies/compliance/', priority: '0.5', changefreq: 'yearly' },
+      { url: '/policies/wioa-compliance/', priority: '0.5', changefreq: 'yearly' },
+      { url: '/services/apprenticeship-coordination/', priority: '0.7', changefreq: 'monthly' },
+      { url: '/services/certification-programs/', priority: '0.7', changefreq: 'monthly' },
+      { url: '/services/employer-partnerships/', priority: '0.7', changefreq: 'monthly' },
+      { url: '/resources/career-services/', priority: '0.6', changefreq: 'monthly' },
+      { url: '/resources/financial-aid/', priority: '0.6', changefreq: 'monthly' }
+    ]
+  },
+  platform: {
+    urls: [
+      { url: '/lms/', priority: '0.8', changefreq: 'weekly' },
+      { url: '/lms/dashboard/', priority: '0.7', changefreq: 'weekly' },
+      { url: '/lms/courses/', priority: '0.7', changefreq: 'weekly' },
+      { url: '/lms/progress/', priority: '0.6', changefreq: 'weekly' },
+      { url: '/account/', priority: '0.5', changefreq: 'monthly' },
+      { url: '/employers/', priority: '0.7', changefreq: 'monthly' },
+      { url: '/students/', priority: '0.7', changefreq: 'monthly' }
+    ]
+  }
 };
 
-// Employer related (if stable page exists)
-if (fs.existsSync(path.join(ROOT, 'employer-dashboard.html'))) {
-  STABLE_ROUTES.add('/employer-dashboard');
-  GROUPS.employer = ['/employer-dashboard'];
+// Generate XML sitemap
+function generateSitemap(name, urls) {
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls.map(({ url, priority, changefreq }) => `  <url>
+    <loc>${DOMAIN}${url}</loc>
+    <lastmod>${now}</lastmod>
+    <changefreq>${changefreq}</changefreq>
+    <priority>${priority}</priority>
+  </url>`).join('\n')}
+</urlset>`;
+
+  const filename = path.join(SITEMAPS_DIR, `${name}-sitemap.xml`);
+  fs.writeFileSync(filename, xml);
+  console.log(`✅ Generated ${name}-sitemap.xml (${urls.length} URLs)`);
+  return `${DOMAIN}/sitemaps/${name}-sitemap.xml`;
 }
 
-// Enrollment / intake (placeholder if later added as static pages)
-['/enrollment', '/intake'].forEach(r => {
-  const file = r.replace(/\//,'') + '.html';
-  if (fs.existsSync(path.join(ROOT, file))) {
-    STABLE_ROUTES.add(r);
-    GROUPS.intake = (GROUPS.intake||[]).concat([r]);
+// Generate sitemap index
+function generateSitemapIndex(sitemapUrls) {
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${sitemapUrls.map(url => `  <sitemap>
+    <loc>${url}</loc>
+    <lastmod>${now}</lastmod>
+  </sitemap>`).join('\n')}
+</sitemapindex>`;
+
+  // Write both sitemap.xml and sitemap-index.xml
+  fs.writeFileSync(path.join(OUTPUT_DIR, 'sitemap.xml'), xml);
+  fs.writeFileSync(path.join(OUTPUT_DIR, 'sitemap-index.xml'), xml);
+  console.log(`✅ Generated sitemap index (${sitemapUrls.length} sitemaps)`);
+}
+
+// Validate URL accessibility (optional)
+async function validateUrl(url) {
+  try {
+    const response = await axios.head(`${DOMAIN}${url}`, { 
+      timeout: 5000,
+      validateStatus: (status) => status < 500 // Accept redirects
+    });
+    return response.status < 400;
+  } catch (error) {
+    console.warn(`⚠️  URL may be inaccessible: ${url} (${error.message})`);
+    return true; // Include anyway - might be dynamic content
   }
-});
-
-// Collect root html files (exclude templates & verification pages if needed)
-function getRootHtmlFiles() {
-  return fs.readdirSync(ROOT)
-    .filter(f => f.endsWith('.html'))
-    .filter(f => !['bing-site-verification.html','google-site-verification.html','google-search-console-setup.html','google-search-console-submit.html'].includes(f));
 }
 
-function xmlEscape(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+// Main generation function
+async function generateAllSitemaps() {
+  console.log('🚀 Starting sitemap generation...');
+  
+  const sitemapUrls = [];
+  let totalUrls = 0;
 
-function makeUrlEntry(loc, changefreq='monthly', priority='0.5', lastmod){
-  return `  <url><loc>${xmlEscape(loc)}</loc>${lastmod?`<lastmod>${lastmod}</lastmod>`:''}<changefreq>${changefreq}</changefreq><priority>${priority}</priority></url>`;
+  // Generate individual sitemaps
+  for (const [name, config] of Object.entries(urlConfigs)) {
+    const sitemapUrl = generateSitemap(name, config.urls);
+    sitemapUrls.push(sitemapUrl);
+    totalUrls += config.urls.length;
+  }
+
+  // Generate sitemap index
+  generateSitemapIndex(sitemapUrls);
+
+  console.log(`\n📊 Generation Summary:`);
+  console.log(`   • Total URLs: ${totalUrls}`);
+  console.log(`   • Sitemaps: ${sitemapUrls.length}`);
+  console.log(`   • Domain: ${DOMAIN}`);
+  console.log(`   • Timestamp: ${now}`);
+  console.log(`\n🔗 Main sitemap: ${DOMAIN}/sitemap.xml`);
+  console.log(`📁 Files saved to: ${OUTPUT_DIR}`);
 }
 
-function writeFile(rel, content){
-  const p = path.join(ROOT, rel);
-  fs.mkdirSync(path.dirname(p), { recursive: true });
-  fs.writeFileSync(p, content.trim()+"\n", 'utf8');
-}
-
-function cleanLegacySitemaps(allowedBasenames){
-  const dir = path.join(ROOT, 'sitemaps');
-  if (!fs.existsSync(dir)) return;
-  const entries = fs.readdirSync(dir).filter(f => f.endsWith('.xml'));
-  entries.forEach(f => {
-    if (!allowedBasenames.has(f)) {
-      try {
-        fs.unlinkSync(path.join(dir, f));
-        console.log(`[sitemaps] Removed legacy sitemap: ${f}`);
-      } catch (e) {
-        console.warn(`[sitemaps] Could not remove ${f}:`, e.message);
-      }
-    }
+// Run if called directly
+if (require.main === module) {
+  generateAllSitemaps().catch(error => {
+    console.error('❌ Generation failed:', error);
+    process.exit(1);
   });
 }
 
-function generateStableSitemap(){
-  const today = new Date().toISOString().slice(0,10);
-  const filtered = Array.from(STABLE_ROUTES).filter(r => !EXCLUDED_ROUTES.has(r));
-  const urls = filtered.map((r,i)=> makeUrlEntry(`${CANONICAL}${r}`,'weekly', i===0 ? '1.0':'0.7', today));
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>`;
-  writeFile('sitemaps/stable.xml', xml);
-}
-
-function generateGroupSitemaps(){
-  const today = new Date().toISOString().slice(0,10);
-  Object.entries(GROUPS).forEach(([name, routes]) => {
-  const unique = [...new Set(routes.filter(r => STABLE_ROUTES.has(r) && !EXCLUDED_ROUTES.has(r)))];
-    if (!unique.length) return;
-    const urls = unique.map((r,i) => makeUrlEntry(`${CANONICAL}${r}`,'weekly', i===0?'0.9':'0.6', today));
-    const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>`;
-    writeFile(`sitemaps/${name}.xml`, xml);
-  });
-}
-
-function generateIndex(){
-  const today = new Date().toISOString().slice(0,10);
-  const shardFiles = ['stable.xml'].concat(Object.keys(GROUPS).map(g => `${g}.xml`));
-  const entries = shardFiles.map(s => `  <sitemap><loc>${CANONICAL}/sitemaps/${s}</loc><lastmod>${today}</lastmod></sitemap>`);
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries.join('\n')}\n</sitemapindex>`;
-  writeFile('sitemap-index.xml', xml);
-  // After writing index, remove any legacy sitemap files not referenced.
-  cleanLegacySitemaps(new Set(shardFiles));
-}
-
-function run(){
-  generateStableSitemap();
-  generateGroupSitemaps();
-  generateIndex();
-  if (EXCLUDED_ROUTES.size) {
-    console.log('[sitemaps] Excluded routes:', Array.from(EXCLUDED_ROUTES).join(', '));
-  }
-  console.log('Sitemaps generated: stable + group shards and sitemap-index.xml updated.');
-}
-run();
+module.exports = { generateAllSitemaps, urlConfigs };

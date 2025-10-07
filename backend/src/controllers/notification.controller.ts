@@ -4,7 +4,8 @@ import { AppError, asyncHandler } from '../middleware/errorHandler';
 import { AuthRequest } from '../middleware/auth';
 
 export const getNotifications = asyncHandler(async (req: AuthRequest, res: Response) => {
-  const userId = req.user!.id;
+  const authReq = req as AuthRequest;
+  const userId = authReq.user!.id;
 
   const notifications = await prisma.notification.findMany({
     where: { userId },
@@ -16,8 +17,9 @@ export const getNotifications = asyncHandler(async (req: AuthRequest, res: Respo
 });
 
 export const markAsRead = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const authReq = req as AuthRequest;
   const { id } = req.params;
-  const userId = req.user!.id;
+  const userId = authReq.user!.id;
 
   const notification = await prisma.notification.findUnique({ where: { id } });
 
@@ -38,7 +40,8 @@ export const markAsRead = asyncHandler(async (req: AuthRequest, res: Response) =
 });
 
 export const markAllAsRead = asyncHandler(async (req: AuthRequest, res: Response) => {
-  const userId = req.user!.id;
+  const authReq = req as AuthRequest;
+  const userId = authReq.user!.id;
 
   await prisma.notification.updateMany({
     where: { userId, read: false },
@@ -49,8 +52,9 @@ export const markAllAsRead = asyncHandler(async (req: AuthRequest, res: Response
 });
 
 export const deleteNotification = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const authReq = req as AuthRequest;
   const { id } = req.params;
-  const userId = req.user!.id;
+  const userId = authReq.user!.id;
 
   const notification = await prisma.notification.findUnique({ where: { id } });
 

@@ -1,16 +1,18 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, RequestHandler } from 'express';
 import jwt from 'jsonwebtoken';
 import { AppError } from './errorHandler';
 
-export interface AuthRequest extends Request {
-  user?: {
-    id: string;
-    email: string;
-    role: string;
-  };
+export interface AuthUser {
+  id: string;
+  email: string;
+  role: string;
 }
 
-export const authenticate = (req: AuthRequest, _res: Response, next: NextFunction) => {
+export interface AuthRequest extends Request {
+  user?: AuthUser;
+}
+
+export const authenticate: RequestHandler = (req: Request, _res: Response, next: NextFunction) => {
   try {
     const token = req.headers.authorization?.replace('Bearer ', '');
 
@@ -19,20 +21,21 @@ export const authenticate = (req: AuthRequest, _res: Response, next: NextFunctio
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any;
-    req.user = decoded;
+    (req as AuthRequest).user = decoded;
     next();
   } catch (error) {
     next(new AppError('Invalid or expired token', 401));
   }
 };
 
-export const authorize = (...roles: string[]) => {
-  return (req: AuthRequest, _res: Response, next: NextFunction) => {
-    if (!req.user) {
+export const authorize = (...roles: string[]): RequestHandler => {
+  return (req: Request, _res: Response, next: NextFunction) => {
+    const authReq = req as AuthRequest;
+    if (!authReq.user) {
       return next(new AppError('Unauthorized', 401));
     }
 
-    if (!roles.includes(req.user.role)) {
+    if (!roles.includes(authReq.user.role)) {
       return next(new AppError('Insufficient permissions', 403));
     }
 

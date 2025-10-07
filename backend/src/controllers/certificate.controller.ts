@@ -4,7 +4,8 @@ import { AppError, asyncHandler } from '../middleware/errorHandler';
 import { AuthRequest } from '../middleware/auth';
 
 export const getCertificates = asyncHandler(async (req: AuthRequest, res: Response) => {
-  const userId = req.user!.id;
+  const authReq = req as AuthRequest;
+  const userId = authReq.user!.id;
 
   const certificates = await prisma.certificate.findMany({
     where: { userId },
@@ -26,8 +27,9 @@ export const getCertificates = asyncHandler(async (req: AuthRequest, res: Respon
 });
 
 export const getCertificateById = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const authReq = req as AuthRequest;
   const { id } = req.params;
-  const userId = req.user!.id;
+  const userId = authReq.user!.id;
 
   const certificate = await prisma.certificate.findUnique({
     where: { id },
@@ -50,7 +52,7 @@ export const getCertificateById = asyncHandler(async (req: AuthRequest, res: Res
     throw new AppError('Certificate not found', 404);
   }
 
-  if (certificate.userId !== userId && req.user!.role !== 'admin') {
+  if (certificate.userId !== userId && authReq.user!.role !== 'admin') {
     throw new AppError('Not authorized to view this certificate', 403);
   }
 

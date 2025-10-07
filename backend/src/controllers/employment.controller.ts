@@ -1,10 +1,11 @@
-import { Response } from 'express';
+import { Request, Response, RequestHandler } from 'express';
 import { Pool } from 'pg';
 import { AuthRequest } from '../middleware/auth';
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
-export async function createEmploymentOutcome(req: AuthRequest, res: Response) {
+export const createEmploymentOutcome: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { userId, courseId, employmentStatus, employerName, employerContact, employerPhone, 
             employerEmail, jobTitle, startDate, hourlyWage, annualSalary, hoursPerWeek,
@@ -34,7 +35,8 @@ export async function createEmploymentOutcome(req: AuthRequest, res: Response) {
   }
 }
 
-export async function getEmploymentOutcomes(req: AuthRequest, res: Response) {
+export const getEmploymentOutcomes: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { userId, courseId } = req.query;
     
@@ -60,7 +62,8 @@ export async function getEmploymentOutcomes(req: AuthRequest, res: Response) {
   }
 }
 
-export async function updateEmploymentOutcome(req: AuthRequest, res: Response) {
+export const updateEmploymentOutcome: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     const updates = req.body;
@@ -89,7 +92,8 @@ export async function updateEmploymentOutcome(req: AuthRequest, res: Response) {
   }
 }
 
-export async function verifyEmployment(req: AuthRequest, res: Response) {
+export const verifyEmployment: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     const { verificationMethod, verificationDocumentUrl } = req.body;
@@ -98,7 +102,7 @@ export async function verifyEmployment(req: AuthRequest, res: Response) {
       `UPDATE employment_outcomes 
        SET verification_method = $1, verification_document_url = $2, verified_at = NOW(), verified_by = $3
        WHERE id = $4 RETURNING *`,
-      [verificationMethod, verificationDocumentUrl, req.user!.id, id]
+      [verificationMethod, verificationDocumentUrl, authReq.user!.id, id]
     );
     
     if (result.rows.length === 0) {
@@ -111,7 +115,8 @@ export async function verifyEmployment(req: AuthRequest, res: Response) {
   }
 }
 
-export async function updateRetention(req: AuthRequest, res: Response) {
+export const updateRetention: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     const { quarter, retained, wage } = req.body;

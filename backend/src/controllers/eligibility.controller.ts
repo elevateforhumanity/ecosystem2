@@ -1,4 +1,4 @@
-import { Response } from 'express';
+import { Request, Response, RequestHandler } from 'express';
 import { Pool } from 'pg';
 import { AuthRequest } from '../middleware/auth';
 import { ParticipantEligibility, EligibilityCreateInput, EligibilityUpdateInput, EligibilityApprovalInput } from '../models/eligibility.model';
@@ -10,12 +10,13 @@ const pool = new Pool({
 /**
  * Get eligibility record for a user
  */
-export async function getEligibility(req: AuthRequest, res: Response) {
+export const getEligibility: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
-    const userId = req.params.userId || req.user!.id;
+    const userId = req.params.userId || authReq.user!.id;
     
     // Check authorization
-    if (userId !== req.user!.id && req.user!.role !== 'admin' && req.user!.role !== 'case_manager') {
+    if (userId !== authReq.user!.id && authReq.user!.role !== 'admin' && authReq.user!.role !== 'case_manager') {
       return res.status(403).json({
         success: false,
         error: { code: 'FORBIDDEN', message: 'Not authorized to view this eligibility record' }
@@ -46,10 +47,11 @@ export async function getEligibility(req: AuthRequest, res: Response) {
 /**
  * Create eligibility record
  */
-export async function createEligibility(req: AuthRequest, res: Response) {
+export const createEligibility: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const input: EligibilityCreateInput = req.body;
-    const userId = input.userId || req.user!.id;
+    const userId = input.userId || authReq.user!.id;
     
     // Check if eligibility record already exists
     const existing = await pool.query(
@@ -98,7 +100,8 @@ export async function createEligibility(req: AuthRequest, res: Response) {
 /**
  * Update eligibility record
  */
-export async function updateEligibility(req: AuthRequest, res: Response) {
+export const updateEligibility: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     const input: EligibilityUpdateInput = req.body;
@@ -119,7 +122,7 @@ export async function updateEligibility(req: AuthRequest, res: Response) {
     const record = existing.rows[0];
     
     // Only allow updates if pending or by admin/case manager
-    if (record.eligibility_status !== 'pending' && req.user!.role !== 'admin' && req.user!.role !== 'case_manager') {
+    if (record.eligibility_status !== 'pending' && authReq.user!.role !== 'admin' && authReq.user!.role !== 'case_manager') {
       return res.status(403).json({
         success: false,
         error: { code: 'FORBIDDEN', message: 'Cannot update approved/denied eligibility record' }
@@ -229,13 +232,14 @@ export async function updateEligibility(req: AuthRequest, res: Response) {
 /**
  * Approve or deny eligibility (admin/case manager only)
  */
-export async function approveEligibility(req: AuthRequest, res: Response) {
+export const approveEligibility: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     const input: EligibilityApprovalInput = req.body;
     
     // Only admin and case managers can approve/deny
-    if (req.user!.role !== 'admin' && req.user!.role !== 'case_manager') {
+    if (authReq.user!.role !== 'admin' && authReq.user!.role !== 'case_manager') {
       return res.status(403).json({
         success: false,
         error: { code: 'FORBIDDEN', message: 'Only admins and case managers can approve eligibility' }
@@ -251,7 +255,7 @@ export async function approveEligibility(req: AuthRequest, res: Response) {
            denial_reason = $4
        WHERE id = $5
        RETURNING *`,
-      [input.eligibilityStatus, req.user!.id, input.expiresAt, input.denialReason, id]
+      [input.eligibilityStatus, authReq.user!.id, input.expiresAt, input.denialReason, id]
     );
     
     if (result.rows.length === 0) {
@@ -273,9 +277,10 @@ export async function approveEligibility(req: AuthRequest, res: Response) {
 /**
  * Get all pending eligibility records (admin/case manager only)
  */
-export async function getPendingEligibility(req: AuthRequest, res: Response) {
+export const getPendingEligibility: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
-    if (req.user!.role !== 'admin' && req.user!.role !== 'case_manager') {
+    if (authReq.user!.role !== 'admin' && authReq.user!.role !== 'case_manager') {
       return res.status(403).json({
         success: false,
         error: { code: 'FORBIDDEN', message: 'Only admins and case managers can view pending eligibility' }

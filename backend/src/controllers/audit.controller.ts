@@ -1,10 +1,11 @@
-import { Response } from 'express';
+import { Request, Response, RequestHandler } from 'express';
 import { Pool } from 'pg';
 import { AuthRequest } from '../middleware/auth';
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
-export async function getAuditLogs(req: AuthRequest, res: Response) {
+export const getAuditLogs: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { userId, action, resource, startDate, endDate, success, limit = 100, offset = 0 } = req.query;
     
@@ -97,7 +98,8 @@ export async function getAuditLogs(req: AuthRequest, res: Response) {
   }
 }
 
-export async function getAuditLogById(req: AuthRequest, res: Response) {
+export const getAuditLogById: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { id } = req.params;
     
@@ -113,7 +115,8 @@ export async function getAuditLogById(req: AuthRequest, res: Response) {
   }
 }
 
-export async function getAuditSummary(req: AuthRequest, res: Response) {
+export const getAuditSummary: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { startDate, endDate } = req.query;
     
@@ -199,7 +202,8 @@ export async function getAuditSummary(req: AuthRequest, res: Response) {
   }
 }
 
-export async function getUserActivity(req: AuthRequest, res: Response) {
+export const getUserActivity: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { userId } = req.params;
     const { startDate, endDate, limit = 50 } = req.query;
@@ -247,7 +251,8 @@ export async function getUserActivity(req: AuthRequest, res: Response) {
   }
 }
 
-export async function getResourceActivity(req: AuthRequest, res: Response) {
+export const getResourceActivity: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { resource, resourceId } = req.params;
     const { startDate, endDate, limit = 50 } = req.query;
@@ -282,7 +287,8 @@ export async function getResourceActivity(req: AuthRequest, res: Response) {
   }
 }
 
-export async function exportAuditLogs(req: AuthRequest, res: Response) {
+export const exportAuditLogs: RequestHandler = async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   try {
     const { startDate, endDate, format = 'csv' } = req.query;
     
@@ -303,7 +309,7 @@ export async function exportAuditLogs(req: AuthRequest, res: Response) {
     if (format === 'csv') {
       const headers = ['ID', 'User ID', 'Action', 'Resource', 'Resource ID', 'Method', 'Path', 
                       'IP Address', 'Timestamp', 'Success', 'Error Message'];
-      const rows = result.rows.map(log => [
+      const rows = result.rows.map((log: any) => [
         log.id,
         log.user_id || '',
         log.action,
@@ -317,7 +323,7 @@ export async function exportAuditLogs(req: AuthRequest, res: Response) {
         log.error_message || ''
       ]);
       
-      const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+      const csv = [headers.join(','), ...rows.map((r: any) => r.join(','))].join('\n');
       
       res.setHeader('Content-Type', 'text/csv');
       res.setHeader('Content-Disposition', `attachment; filename=audit-logs-${startDate}-${endDate}.csv`);

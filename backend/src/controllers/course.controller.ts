@@ -4,6 +4,7 @@ import { AppError, asyncHandler } from '../middleware/errorHandler';
 import { AuthRequest } from '../middleware/auth';
 
 export const getCourses = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const authReq = req as AuthRequest;
   const { page = 1, limit = 20, category, search, level } = req.query;
   const skip = (Number(page) - 1) * Number(limit);
 
@@ -62,6 +63,7 @@ export const getCourses = asyncHandler(async (req: AuthRequest, res: Response) =
 });
 
 export const getCourseById = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const authReq = req as AuthRequest;
   const { id } = req.params;
 
   const course = await prisma.course.findUnique({
@@ -95,11 +97,11 @@ export const getCourseById = asyncHandler(async (req: AuthRequest, res: Response
     _avg: { rating: true },
   });
 
-  const isEnrolled = req.user
+  const isEnrolled = authReq.user
     ? await prisma.enrollment.findUnique({
         where: {
           userId_courseId: {
-            userId: req.user.id,
+            userId: authReq.user.id,
             courseId: course.id,
           },
         },
@@ -115,8 +117,9 @@ export const getCourseById = asyncHandler(async (req: AuthRequest, res: Response
 });
 
 export const createCourse = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const authReq = req as AuthRequest;
   const { title, description, category, level, price, thumbnailUrl } = req.body;
-  const instructorId = req.user!.id;
+  const instructorId = authReq.user!.id;
 
   if (!title || !description || !category || !level || price === undefined) {
     throw new AppError('Missing required fields', 400);
@@ -149,16 +152,17 @@ export const createCourse = asyncHandler(async (req: AuthRequest, res: Response)
 });
 
 export const updateCourse = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const authReq = req as AuthRequest;
   const { id } = req.params;
   const { title, description, category, level, price, thumbnailUrl, published } = req.body;
-  const userId = req.user!.id;
+  const userId = authReq.user!.id;
 
   const course = await prisma.course.findUnique({ where: { id } });
   if (!course) {
     throw new AppError('Course not found', 404);
   }
 
-  if (course.instructorId !== userId && req.user!.role !== 'admin') {
+  if (course.instructorId !== userId && authReq.user!.role !== 'admin') {
     throw new AppError('Not authorized to update this course', 403);
   }
 
@@ -179,15 +183,16 @@ export const updateCourse = asyncHandler(async (req: AuthRequest, res: Response)
 });
 
 export const deleteCourse = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const authReq = req as AuthRequest;
   const { id } = req.params;
-  const userId = req.user!.id;
+  const userId = authReq.user!.id;
 
   const course = await prisma.course.findUnique({ where: { id } });
   if (!course) {
     throw new AppError('Course not found', 404);
   }
 
-  if (course.instructorId !== userId && req.user!.role !== 'admin') {
+  if (course.instructorId !== userId && authReq.user!.role !== 'admin') {
     throw new AppError('Not authorized to delete this course', 403);
   }
 
@@ -197,8 +202,9 @@ export const deleteCourse = asyncHandler(async (req: AuthRequest, res: Response)
 });
 
 export const enrollInCourse = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const authReq = req as AuthRequest;
   const { id } = req.params;
-  const userId = req.user!.id;
+  const userId = authReq.user!.id;
 
   const course = await prisma.course.findUnique({ where: { id } });
   if (!course) {
@@ -233,16 +239,17 @@ export const enrollInCourse = asyncHandler(async (req: AuthRequest, res: Respons
 });
 
 export const addLesson = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const authReq = req as AuthRequest;
   const { id } = req.params;
   const { title, description, content, videoUrl, duration, order } = req.body;
-  const userId = req.user!.id;
+  const userId = authReq.user!.id;
 
   const course = await prisma.course.findUnique({ where: { id } });
   if (!course) {
     throw new AppError('Course not found', 404);
   }
 
-  if (course.instructorId !== userId && req.user!.role !== 'admin') {
+  if (course.instructorId !== userId && authReq.user!.role !== 'admin') {
     throw new AppError('Not authorized', 403);
   }
 

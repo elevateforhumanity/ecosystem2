@@ -119,6 +119,7 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const logout = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const authReq = req as AuthRequest;
   const refreshToken = req.body.refreshToken;
 
   if (refreshToken) {
@@ -158,8 +159,9 @@ export const refresh = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const me = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const authReq = req as AuthRequest;
   const user = await prisma.user.findUnique({
-    where: { id: req.user!.id },
+    where: { id: authReq.user!.id },
     select: {
       id: true,
       email: true,
