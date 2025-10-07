@@ -27,17 +27,25 @@ enum PaymentStatus {
 }
 
 model User {
-  id            String   @id @default(uuid())
-  email         String   @unique
-  passwordHash  String   @map("password_hash")
+  id            String    @id @default(uuid())
+  email         String    @unique
+  passwordHash  String    @map("password_hash")
   name          String
   bio           String?
-  avatarUrl     String?  @map("avatar_url")
-  role          UserRole @default(user)
-  emailVerified Boolean  @default(false) @map("email_verified")
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
+  avatarUrl     String?   @map("avatar_url")
+  role          UserRole  @default(user)
+  emailVerified Boolean   @default(false) @map("email_verified")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
   lastLogin     DateTime? @map("last_login")
+
+  // MFA fields
+  mfaEnabled     Boolean  @default(false) @map("mfa_enabled")
+  mfaSecret      String?  @map("mfa_secret")
+  mfaBackupCodes String[] @map("mfa_backup_codes")
+  mfaMethod      String?  @map("mfa_method")
+  phoneNumber    String?  @map("phone_number")
+  phoneVerified  Boolean  @default(false) @map("phone_verified")
 
   courses       Course[]
   enrollments   Enrollment[]
@@ -48,18 +56,21 @@ model User {
   reviews       Review[]
   submissions   Submission[]
   sessions      Session[]
-  
+
   // SSO/OAuth
-  identities    UserIdentity[]
-  
+  identities UserIdentity[]
+
   // Forums
-  forumThreads  ForumThread[] @relation("ForumThreadAuthor")
-  forumPosts    ForumPost[]   @relation("ForumPostAuthor")
-  
+  forumThreads ForumThread[] @relation("ForumThreadAuthor")
+  forumPosts   ForumPost[]   @relation("ForumPostAuthor")
+
   // Gamification
-  badges        UserBadge[]   @relation("UserBadges")
-  points        PointsLedger[] @relation("UserPoints")
-  leaderboard   Leaderboard?  @relation("UserLeaderboard")
+  badges      UserBadge[]    @relation("UserBadges")
+  points      PointsLedger[] @relation("UserPoints")
+  leaderboard Leaderboard?   @relation("UserLeaderboard")
+
+  // MFA
+  mfaAttempts MFAAttempt[]
 
   @@index([email])
   @@index([role])
@@ -151,12 +162,12 @@ model Progress {
 }
 
 model Certificate {
-  id            String   @id @default(uuid())
-  certificateId String   @unique @map("certificate_id")
-  userId        String   @map("user_id")
-  courseId      String   @map("course_id")
-  issuedAt      DateTime @default(now()) @map("issued_at")
-  certificateUrl String? @map("certificate_url")
+  id             String   @id @default(uuid())
+  certificateId  String   @unique @map("certificate_id")
+  userId         String   @map("user_id")
+  courseId       String   @map("course_id")
+  issuedAt       DateTime @default(now()) @map("issued_at")
+  certificateUrl String?  @map("certificate_url")
 
   user   User   @relation(fields: [userId], references: [id])
   course Course @relation(fields: [courseId], references: [id])
@@ -223,13 +234,13 @@ model Review {
 }
 
 model Assignment {
-  id          String   @id @default(uuid())
-  courseId    String   @map("course_id")
+  id          String    @id @default(uuid())
+  courseId    String    @map("course_id")
   title       String
   description String
   dueDate     DateTime? @map("due_date")
-  maxScore    Int      @default(100) @map("max_score")
-  createdAt   DateTime @default(now()) @map("created_at")
+  maxScore    Int       @default(100) @map("max_score")
+  createdAt   DateTime  @default(now()) @map("created_at")
 
   course      Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
   submissions Submission[]
@@ -281,12 +292,12 @@ model Session {
 model UserIdentity {
   id         String   @id @default(uuid())
   userId     String   @map("user_id")
-  provider   String   // 'google' | 'azure' | 'saml'
+  provider   String // 'google' | 'azure' | 'saml'
   providerId String   @map("provider_id")
   createdAt  DateTime @default(now()) @map("created_at")
-  
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
   @@unique([provider, providerId])
   @@index([userId])
   @@map("user_identities")
@@ -297,34 +308,34 @@ model UserIdentity {
 // ============================================================================
 
 model ForumCategory {
-  id          String        @id @default(uuid())
+  id          String   @id @default(uuid())
   name        String
-  slug        String        @unique
+  slug        String   @unique
   description String?
-  order       Int           @default(0)
-  createdAt   DateTime      @default(now()) @map("created_at")
-  
+  order       Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
+
   threads ForumThread[]
-  
+
   @@map("forum_categories")
 }
 
 model ForumThread {
-  id          String         @id @default(uuid())
-  categoryId  String         @map("category_id")
-  title       String
-  slug        String         @unique
-  authorId    String         @map("author_id")
-  isPinned    Boolean        @default(false) @map("is_pinned")
-  isLocked    Boolean        @default(false) @map("is_locked")
-  viewCount   Int            @default(0) @map("view_count")
-  createdAt   DateTime       @default(now()) @map("created_at")
-  updatedAt   DateTime       @updatedAt @map("updated_at")
-  
+  id         String   @id @default(uuid())
+  categoryId String   @map("category_id")
+  title      String
+  slug       String   @unique
+  authorId   String   @map("author_id")
+  isPinned   Boolean  @default(false) @map("is_pinned")
+  isLocked   Boolean  @default(false) @map("is_locked")
+  viewCount  Int      @default(0) @map("view_count")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
   category ForumCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   author   User          @relation("ForumThreadAuthor", fields: [authorId], references: [id], onDelete: Cascade)
   posts    ForumPost[]
-  
+
   @@index([categoryId])
   @@index([authorId])
   @@index([createdAt])
@@ -339,10 +350,10 @@ model ForumPost {
   isEdited  Boolean  @default(false) @map("is_edited")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
-  
+
   thread ForumThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
   author User        @relation("ForumPostAuthor", fields: [authorId], references: [id], onDelete: Cascade)
-  
+
   @@index([threadId])
   @@index([authorId])
   @@index([createdAt])
@@ -354,17 +365,17 @@ model ForumPost {
 // ============================================================================
 
 model Badge {
-  id          String      @id @default(uuid())
-  code        String      @unique
+  id          String   @id @default(uuid())
+  code        String   @unique
   name        String
   description String?
-  iconUrl     String?     @map("icon_url")
-  category    String?     // 'achievement' | 'milestone' | 'special'
-  points      Int         @default(0)
-  createdAt   DateTime    @default(now()) @map("created_at")
-  
+  iconUrl     String?  @map("icon_url")
+  category    String? // 'achievement' | 'milestone' | 'special'
+  points      Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
+
   userBadges UserBadge[]
-  
+
   @@index([category])
   @@map("badges")
 }
@@ -375,10 +386,10 @@ model UserBadge {
   badgeId   String   @map("badge_id")
   awardedAt DateTime @default(now()) @map("awarded_at")
   awardedBy String?  @map("awarded_by") // admin/instructor who awarded it
-  
+
   user  User  @relation("UserBadges", fields: [userId], references: [id], onDelete: Cascade)
   badge Badge @relation(fields: [badgeId], references: [id], onDelete: Cascade)
-  
+
   @@unique([userId, badgeId])
   @@index([userId])
   @@index([badgeId])
@@ -388,30 +399,78 @@ model UserBadge {
 model PointsLedger {
   id        String   @id @default(uuid())
   userId    String   @map("user_id")
-  delta     Int      // positive or negative
+  delta     Int // positive or negative
   reason    String?
-  source    String?  // 'course_completion' | 'quiz_score' | 'forum_post' | 'manual'
+  source    String? // 'course_completion' | 'quiz_score' | 'forum_post' | 'manual'
   sourceId  String?  @map("source_id") // ID of related entity
   createdAt DateTime @default(now()) @map("created_at")
-  
+
   user User @relation("UserPoints", fields: [userId], references: [id], onDelete: Cascade)
-  
+
   @@index([userId])
   @@index([createdAt])
   @@map("points_ledger")
 }
 
 model Leaderboard {
-  id        String   @id @default(uuid())
-  userId    String   @map("user_id")
-  totalPoints Int    @default(0) @map("total_points")
-  rank      Int?
-  updatedAt DateTime @updatedAt @map("updated_at")
-  
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  totalPoints Int      @default(0) @map("total_points")
+  rank        Int?
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
   user User @relation("UserLeaderboard", fields: [userId], references: [id], onDelete: Cascade)
-  
+
   @@unique([userId])
   @@index([totalPoints])
   @@index([rank])
   @@map("leaderboard")
+}
+
+// ============================================================================
+// MFA Models
+// ============================================================================
+
+model MFAAttempt {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  method    String // 'totp' | 'sms' | 'email' | 'backup'
+  success   Boolean
+  ipAddress String   @map("ip_address")
+  userAgent String   @map("user_agent")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
+  @@map("mfa_attempts")
+}
+
+// ============================================================================
+// Anti-Scraping Models
+// ============================================================================
+
+model BotAttempt {
+  id        String   @id @default(uuid())
+  ipAddress String   @map("ip_address")
+  userAgent String   @map("user_agent")
+  reason    String
+  timestamp DateTime @default(now())
+
+  @@index([ipAddress])
+  @@index([timestamp])
+  @@map("bot_attempts")
+}
+
+model BlockedIP {
+  id        String   @id @default(uuid())
+  ipAddress String   @unique @map("ip_address")
+  reason    String
+  createdAt DateTime @default(now()) @map("created_at")
+  expiresAt DateTime @map("expires_at")
+
+  @@index([ipAddress])
+  @@index([expiresAt])
+  @@map("blocked_ips")
 }

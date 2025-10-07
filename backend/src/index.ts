@@ -14,6 +14,7 @@ import {
 import { requestLogger } from './middleware/logger';
 import { rateLimiter } from './middleware/rateLimiter';
 import { securityHeaders, sanitizeInput, preventParameterPollution } from './middleware/security';
+import { blockBotsOnSensitive } from './middleware/bot-detection';
 import { initializeSocket } from './socket';
 
 handleUncaughtException();
@@ -30,6 +31,10 @@ import notificationRoutes from './routes/notification.routes';
 import searchRoutes from './routes/search.routes';
 import uploadRoutes from './routes/upload.routes';
 import adminRoutes from './routes/admin.routes';
+import mfaRoutes from './routes/mfa.routes';
+import ssoRoutes from './routes/sso.routes';
+import forumRoutes from './routes/forum.routes';
+import gamificationRoutes from './routes/gamification.routes';
 
 dotenv.config();
 
@@ -48,6 +53,7 @@ app.use(sanitizeInput);
 app.use(preventParameterPollution);
 app.use(requestLogger);
 app.use(rateLimiter);
+app.use(blockBotsOnSensitive);
 
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
@@ -67,6 +73,10 @@ app.use('/api/notifications', notificationRoutes);
 app.use('/api/search', searchRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/mfa', mfaRoutes);
+app.use('/auth', ssoRoutes);
+app.use('/api/forum', forumRoutes);
+app.use('/api/gamification', gamificationRoutes);
 
 app.use(notFoundHandler);
 app.use(errorHandler);

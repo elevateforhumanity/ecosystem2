@@ -1,4 +1,48 @@
 User-agent: *
-Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /participants/
+Disallow: /reports/
+Disallow: /courses/*/lessons/
+Disallow: /user/
 
+# Allow only public pages
+Allow: /
+Allow: /about
+Allow: /contact
+Allow: /courses$
+
+# Block AI scrapers
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: Amazonbot
+Disallow: /
+
+# Crawl delay for allowed bots
+Crawl-delay: 10
+
+# Sitemap
 Sitemap: https://elevateforhumanity.org/sitemap.xml
