@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const { authenticate, authorize, authRateLimiter, apiRateLimiter } = require('./middleware/auth');
 const { validate, schemas } = require('./middleware/validation');
 const { notFoundHandler, errorHandler } = require('./middleware/errorHandler');
+// const { auditLog } = require('./backend/dist/middleware/audit'); // Uncomment after TypeScript compilation
 
 // Import services
 const lmsService = require('./services/lms');
@@ -38,6 +39,9 @@ app.use(cors({
 }));
 
 app.use(express.json());
+
+// Apply audit logging to all routes (uncomment after TypeScript compilation)
+// app.use(auditLog());
 
 // Apply rate limiting to API routes
 app.use('/api/', apiRateLimiter);
@@ -329,6 +333,36 @@ app.get('/api/admin/users', authenticate, authorize('admin'), (req, res) => {
     data: { users: userList }
   });
 });
+
+// WIOA Compliance Routes
+// Note: These routes are TypeScript and need to be compiled first
+// Run: cd backend && npm run build
+// Then uncomment the following lines:
+/*
+const eligibilityRoutes = require('./backend/dist/routes/eligibility.routes');
+const attendanceRoutes = require('./backend/dist/routes/attendance.routes');
+const employmentRoutes = require('./backend/dist/routes/employment.routes');
+const iepRoutes = require('./backend/dist/routes/iep.routes');
+const caseManagementRoutes = require('./backend/dist/routes/case-management.routes');
+const financialRoutes = require('./backend/dist/routes/financial.routes');
+const supportServicesRoutes = require('./backend/dist/routes/support-services.routes');
+const employerRoutes = require('./backend/dist/routes/employer.routes');
+const reportingRoutes = require('./backend/dist/routes/reporting.routes');
+const validationRoutes = require('./backend/dist/routes/validation.routes');
+const auditRoutes = require('./backend/dist/routes/audit.routes');
+
+app.use('/api/eligibility', eligibilityRoutes);
+app.use('/api/attendance', attendanceRoutes);
+app.use('/api/employment', employmentRoutes);
+app.use('/api/iep', iepRoutes);
+app.use('/api/case-management', caseManagementRoutes);
+app.use('/api/financial', financialRoutes);
+app.use('/api/support-services', supportServicesRoutes);
+app.use('/api/employer', employerRoutes);
+app.use('/api/reporting', reportingRoutes);
+app.use('/api/validation', validationRoutes);
+app.use('/api/audit', auditRoutes);
+*/
 
 // Health check
 app.get('/health', (req, res) => {
