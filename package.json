@@ -61,7 +61,7 @@
     "@types/winston": "^2.4.4",
     "@vitest/ui": "^3.2.4",
     "happy-dom": "^19.0.2",
-    "jest": "^29.7.0",
+    "jest": "^30.2.0",
     "js-yaml": "^4.1.0",
     "rimraf": "5.0.10",
     "typescript": "^5.9.3",
